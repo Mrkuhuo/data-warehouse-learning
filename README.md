@@ -6,4 +6,4 @@
 
 文档获取：知识星球《大数据技能圈》
 
-![知识星球地址](..\src\main\java\org\bigdatatechcir\warehouse\images\zhishixingqiu.jpg)
+![知识星球地址](https://gitee.com/wzylzjtn/data-warehouse-learning/tree/master/src/main/java/org/bigdatatechcir/warehouse/images/zhishixingqiu.jpg)
