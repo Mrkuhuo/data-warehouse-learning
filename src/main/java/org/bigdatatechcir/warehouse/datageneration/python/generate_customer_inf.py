@@ -2,6 +2,9 @@ from faker import Faker
 import random
 from datetime import datetime, timedelta
 
+import operate_mysql
+
+
 def return_customer_inf():
     fake = Faker(locale='zh_CN')
 
@@ -30,10 +33,9 @@ def return_customer_inf():
 
     # 注册时间
     start = datetime(2022, 5, 23, 0, 0, 0)
-    end = datetime(2022, 5, 23, 17, 30, 0)
+    end = datetime(2023, 5, 23, 17, 30, 0)
     register_time = start + timedelta(
         seconds=random.randint(0, int((end - start).total_seconds())))
-    # register_time = int(time.mktime(datetime.now().timetuple()))
 
     # 会员生日
     birthday = fake.date_of_birth(tzinfo=None, minimum_age=0, maximum_age=115)
