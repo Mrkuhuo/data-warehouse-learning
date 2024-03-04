@@ -16,7 +16,7 @@ import generate_product_supplier_info
 # 获取数据库连接
 def get_mysql_connect():
     cnx = mysql.connector.connect(user='root', password='',
-                                  host='192.168.154.131',
+                                  host='192.168.244.129',
                                   database='mall')
     return cnx
 
@@ -151,6 +151,19 @@ if __name__ == "__main__":
         customer_login_params = generate_customer_login.return_customer_login()
         insert(customer_login_sql, customer_login_params)
 
+        # 写入 product_brand_info
+        product_brand_info_tuple = generate_product_brand_info.return_product_brand_info()
+        product_brand_info_sql = ("insert into product_brand_info(brand_name, telephone, brand_web, brand_logo, "
+                                  "brand_desc, brand_status, brand_order) values (%s, %s, %s, %s, %s, %s, %s)")
+        insert(product_brand_info_sql, product_brand_info_tuple)
+
+        # 写入 product_supplier_info
+        product_supplier_info_tuple = generate_product_supplier_info.return_product_supplier_info()
+        product_supplier_info_sql = ("insert into product_supplier_info(supplier_code, supplier_name, supplier_type, "
+                                     "link_man, phone_number, bank_name, bank_account, address, supplier_status) "
+                                     "values (%s, %s, %s, %s, %s, %s, %s, %s, %s)")
+        insert(product_supplier_info_sql, product_supplier_info_tuple)
+
         # 获取用户登录ID信息
         # 获取最大 customer_login_id
         customer_login_max_id = get_customer_login_max_id()
@@ -204,19 +217,14 @@ if __name__ == "__main__":
                                   "values (%s, %s, %s, %s)")
         insert(customer_login_log_sql, customer_login_log_params_tuple)
 
-        # 写入 product_brand_info
-        product_brand_info_tuple = generate_product_brand_info.return_product_brand_info()
-        product_brand_info_sql = ("insert into product_brand_info(brand_name, telephone, brand_web, brand_logo, "
-                                  "brand_desc, brand_status, brand_order) values (%s, %s, %s, %s, %s, %s, %s)")
-        insert(product_brand_info_sql, product_brand_info_tuple)
-
-        # 写入 product_supplier_info
-        product_supplier_info_tuple = generate_product_supplier_info.return_product_supplier_info()
-        product_supplier_info_sql = ("insert into product_supplier_info(supplier_code, supplier_name, supplier_type, "
-                                     "link_man, phone_number, bank_name, bank_account, address, supplier_status) "
-                                     "values (%s, %s, %s, %s, %s, %s, %s, %s, %s)")
-        insert(product_supplier_info_sql, product_supplier_info_tuple)
-
+        # 写入 product_info
+        product_info_params = generate_product_info.return_product_info()
+        product_info_params_list = list(product_info_params)
+        product_info_params_list.append(product_brand_info_random_id)
+        product_info_params_list.append(product_supplier_info_random_id)
+        product_info_params_tuple = tuple(product_info_params_list)
+        product_info_sql = ("insert into product_info(product_core, product_name, bar_code, one_category_id, two_category_id, three_category_id, price, average_cost, publish_status, audit_status, weight, length, height, width, color_type, production_date, shelf_life, descript, indate, brand_id, supplier_id) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+        insert(product_info_sql,product_info_params_tuple)
 
 
         count += 1

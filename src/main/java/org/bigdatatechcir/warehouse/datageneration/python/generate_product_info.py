@@ -58,7 +58,11 @@ def return_product_info():
     color_type = random.choice(color_type_list)
 
     # 生产日期
-    production_date = fake.date_between(start_date='2010-01-01', end_date='2020-12-31')
+    production_date = fake.date_time_between_dates(
+        datetime_start=datetime(2016, 1, 1),
+        datetime_end=datetime(2023, 7, 21),
+        tzinfo=None,
+    )
 
     # 商品有效期
     shelf_life = fake.pyint(min_value=0, max_value=999, step=1)
@@ -72,6 +76,6 @@ def return_product_info():
     indate = start + timedelta(
         seconds=random.randint(0, int((end - start).total_seconds())))
 
+    product_info = (product_core, product_name, bar_code, one_category_id, two_category_id, three_category_id, price, average_cost, publish_status, audit_status, weight, length, height, width, color_type, production_date, shelf_life, descript, indate)
 
-
-    return
+    return product_info
