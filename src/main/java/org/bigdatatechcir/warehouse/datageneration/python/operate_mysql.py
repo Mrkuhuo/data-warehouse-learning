@@ -10,6 +10,8 @@ import generate_product_info
 import generate_product_brand_info
 import generate_customer_level_inf
 import generate_product_supplier_info
+import generate_warehouse_shipping_info
+import generate_order_master
 
 
 ################################################# 读取数据库 ###############################################
@@ -139,6 +141,21 @@ def get_product_supplier_info_min_id():
     return product_supplier_info_min_i
 
 
+# 获取快递公司ID
+def get_warehouse_shipping_info_max_id():
+    cnx = get_mysql_connect()
+    # 创建游标
+    cursor = cnx.cursor()
+
+    # 执行SQL，并返回收影响行数
+    cursor.execute("select max(ship_id) from warehouse_shipping_info")
+
+    # 获取最大的id
+    warehouse_shipping_info_max_id = cursor.fetchone()[0]
+
+    return warehouse_shipping_info_max_id
+
+
 ################################################ 写入数据库 #####################################################
 
 if __name__ == "__main__":
@@ -164,6 +181,12 @@ if __name__ == "__main__":
                                      "values (%s, %s, %s, %s, %s, %s, %s, %s, %s)")
         insert(product_supplier_info_sql, product_supplier_info_tuple)
 
+        # 写入 warehouse_shipping_info
+        warehouse_shipping_info_tuple = generate_warehouse_shipping_info.return_warehouse_shipping_info()
+        warehouse_shipping_info_sql = (
+            "insert into warehouse_shipping_info(ship_name, ship_contact, telephone, price) values (%s, %s, %s, %s)")
+        insert(warehouse_shipping_info_sql, warehouse_shipping_info_tuple)
+
         # 获取用户登录ID信息
         # 获取最大 customer_login_id
         customer_login_max_id = get_customer_login_max_id()
@@ -187,6 +210,9 @@ if __name__ == "__main__":
         product_supplier_info_min_id = get_product_supplier_info_min_id()
         # 获取任意 product_brand_info_id
         product_supplier_info_random_id = random.randint(product_supplier_info_min_id, product_supplier_info_max_id)
+
+        # 获取快递公司ID
+        warehouse_shipping_info_max_id = get_warehouse_shipping_info_max_id()
 
         # 写入customer_inf
         customer_inf_params = generate_customer_inf.return_customer_inf()
@@ -223,9 +249,18 @@ if __name__ == "__main__":
         product_info_params_list.append(product_brand_info_random_id)
         product_info_params_list.append(product_supplier_info_random_id)
         product_info_params_tuple = tuple(product_info_params_list)
-        product_info_sql = ("insert into product_info(product_core, product_name, bar_code, one_category_id, two_category_id, three_category_id, price, average_cost, publish_status, audit_status, weight, length, height, width, color_type, production_date, shelf_life, descript, indate, brand_id, supplier_id) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
-        insert(product_info_sql,product_info_params_tuple)
+        product_info_sql = (
+            "insert into product_info(product_core, product_name, bar_code, one_category_id, two_category_id, three_category_id, price, average_cost, publish_status, audit_status, weight, length, height, width, color_type, production_date, shelf_life, descript, indate, brand_id, supplier_id) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+        insert(product_info_sql, product_info_params_tuple)
 
+        # 写入order_master
+        order_master_params = generate_order_master.return_order_master()
+        order_master_params_list = list(order_master_params)
+        order_master_params_list.append(customer_login_random_id)
+        order_master_params_list.append(warehouse_shipping_info_max_id)
+        order_master_params_tuple = tuple(order_master_params_list)
+        order_master_sql = ("insert into order_master(order_sn, payment_method, order_money, district_money, shipping_money, payment_money, shipping_sn, create_time, shipping_time, pay_time, receive_time, order_status, order_point, customer_id, shipping_comp_name) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+        insert(order_master_sql, order_master_params_tuple)
 
         count += 1
         print(f'已写入{count}条数据')
