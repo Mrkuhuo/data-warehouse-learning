@@ -1,5 +1,5 @@
 -- mall.order_master definition
-CREATE TABLE `order_master` (
+CREATE TABLE mall.`order_master` (
                                 `order_id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '订单ID',
                                 `order_sn` bigint unsigned NOT NULL COMMENT '订单编号 yyyymmddnnnnnnnn',
                                 `customer_id` int unsigned NOT NULL COMMENT '下单人ID',

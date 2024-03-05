@@ -1,6 +1,6 @@
 -- mall.customer_inf definition
 
-CREATE TABLE `customer_inf` (
+CREATE TABLE mall.`customer_inf` (
   `customer_inf_id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '自增主键ID',
   `customer_id` int unsigned NOT NULL COMMENT 'customer_login表的自增ID',
   `customer_name` varchar(20) NOT NULL COMMENT '用户真实姓名',

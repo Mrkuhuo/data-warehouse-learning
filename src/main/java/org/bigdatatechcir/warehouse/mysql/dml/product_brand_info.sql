@@ -1,6 +1,6 @@
 -- mall.product_brand_info definition
 
-CREATE TABLE `product_brand_info` (
+CREATE TABLE mall.`product_brand_info` (
   `brand_id` smallint unsigned NOT NULL AUTO_INCREMENT COMMENT '品牌ID',
   `brand_name` varchar(50) NOT NULL COMMENT '品牌名称',
   `telephone` varchar(50) NOT NULL COMMENT '联系电话',

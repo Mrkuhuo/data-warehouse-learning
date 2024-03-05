@@ -1,6 +1,6 @@
 -- mall.customer_level_inf definition
 
-CREATE TABLE `customer_level_inf` (
+CREATE TABLE mall.`customer_level_inf` (
   `customer_level_id` tinyint NOT NULL AUTO_INCREMENT COMMENT '会员级别ID',
   `customer_level` tinyint NOT NULL COMMENT '会员级别',
   `level_name` varchar(10) NOT NULL COMMENT '会员级别名称',

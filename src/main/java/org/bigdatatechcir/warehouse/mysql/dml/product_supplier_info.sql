@@ -1,8 +1,8 @@
 -- mall.product_supplier_info definition
 
-CREATE TABLE `product_supplier_info` (
+CREATE TABLE mall.`product_supplier_info` (
   `supplier_id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '供应商ID',
-  `supplier_code` char(8) NOT NULL COMMENT '供应商编码',
+  `supplier_code` varchar(255) NOT NULL COMMENT '供应商编码',
   `supplier_name` char(50) NOT NULL COMMENT '供应商名称',
   `supplier_type` tinyint NOT NULL COMMENT '供应商类型：1.自营，2.平台',
   `link_man` varchar(10) NOT NULL COMMENT '供应商联系人',

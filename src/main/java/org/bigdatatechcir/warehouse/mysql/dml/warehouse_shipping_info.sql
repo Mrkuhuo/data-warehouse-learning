@@ -1,6 +1,6 @@
 -- mall.warehouse_shipping_info definition
 
-CREATE TABLE `warehouse_shipping_info` (
+CREATE TABLE mall.`warehouse_shipping_info` (
   `ship_id` tinyint unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `ship_name` varchar(20) NOT NULL COMMENT '物流公司名称',
   `ship_contact` varchar(20) NOT NULL COMMENT '物流公司联系人',

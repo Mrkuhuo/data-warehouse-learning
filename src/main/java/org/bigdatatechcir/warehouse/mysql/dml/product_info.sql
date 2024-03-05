@@ -1,6 +1,6 @@
 -- mall.product_info definition
 
-CREATE TABLE `product_info` (
+CREATE TABLE mall.`product_info` (
   `product_id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '商品ID',
   `product_core` char(16) NOT NULL COMMENT '商品编码',
   `product_name` varchar(20) NOT NULL COMMENT '商品名称',

@@ -1,6 +1,6 @@
 -- mall.customer_login definition
 
-CREATE TABLE `customer_login` (
+CREATE TABLE mall.`customer_login` (
   `customer_id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '用户ID',
   `login_name` varchar(20) NOT NULL COMMENT '用户登录名',
   `password` char(32) NOT NULL COMMENT 'md5加密的密码',
