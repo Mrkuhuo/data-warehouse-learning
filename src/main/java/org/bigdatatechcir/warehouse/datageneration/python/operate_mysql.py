@@ -17,7 +17,7 @@ import generate_order_cart
 # 获取数据库连接
 def get_mysql_connect():
     cnx = mysql.connector.connect(user='root', password='',
-                                  host='192.168.154.131',
+                                  host='192.168.244.129',
                                   database='mall')
     return cnx
 
@@ -191,7 +191,7 @@ def run():
     while True:
         # 写入customer_login
         customer_login_sql = "insert into customer_login(login_name, password, user_stats) values (%s, %s, %s)"
-        customer_login_params = generate_customer_login.return_customer_login()
+        customer_login_params = generate_customer_login.return_customer_login("mysql")
         insert(customer_login_sql, customer_login_params)
 
         # 写入 product_brand_info

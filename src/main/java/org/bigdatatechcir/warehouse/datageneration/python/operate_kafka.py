@@ -19,17 +19,19 @@ from confluent_kafka import Producer
 
 
 # 写入kafka
-def send_to_kafka(topic, data_tuple):
+def send_to_kafka(topic, data_dict):
     # 配置kafka
-    conf = {'bootstrap.servers': "192.168.154.131:9092"}  # 替换为你的kafka服务器地址
+    conf = {'bootstrap.servers': "192.168.244.129:9092"}  # 替换为你的kafka服务器地址
 
     producer = Producer(conf)
 
     # 将tuple转换为json格式的字符串
-    data_json = json.dumps(data_tuple)
+    data_json = json.dumps(data_dict)
 
     # 将数据发送到kafka
     producer.produce(topic, data_json)
+
+    print("发送 "+ data_json + " success!!!")
 
     # 等待所有消息被发送
     producer.flush()
@@ -40,8 +42,9 @@ def run():
 
     while True:
         # 写入customer_login
-        customer_login_params_tuple = generate_customer_login.return_customer_login()
-        send_to_kafka("generate_customer_login",customer_login_params_tuple)
+        customer_login_params_dict = generate_customer_login.return_customer_login("kafka")
+        customer_login_params_dict_obj = {key: value for key, value in customer_login_params_dict}
+        send_to_kafka("generate_customer_login", customer_login_params_dict_obj)
 
         # 写入 product_brand_info
         product_brand_info_tuple = generate_product_brand_info.return_product_brand_info()

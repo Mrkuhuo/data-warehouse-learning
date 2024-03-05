@@ -8,7 +8,7 @@ import generate_customer_addr
 import generate_customer_login_log
 
 
-def return_customer_login():
+def return_customer_login(database_name):
     fake = Faker()
 
     # 用户名称
@@ -19,8 +19,11 @@ def return_customer_login():
     status_list = [1, 0]
     status = random.choice(status_list)
 
-    customer_login = (name, password, status)
+    if "mysql" == database_name:
+        customer_login = (name, password, status)
 
-    return customer_login
-
+        return customer_login
+    else:
+        customer_login = [("name", name), ("password", password), ("status", status)]
+        return customer_login
 
