@@ -1,8 +1,10 @@
 from faker import Faker
 import random
+import time
+from datetime import datetime, timedelta
 
 
-def return_product_brand_info():
+def return_product_brand_info(database_type):
     fake = Faker(locale='zh_CN')
 
     # 品牌名称
@@ -27,6 +29,21 @@ def return_product_brand_info():
     # 排序
     brand_order = 0
 
-    product_brand_info = (brand_name, telephone, brand_web, brand_logo, brand_desc, brand_status, brand_order)
+    if database_type == 'mysql':
 
-    return product_brand_info
+        product_brand_info = (brand_name, telephone, brand_web, brand_logo, brand_desc, brand_status, brand_order)
+        return product_brand_info
+
+    else:
+        # 获取当前时间戳
+        timestamp = time.time()
+        # 将时间戳转换为整数
+        id = int(timestamp)
+        # 创建一个 datetime 对象
+        now = datetime.now()
+        # 转换为字符串
+        str_now = now.strftime("%Y-%m-%d %H:%M:%S")
+        product_brand_info = (id, brand_name, telephone, brand_web, brand_logo, brand_desc, brand_status, brand_order, str_now)
+        return product_brand_info
+
+

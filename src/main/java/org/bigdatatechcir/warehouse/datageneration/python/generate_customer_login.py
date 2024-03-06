@@ -6,9 +6,10 @@ import operate_mysql
 import generate_customer_inf
 import generate_customer_addr
 import generate_customer_login_log
+from datetime import datetime, timedelta
 
 
-def return_customer_login(database_name):
+def return_customer_login(database_type):
     fake = Faker()
 
     # 用户名称
@@ -19,11 +20,17 @@ def return_customer_login(database_name):
     status_list = [1, 0]
     status = random.choice(status_list)
 
-    if "mysql" == database_name:
+    if database_type == 'mysql':
         customer_login = (name, password, status)
 
         return customer_login
     else:
-        customer_login = [("name", name), ("password", password), ("status", status)]
-        return customer_login
+        # 创建一个 datetime 对象
+        now = datetime.now()
 
+        # 转换为字符串
+        str_now = now.strftime("%Y-%m-%d %H:%M:%S")
+
+        customer_login = (name, password, status, str_now)
+
+        return customer_login

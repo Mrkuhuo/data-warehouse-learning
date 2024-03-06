@@ -1,8 +1,10 @@
 from faker import Faker
 import random
+import time
+from datetime import datetime
 
 
-def return_customer_addr():
+def return_customer_addr(database_type):
     fake = Faker(locale='zh_CN')
 
     # 邮编
@@ -25,5 +27,20 @@ def return_customer_addr():
     is_default = random.choice(is_default_list)
 
     customer_addr = (postcode, province, city, district, address, is_default)
+    if database_type == 'mysql':
+        return customer_addr
+    else:
+        # 获取当前时间戳
+        timestamp = time.time()
+        # 将时间戳转换为整数
+        id = int(timestamp)
 
-    return customer_addr
+        # 创建一个 datetime 对象
+        now = datetime.now()
+
+        # 转换为字符串
+        str_now = now.strftime("%Y-%m-%d %H:%M:%S")
+
+        customer_addr = (id, postcode, province, city, district, address, is_default, str_now)
+        return customer_addr
+

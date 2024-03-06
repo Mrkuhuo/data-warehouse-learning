@@ -10,7 +10,7 @@ CREATE TABLE mall.`product_info` (
   `two_category_id` smallint unsigned NOT NULL COMMENT '二级分类ID',
   `three_category_id` smallint unsigned NOT NULL COMMENT '三级分类ID',
   `supplier_id` int unsigned NOT NULL COMMENT '商品的供应商ID',
-  `price` decimal(27,2) NOT NULL COMMENT '商品销售价格',
+  `price` decimal(8,2) NOT NULL COMMENT '商品销售价格',
   `average_cost` decimal(18,2) NOT NULL COMMENT '商品加权平均成本',
   `publish_status` tinyint NOT NULL DEFAULT '0' COMMENT '上下架状态：0下架1上架',
   `audit_status` tinyint NOT NULL DEFAULT '0' COMMENT '审核状态：0未审核，1已审核',

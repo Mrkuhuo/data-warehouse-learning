@@ -1,9 +1,9 @@
 from faker import Faker
 import random
 from datetime import datetime, timedelta
+import time
 
-
-def return_order_master():
+def return_order_master(database_type):
     fake = Faker(locale='zh_CN')
 
     # 订单编号
@@ -53,6 +53,26 @@ def return_order_master():
     # 订单积分
     order_point = fake.pyint()
 
-    order_master = (order_sn, payment_method, order_money, district_money, shipping_money, payment_money, shipping_sn, create_time, shipping_time, pay_time, receive_time, order_status, order_point)
+    if database_type == 'mysql':
 
-    return order_master
+        order_master = (order_sn, payment_method, order_money, district_money, shipping_money, payment_money, shipping_sn, create_time, shipping_time, pay_time, receive_time, order_status, order_point)
+
+        return order_master
+
+    else:
+        # 获取当前时间戳
+        timestamp = time.time()
+        # 将时间戳转换为整数
+        id = int(timestamp)
+        create_time = create_time.strftime("%Y-%m-%d %H:%M:%S")
+        shipping_time = shipping_time.strftime("%Y-%m-%d %H:%M:%S")
+        pay_time = pay_time.strftime("%Y-%m-%d %H:%M:%S")
+        receive_time = receive_time.strftime("%Y-%m-%d %H:%M:%S")
+        # 创建一个 datetime 对象
+        now = datetime.now()
+        # 转换为字符串
+        str_now = now.strftime("%Y-%m-%d %H:%M:%S")
+        order_master = (id, order_sn, payment_method, order_money, district_money, shipping_money, payment_money, shipping_sn, create_time, shipping_time, pay_time, receive_time, order_status, order_point, str_now)
+        return order_master
+
+

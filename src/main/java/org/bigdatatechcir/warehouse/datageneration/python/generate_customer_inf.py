@@ -1,11 +1,9 @@
 from faker import Faker
 import random
 from datetime import datetime, timedelta
+import time
 
-import operate_mysql
-
-
-def return_customer_inf():
+def return_customer_inf(database_type):
     fake = Faker(locale='zh_CN')
 
     # 用户正式姓名
@@ -40,6 +38,8 @@ def return_customer_inf():
     # 会员生日
     birthday = fake.date_of_birth(tzinfo=None, minimum_age=0, maximum_age=115)
 
+
+
     # 会员级别：1 普通会员,2 青铜, 3 白银, 4 黄金, 5 钻石
     customer_level_list = [1, 2, 3, 4, 5]
     customer_level = random.choice(customer_level_list)
@@ -47,7 +47,28 @@ def return_customer_inf():
     # 用户余额
     user_money = fake.pyint(min_value=0, max_value=9999, step=1)
 
-    customer_inf = (customer_name, identity_card_type, identity_card_no, mobile_phone, customer_email, gender, user_point,register_time, birthday, customer_level, user_money)
+    if database_type == 'mysql':
 
-    return customer_inf
+        customer_inf = (customer_name, identity_card_type, identity_card_no, mobile_phone, customer_email, gender, user_point,register_time, birthday, customer_level, user_money)
 
+        return customer_inf
+
+    else:
+
+        # 获取当前时间戳
+        timestamp = time.time()
+        # 将时间戳转换为整数
+        id = int(timestamp)
+
+        register_time = register_time.strftime("%Y-%m-%d %H:%M:%S")
+        birthday = birthday.strftime("%Y-%m-%d")
+
+        # 创建一个 datetime 对象
+        now = datetime.now()
+
+        # 转换为字符串
+        str_now = now.strftime("%Y-%m-%d %H:%M:%S")
+
+        customer_inf = (id, customer_name, identity_card_type, identity_card_no, mobile_phone, customer_email, gender, user_point,register_time, birthday, customer_level, user_money, str_now)
+
+        return customer_inf

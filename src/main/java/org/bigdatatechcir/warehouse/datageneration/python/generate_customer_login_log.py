@@ -1,9 +1,10 @@
 from faker import Faker
 from datetime import datetime, timedelta
 import random
+import time
 
 
-def return_customer_login_log():
+def return_customer_login_log(database_type):
 
     fake = Faker(locale='zh_CN')
 
@@ -19,6 +20,27 @@ def return_customer_login_log():
     login_type_list = [1, 0]
     login_type = random.choice(login_type_list)
 
-    customer_login_log = (login_time, ipv4_public, login_type)
+    if database_type == "mysql":
 
-    return customer_login_log
+        customer_login_log = (login_time, ipv4_public, login_type)
+
+        return customer_login_log
+
+    else:
+        # 获取当前时间戳
+        timestamp = time.time()
+        # 将时间戳转换为整数
+        id = int(timestamp)
+
+        login_time = login_time.strftime("%Y-%m-%d %H:%M:%S")
+
+        # 创建一个 datetime 对象
+        now = datetime.now()
+
+        # 转换为字符串
+        str_now = now.strftime("%Y-%m-%d %H:%M:%S")
+
+        customer_login_log = (id, login_time, ipv4_public, login_type, str_now)
+        return customer_login_log
+
+

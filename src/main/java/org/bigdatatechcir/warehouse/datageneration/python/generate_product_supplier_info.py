@@ -1,8 +1,10 @@
 from faker import Faker
 import random
+import time
+from datetime import datetime, timedelta
 
 
-def return_product_supplier_info():
+def return_product_supplier_info(database_type):
     fake = Faker(locale='zh_CN')
 
     # 供应商编码
@@ -34,6 +36,19 @@ def return_product_supplier_info():
     supplier_status_list = [0, 1]
     supplier_status = random.choice(supplier_status_list)
 
-    product_supplier_info = (supplier_code, supplier_name, supplier_type, link_man, phone_number, bank_name, bank_account, address, supplier_status)
+    if database_type == 'mysql':
 
-    return product_supplier_info
+        product_supplier_info = (supplier_code, supplier_name, supplier_type, link_man, phone_number, bank_name, bank_account, address, supplier_status)
+
+        return product_supplier_info
+    else:
+        # 获取当前时间戳
+        timestamp = time.time()
+        # 将时间戳转换为整数
+        id = int(timestamp)
+        # 创建一个 datetime 对象
+        now = datetime.now()
+        # 转换为字符串
+        str_now = now.strftime("%Y-%m-%d %H:%M:%S")
+        product_supplier_info = (id, supplier_code, supplier_name, supplier_type, link_man, phone_number, bank_name, bank_account, address, supplier_status, str_now)
+        return product_supplier_info

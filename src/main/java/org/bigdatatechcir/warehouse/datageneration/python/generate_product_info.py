@@ -1,9 +1,10 @@
 from faker import Faker
 import random
 from datetime import datetime, timedelta
+import time
 
 
-def return_product_info():
+def return_product_info(database_type):
     fake = Faker(locale='zh_CN')
 
     # 商品编码
@@ -76,6 +77,20 @@ def return_product_info():
     indate = start + timedelta(
         seconds=random.randint(0, int((end - start).total_seconds())))
 
-    product_info = (product_core, product_name, bar_code, one_category_id, two_category_id, three_category_id, price, average_cost, publish_status, audit_status, weight, length, height, width, color_type, production_date, shelf_life, descript, indate)
+    if database_type == 'mysql':
+        product_info = (product_core, product_name, bar_code, one_category_id, two_category_id, three_category_id, price, average_cost, publish_status, audit_status, weight, length, height, width, color_type, production_date, shelf_life, descript, indate)
+        return product_info
 
-    return product_info
+    else:
+        # 获取当前时间戳
+        timestamp = time.time()
+        # 将时间戳转换为整数
+        id = int(timestamp)
+        production_date = production_date.strftime("%Y-%m-%d %H:%M:%S")
+        indate = indate.strftime("%Y-%m-%d %H:%M:%S")
+        # 创建一个 datetime 对象
+        now = datetime.now()
+        # 转换为字符串
+        str_now = now.strftime("%Y-%m-%d %H:%M:%S")
+        product_info = (id, product_core, product_name, bar_code, one_category_id, two_category_id, three_category_id, price, average_cost, publish_status, audit_status, weight, length, height, width, color_type, production_date, shelf_life, descript, indate, str_now)
+        return product_info
