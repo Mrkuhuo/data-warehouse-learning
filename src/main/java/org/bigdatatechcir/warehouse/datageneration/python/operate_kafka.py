@@ -33,7 +33,7 @@ from datetime import datetime, date
 def send_to_kafka(topic, data_dict):
     try:
         # 配置kafka
-        conf = {'bootstrap.servers': "192.168.154.131:9092"}  # 替换为你的kafka服务器地址
+        conf = {'bootstrap.servers': "192.168.244.129:9092"}  # 替换为你的kafka服务器地址
 
         producer = Producer(conf)
 

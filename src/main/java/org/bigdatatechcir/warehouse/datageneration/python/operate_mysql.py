@@ -26,7 +26,7 @@ import generate_order_cart
 # 获取数据库连接
 def get_mysql_connect():
     cnx = mysql.connector.connect(user='root', password='',
-                                  host='192.168.154.131',
+                                  host='192.168.244.129',
                                   database='mall')
     return cnx
 
