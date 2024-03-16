@@ -73,32 +73,32 @@ def run():
         # 获取任意 customer_login_id
         customer_login_random_id = random.randint(customer_login_min_id, customer_login_max_id)
 
-        # 写入 kafka generate_customer_login
+        # 写入 kafka customer_login
         customer_login_key_tuple = ('login_name', 'password', 'user_stats','event_time', 'customer_id')
         customer_login_value_tuple = generate_customer_login.return_customer_login('kafka')
         customer_login_value_list = list(customer_login_value_tuple)
         customer_login_value_list.append(customer_login_random_id)
         customer_login_value_tuple = tuple(customer_login_value_list)
         customer_login_dict_val = {key: val for key, val in zip(customer_login_key_tuple, customer_login_value_tuple)}
-        send_to_kafka("generate_customer_login", customer_login_dict_val)
+        send_to_kafka("customer_login", customer_login_dict_val)
 
-        # 写入 generate_product_brand_info
+        # 写入 product_brand_info
         product_brand_info_tuple = generate_product_brand_info.return_product_brand_info('kafka')
         product_brand_info_key_tuple = ('brand_id', 'brand_name', 'telephone', 'brand_web', 'brand_logo', 'brand_desc', 'brand_status', 'brand_order', 'event_time')
         customer_addr_dict_val = {key: val for key, val in zip(product_brand_info_key_tuple, product_brand_info_tuple)}
-        send_to_kafka("generate_product_brand_info", customer_addr_dict_val)
+        send_to_kafka("product_brand_info", customer_addr_dict_val)
 
-        # 写入 generate_product_supplier_info
+        # 写入 product_supplier_info
         product_supplier_info_tuple = generate_product_supplier_info.return_product_supplier_info('kafka')
         product_supplier_info_key_tuple = ('supplier_id', 'supplier_code', 'supplier_name', 'supplier_type', 'link_man', 'phone_number', 'bank_name', 'bank_account', 'address', 'supplier_status', 'event_time')
         product_supplier_info_dict_val = {key: val for key, val in zip(product_supplier_info_key_tuple, product_supplier_info_tuple)}
-        send_to_kafka("generate_product_supplier_info", product_supplier_info_dict_val)
+        send_to_kafka("product_supplier_info", product_supplier_info_dict_val)
 
-        # 写入 generate_warehouse_shipping_info
+        # 写入 warehouse_shipping_info
         warehouse_shipping_info_tuple = generate_warehouse_shipping_info.return_warehouse_shipping_info('kafka')
         warehouse_shipping_info_key_tuple = ('ship_id', 'ship_name', 'ship_contact', 'telephone', 'price', 'event_time')
         warehouse_shipping_info_dict_val = {key: val for key, val in zip(warehouse_shipping_info_key_tuple, warehouse_shipping_info_tuple)}
-        send_to_kafka("generate_warehouse_shipping_info", warehouse_shipping_info_dict_val)
+        send_to_kafka("warehouse_shipping_info", warehouse_shipping_info_dict_val)
 
 
     # 获取品牌ID信息
@@ -124,7 +124,7 @@ def run():
         # 获取快递公司ID
         warehouse_shipping_info_max_id = operate_mysql.get_warehouse_shipping_info_max_id()
 
-        # 写入generate_customer_inf
+        # 写入customer_inf
         customer_inf_params = generate_customer_inf.return_customer_inf("kafka")
         customer_inf_key_tuple = (
         'customer_inf_id', 'customer_name', 'identity_card_type', 'identity_card_no', 'mobile_phone', 'customer_email',
@@ -133,27 +133,27 @@ def run():
         customer_inf_params_list.append(customer_login_random_id)
         customer_inf_params_tuple = tuple(customer_inf_params_list)
         customer_inf_dict_val = {key: val for key, val in zip(customer_inf_key_tuple, customer_inf_params_tuple)}
-        send_to_kafka("generate_customer_inf", customer_inf_dict_val)
+        send_to_kafka("customer_inf", customer_inf_dict_val)
 
-        # 写入 generate_customer_addr
+        # 写入 customer_addr
         customer_addr_params = generate_customer_addr.return_customer_addr("kafka")
         customer_addr_key_tuple = ('customer_addr_id', 'zip', 'province', 'city', 'district', 'address', 'is_default', 'event_time', 'customer_id')
         customer_addr_params_list = list(customer_addr_params)
         customer_addr_params_list.append(customer_login_random_id)
         customer_addr_params_tuple = tuple(customer_addr_params_list)
         customer_addr_dict_val = {key: val for key, val in zip(customer_addr_key_tuple, customer_addr_params_tuple)}
-        send_to_kafka("generate_customer_addr", customer_addr_dict_val)
+        send_to_kafka("customer_addr", customer_addr_dict_val)
 
-        # 写入 generate_customer_login_log
+        # 写入 customer_login_log
         customer_login_log_params = generate_customer_login_log.return_customer_login_log("kafka")
         customer_login_log_key_tuple = ('login_id', 'login_time', 'ipv4_public', 'login_type', 'event_time', 'customer_id')
         customer_login_log_params_list = list(customer_login_log_params)
         customer_login_log_params_list.append(customer_login_random_id)
         customer_login_log_params_tuple = tuple(customer_login_log_params_list)
         customer_login_log_dict_val = {key: val for key, val in zip(customer_login_log_key_tuple, customer_login_log_params_tuple)}
-        send_to_kafka('generate_customer_login_log', customer_login_log_dict_val)
+        send_to_kafka('customer_login_log', customer_login_log_dict_val)
 
-        # 写入 generate_product_info
+        # 写入 product_info
         product_info_params = generate_product_info.return_product_info('kafka')
         product_info_key_tuple = ('product_id', 'product_core', 'product_name', 'bar_code', 'one_category_id', 'two_category_id', 'three_category_id', 'price', 'average_cost', 'publish_status', 'audit_status', 'weight', 'length', 'height', 'width', 'color_type', 'production_date', 'shelf_life', 'descript', 'indate', 'event_time', 'brand_id', 'supplier_id')
         product_info_params_list = list(product_info_params)
@@ -161,7 +161,7 @@ def run():
         product_info_params_list.append(product_supplier_info_random_id)
         product_info_params_tuple = tuple(product_info_params_list)
         customer_login_log_dict_val = {key: val for key, val in zip(product_info_key_tuple, product_info_params_tuple)}
-        send_to_kafka('generate_product_info',customer_login_log_dict_val )
+        send_to_kafka('product_info',customer_login_log_dict_val )
 
         # 获取产品ID信息
         # 获取最大 product_info_id
@@ -171,7 +171,7 @@ def run():
         # 获取任意 product_info_id
         product_info_random_id = random.randint(product_info_min_id, product_info_max_id)
 
-        # 写入 generate_order_master
+        # 写入 order_master
         order_master_params = generate_order_master.return_order_master('kafka')
         order_master_key_tuple = ('order_id', 'order_sn', 'payment_method', 'order_money', 'district_money', 'shipping_money', 'payment_money', 'shipping_sn', 'create_time', 'shipping_time', 'pay_time', 'receive_time', 'order_status', 'order_point', 'event_time', 'customer_id', 'shipping_comp_name')
         order_master_params_list = list(order_master_params)
@@ -179,11 +179,11 @@ def run():
         order_master_params_list.append(warehouse_shipping_info_max_id)
         order_master_params_tuple = tuple(order_master_params_list)
         order_master_dict_val = {key: val for key, val in zip(order_master_key_tuple, order_master_params_tuple)}
-        send_to_kafka("generate_order_master", order_master_dict_val)
+        send_to_kafka("order_master", order_master_dict_val)
 
 
 
-        # 写入 generate_order_cart
+        # 写入 order_cart
         order_cart_params = generate_order_cart.return_order_cart('kafka')
         order_cart_key_tuple = ('cart_id', 'product_amount', 'price', 'add_time', 'event_time', 'customer_id', 'product_id')
         order_cart_params_list = list(order_cart_params)
@@ -191,7 +191,7 @@ def run():
         order_cart_params_list.append(product_info_random_id)
         order_cart_params_tuple = tuple(order_cart_params_list)
         order_cart_dict_val = {key: val for key, val in zip(order_cart_key_tuple, order_cart_params_tuple)}
-        send_to_kafka("generate_order_cart", order_cart_dict_val)
+        send_to_kafka("order_cart", order_cart_dict_val)
 
         count += 1
         print(f'已写入{count}条数据')
