@@ -8,7 +8,7 @@
 
 #### 第一步 组件安装
 
-【实时离线数仓实战组件安装】https://mp.weixin.qq.com/s?__biz=Mzg5Mzg3MzkwNA==&mid=2247488063&idx=1&sn=10ecc03fccfc90649e308aa8c357dcaf&chksm=c02969a0f75ee0b67769fba698b2a00746eb25ffcf19f1f56e324dea33a315703754f0736b2c#rd
+【实时离线数仓实战组件安装】(https://mp.weixin.qq.com/s?__biz=Mzg5Mzg3MzkwNA==&mid=2247488063&idx=1&sn=10ecc03fccfc90649e308aa8c357dcaf&chksm=c02969a0f75ee0b67769fba698b2a00746eb25ffcf19f1f56e324dea33a315703754f0736b2c#rd)
 
 #### 第二步 模拟数据生产
 
