@@ -28,7 +28,7 @@ CREATE  TABLE IF NOT EXISTS dwd.dwd_customer_inf (
      `birthday` TIMESTAMP,
      `customer_level` INT,
      `user_money` INT,
-     `event_time` TIMESTAMP,
+     `event_time` STRING,
      `customer_id` bigint
 );
 

@@ -15,15 +15,15 @@ use ods;
 
 -- 创建paimon表
 CREATE  TABLE IF NOT EXISTS ods.ods_product_brand_info (
-     `brand_id` BIGINT,
-     `brand_name` VARCHAR,
-     `telephone` VARCHAR,
-     `brand_web` VARCHAR,
-     `brand_logo` VARCHAR,
-     `brand_desc` VARCHAR,
-     `brand_status` INT,
-     `brand_order` INT,
-     `event_time` TIMESTAMP
+     brand_id BIGINT,
+     brand_name VARCHAR,
+     telephone VARCHAR,
+     brand_web VARCHAR,
+     brand_logo VARCHAR,
+     brand_desc VARCHAR,
+     brand_status INT,
+     brand_order INT,
+     event_time TIMESTAMP
 );
 
 -- 创建database
@@ -32,17 +32,19 @@ create  DATABASE IF NOT EXISTS dwd;
 -- 切换database
 use dwd;
 
+-- DROP TABLE IF EXISTS dwd.dwd_product_brand_info ;
+
 -- 创建paimon表
 CREATE  TABLE IF NOT EXISTS dwd.dwd_product_brand_info (
-     `brand_id` BIGINT,
-     `brand_name` VARCHAR,
-     `telephone` VARCHAR,
-     `brand_web` VARCHAR,
-     `brand_logo` VARCHAR,
-     `brand_desc` VARCHAR,
-     `brand_status` INT,
-     `brand_order` INT,
-     `event_time` TIMESTAMP
+     brand_id BIGINT,
+     brand_name VARCHAR,
+     telephone VARCHAR,
+     brand_web VARCHAR,
+     brand_logo VARCHAR,
+     brand_desc VARCHAR,
+     brand_status INT,
+     brand_order INT,
+     event_time STRING
 );
 
 -- 是指checkpoint时间
@@ -75,7 +77,7 @@ SELECT
     brand_order,
 
     -- 确保event_time是合法的TIMESTAMP格式，如有必要，进行转换
-    event_time
+    DATE_FORMAT(event_time, 'yyyy-MM-dd')
 
 FROM
   ods.ods_product_brand_info

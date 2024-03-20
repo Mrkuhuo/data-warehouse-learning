@@ -28,7 +28,7 @@ CREATE  TABLE IF NOT EXISTS dwd.dwd_product_supplier_info (
      `bank_account` VARCHAR,
      `address` VARCHAR,
      `supplier_status` INT,
-     `event_time` TIMESTAMP
+     `event_time` STRING
 );
 
 -- 批量读取数据

@@ -31,7 +31,7 @@ CREATE  TABLE IF NOT EXISTS dwd.dwd_order_master (
      `receive_time` TIMESTAMP,
      `order_status` INT,
      `order_point` INT,
-     `event_time` TIMESTAMP,
+     `event_time` STRING,
      `customer_id` BIGINT,
      `shipping_comp_name` BIGINT
 );

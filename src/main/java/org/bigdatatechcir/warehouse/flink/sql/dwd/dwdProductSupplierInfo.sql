@@ -15,17 +15,17 @@ use ods;
 
 -- 创建paimon表
 CREATE  TABLE IF NOT EXISTS ods.ods_product_supplier_info (
-     `supplier_id` BIGINT,
-     `supplier_code` VARCHAR,
-     `supplier_name` VARCHAR,
-     `supplier_type` INT,
-     `link_man` VARCHAR,
-     `phone_number` VARCHAR,
-     `bank_name` VARCHAR,
-     `bank_account` VARCHAR,
-     `address` VARCHAR,
-     `supplier_status` INT,
-     `event_time` TIMESTAMP
+     supplier_id BIGINT,
+     supplier_code VARCHAR,
+     supplier_name VARCHAR,
+     supplier_type INT,
+     link_man VARCHAR,
+     phone_number VARCHAR,
+     bank_name VARCHAR,
+     bank_account VARCHAR,
+     address VARCHAR,
+     supplier_status INT,
+     event_time TIMESTAMP
 );
 
 -- 创建database
@@ -34,19 +34,21 @@ create  DATABASE IF NOT EXISTS dwd;
 -- 切换database
 use dwd;
 
+-- DROP TABLE IF EXISTS dwd.dwd_product_supplier_info ;
+
 -- 创建paimon表
 CREATE  TABLE IF NOT EXISTS dwd.dwd_product_supplier_info (
-     `supplier_id` BIGINT,
-     `supplier_code` VARCHAR,
-     `supplier_name` VARCHAR,
-     `supplier_type` INT,
-     `link_man` VARCHAR,
-     `phone_number` VARCHAR,
-     `bank_name` VARCHAR,
-     `bank_account` VARCHAR,
-     `address` VARCHAR,
-     `supplier_status` INT,
-     `event_time` TIMESTAMP
+     supplier_id BIGINT,
+     supplier_code VARCHAR,
+     supplier_name VARCHAR,
+     supplier_type INT,
+     link_man VARCHAR,
+     phone_number VARCHAR,
+     bank_name VARCHAR,
+     bank_account VARCHAR,
+     address VARCHAR,
+     supplier_status INT,
+     event_time STRING
 );
 
 -- 是指checkpoint时间
@@ -85,7 +87,7 @@ SELECT
     supplier_status,
 
     -- 确保event_time是合法的TIMESTAMP格式，如有必要，进行转换
-    event_time
+    DATE_FORMAT(event_time, 'yyyy-MM-dd')
 
 FROM
     ods.ods_product_supplier_info

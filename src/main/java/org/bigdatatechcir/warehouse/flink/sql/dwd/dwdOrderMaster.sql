@@ -15,23 +15,23 @@ use ods;
 
 -- 创建paimon表
 CREATE  TABLE IF NOT EXISTS ods.ods_order_master (
-     `order_id` BIGINT,
-     `order_sn` BIGINT,
-     `payment_method` int,
-     `order_money` FLOAT,
-     `district_money` FLOAT,
-     `shipping_money` FLOAT,
-     `payment_money` FLOAT,
-     `shipping_sn` VARCHAR,
-     `create_time` TIMESTAMP,
-     `shipping_time` TIMESTAMP,
-     `pay_time` TIMESTAMP,
-     `receive_time` TIMESTAMP,
-     `order_status` INT,
-     `order_point` INT,
-     `event_time` TIMESTAMP,
-     `customer_id` BIGINT,
-     `shipping_comp_name` BIGINT
+     order_id BIGINT,
+     order_sn BIGINT,
+     payment_method int,
+     order_money FLOAT,
+     district_money FLOAT,
+     shipping_money FLOAT,
+     payment_money FLOAT,
+     shipping_sn VARCHAR,
+     create_time TIMESTAMP,
+     shipping_time TIMESTAMP,
+     pay_time TIMESTAMP,
+     receive_time TIMESTAMP,
+     order_status INT,
+     order_point INT,
+     event_time TIMESTAMP,
+     customer_id BIGINT,
+     shipping_comp_name BIGINT
 );
 
 -- 创建database
@@ -40,25 +40,27 @@ create  DATABASE IF NOT EXISTS dwd;
 -- 切换database
 use dwd;
 
+-- DROP TABLE IF EXISTS dwd.dwd_order_master ;
+
 -- 创建paimon表
 CREATE  TABLE IF NOT EXISTS dwd.dwd_order_master (
-     `order_id` BIGINT,
-     `order_sn` BIGINT,
-     `payment_method` int,
-     `order_money` FLOAT,
-     `district_money` FLOAT,
-     `shipping_money` FLOAT,
-     `payment_money` FLOAT,
-     `shipping_sn` VARCHAR,
-     `create_time` TIMESTAMP,
-     `shipping_time` TIMESTAMP,
-     `pay_time` TIMESTAMP,
-     `receive_time` TIMESTAMP,
-     `order_status` INT,
-     `order_point` INT,
-     `event_time` TIMESTAMP,
-     `customer_id` BIGINT,
-     `shipping_comp_name` BIGINT
+     order_id BIGINT,
+     order_sn BIGINT,
+     payment_method int,
+     order_money FLOAT,
+     district_money FLOAT,
+     shipping_money FLOAT,
+     payment_money FLOAT,
+     shipping_sn VARCHAR,
+     create_time TIMESTAMP,
+     shipping_time TIMESTAMP,
+     pay_time TIMESTAMP,
+     receive_time TIMESTAMP,
+     order_status INT,
+     order_point INT,
+     event_time STRING,
+     customer_id BIGINT,
+     shipping_comp_name BIGINT
 );
 
 -- 是指checkpoint时间
@@ -94,7 +96,7 @@ SELECT
     order_point,
 
     -- 保留事件时间字段原始值，如有必要，也可进行相同类型的转换
-    event_time,
+    DATE_FORMAT(event_time, 'yyyy-MM-dd'),
 
     -- 保留原始值，无需清洗
     customer_id,

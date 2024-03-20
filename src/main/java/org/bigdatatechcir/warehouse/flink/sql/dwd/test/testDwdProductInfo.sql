@@ -37,7 +37,7 @@ CREATE  TABLE IF NOT EXISTS dwd.dwd_product_info (
      `shelf_life` INT,
      `descript` STRING,
      `indate` TIMESTAMP,
-     `event_time` TIMESTAMP,
+     `event_time` STRING,
      `brand_id` BIGINT,
      `supplier_id` BIGINT
 );

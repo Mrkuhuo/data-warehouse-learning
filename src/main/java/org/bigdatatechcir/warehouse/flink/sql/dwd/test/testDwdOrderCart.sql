@@ -21,7 +21,7 @@ CREATE  TABLE IF NOT EXISTS dwd.dwd_order_cart (
      `product_amount` BIGINT NULL comment '加入购物车商品数量',
      `price` FLOAT NULL comment '商品价格',
      `add_time` TIMESTAMP NULL comment '加入购物车时间',
-     `event_time` TIMESTAMP NULL comment '最后修改时间',
+     `event_time` STRING NULL comment '最后修改时间',
      `customer_id` BIGINT NULL comment '用户ID',
      `product_id` BIGINT NULL comment '商品ID'
 );

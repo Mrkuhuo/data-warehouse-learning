@@ -20,7 +20,7 @@ CREATE  TABLE IF NOT EXISTS dwd.dwd_customer_login_log (
      `login_time` TIMESTAMP NULL comment '用户登陆时间',
      `ipv4_public` STRING NULL comment '登陆IP',
      `login_type` INT NULL comment '登陆类型：0未成功，1成功',
-     `event_time` TIMESTAMP NULL comment '事件时间',
+     `event_time` STRING NULL comment '事件时间',
      `customer_id` BIGINT NULL comment '登陆用户ID'
 );
 

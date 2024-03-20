@@ -24,7 +24,7 @@ CREATE  TABLE IF NOT EXISTS dwd.dwd_customer_addr (
     district STRING,
     address STRING,
     is_default int,
-    event_time TIMESTAMP,
+    event_time STRING,
 	customer_id BIGINT
 );
 

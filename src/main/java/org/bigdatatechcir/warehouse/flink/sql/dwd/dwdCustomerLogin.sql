@@ -27,12 +27,13 @@ create  DATABASE IF NOT EXISTS dwd;
 
 use dwd;
 
+-- DROP TABLE IF EXISTS dwd.dwd_customer_login ;
 -- 创建paimon dwd表
 CREATE  TABLE IF NOT EXISTS dwd.dwd_customer_login (
     login_name STRING,
     password_hash STRING,
 	user_stats BIGINT,
-	event_time TIMESTAMP,
+	event_time STRING,
 	customer_id BIGINT
 );
 
@@ -42,13 +43,17 @@ SET 'execution.checkpointing.interval' = '10 s';
 -- sql逻辑代码
 INSERT INTO dwd.dwd_customer_login
 SELECT
-  TRIM(login_name) AS login_name, -- 清理登录名，去除两侧空格
-  TRIM(password) AS password, -- 清理密码，去除两侧空格
-  COALESCE(user_stats, 0) AS user_stats, -- 处理user_stats字段，将NULL值转化为0
-  event_time,
-  CASE -- 清洗customer_id，只保留合法的大于0的整数值
-    WHEN customer_id > 0 THEN customer_id
-    ELSE NULL
-  END AS customer_id
+    -- 清理登录名，去除两侧空格
+    TRIM(login_name) AS login_name,
+    -- 清理密码，去除两侧空格
+    TRIM(password) AS password,
+    -- 处理user_stats字段，将NULL值转化为0
+    COALESCE(user_stats, 0) AS user_stats,
+    DATE_FORMAT(event_time, 'yyyy-MM-dd'),
+    -- 清洗customer_id，只保留合法的大于0的整数值
+    CASE
+        WHEN customer_id > 0 THEN customer_id
+        ELSE NULL
+    END AS customer_id
 FROM
   ods.ods_customer_login;
