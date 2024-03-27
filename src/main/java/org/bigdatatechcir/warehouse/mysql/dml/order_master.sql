@@ -1,14 +1,14 @@
--- mall.order_master definition
-CREATE TABLE mall.`order_master` (
+-- mall.orderdws.dws_order_master_master definition
+CREATE TABLE `order_master` (
                                 `order_id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '订单ID',
                                 `order_sn` bigint unsigned NOT NULL COMMENT '订单编号 yyyymmddnnnnnnnn',
                                 `customer_id` int unsigned NOT NULL COMMENT '下单人ID',
                                 `product_id` int unsigned NOT NULL COMMENT '产品ID',
-                                `shipping_user` varchar(10)  NULL COMMENT '收货人姓名',
-                                `province` smallint  NULL COMMENT '省',
-                                `city` smallint  NULL COMMENT '市',
-                                `district` smallint  NULL COMMENT '区',
-                                `address` varchar(100)  NULL COMMENT '地址',
+                                `shipping_user` varchar(10) DEFAULT NULL COMMENT '收货人姓名',
+                                `province` smallint DEFAULT NULL COMMENT '省',
+                                `city` smallint DEFAULT NULL COMMENT '市',
+                                `district` smallint DEFAULT NULL COMMENT '区',
+                                `address` varchar(100) DEFAULT NULL COMMENT '地址',
                                 `payment_method` tinyint NOT NULL COMMENT '支付方式：1现金，2余额，3网银，4支付宝，5微信',
                                 `order_money` decimal(27,2) NOT NULL COMMENT '订单金额',
                                 `district_money` decimal(27,2) NOT NULL DEFAULT '0.00' COMMENT '优惠金额',
@@ -25,4 +25,4 @@ CREATE TABLE mall.`order_master` (
                                 `invoice_time` varchar(100) DEFAULT NULL COMMENT '发票抬头',
                                 `modified_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
                                 PRIMARY KEY (`order_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='订单主表';
+) ENGINE=InnoDB AUTO_INCREMENT=393 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='订单主表';
