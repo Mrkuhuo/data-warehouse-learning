@@ -33,7 +33,7 @@ from datetime import datetime, date
 def send_to_kafka(topic, data_dict):
     try:
         # 配置kafka
-        conf = {'bootstrap.servers': "192.168.244.129:9092"}  # 替换为你的kafka服务器地址
+        conf = {'bootstrap.servers': "192.168.154.131:9092"}  # 替换为你的kafka服务器地址
 
         producer = Producer(conf)
 
@@ -173,10 +173,11 @@ def run():
 
         # 写入 order_master
         order_master_params = generate_order_master.return_order_master('kafka')
-        order_master_key_tuple = ('order_id', 'order_sn', 'payment_method', 'order_money', 'district_money', 'shipping_money', 'payment_money', 'shipping_sn', 'create_time', 'shipping_time', 'pay_time', 'receive_time', 'order_status', 'order_point', 'event_time', 'customer_id', 'shipping_comp_name')
+        order_master_key_tuple = ('order_id', 'order_sn', 'payment_method', 'order_money', 'district_money', 'shipping_money', 'payment_money', 'shipping_sn', 'create_time', 'shipping_time', 'pay_time', 'receive_time', 'order_status', 'order_point', 'event_time', 'customer_id', 'shipping_comp_name', 'product_id')
         order_master_params_list = list(order_master_params)
         order_master_params_list.append(customer_login_random_id)
         order_master_params_list.append(warehouse_shipping_info_max_id)
+        order_master_params_list.append(product_info_random_id)
         order_master_params_tuple = tuple(order_master_params_list)
         order_master_dict_val = {key: val for key, val in zip(order_master_key_tuple, order_master_params_tuple)}
         send_to_kafka("order_master", order_master_dict_val)

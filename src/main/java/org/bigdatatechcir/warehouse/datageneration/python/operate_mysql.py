@@ -26,7 +26,7 @@ import generate_order_cart
 # 获取数据库连接
 def get_mysql_connect():
     cnx = mysql.connector.connect(user='root', password='',
-                                  host='192.168.244.129',
+                                  host='192.168.154.131',
                                   database='mall')
     return cnx
 
@@ -304,11 +304,12 @@ def run():
         order_master_params_list = list(order_master_params)
         order_master_params_list.append(customer_login_random_id)
         order_master_params_list.append(warehouse_shipping_info_max_id)
+        order_master_params_list.append(product_info_random_id)
         order_master_params_tuple = tuple(order_master_params_list)
         order_master_sql = ("insert into order_master(order_sn, payment_method, order_money, district_money, "
                             "shipping_money, payment_money, shipping_sn, create_time, shipping_time, pay_time, "
-                            "receive_time, order_status, order_point, customer_id, shipping_comp_name) values (%s, "
-                            "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+                            "receive_time, order_status, order_point, customer_id, shipping_comp_name, product_id) "
+                            "values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
         send_to_mysql(order_master_sql, order_master_params_tuple)
 
         # 写入order_cart
