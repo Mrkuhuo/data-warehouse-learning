@@ -16,7 +16,8 @@ CREATE TABLE IF NOT EXISTS order_master(
      `order_point` INT NULL comment '订单积分',
      `event_time` TIMESTAMP NULL comment '事件时间',
      `customer_id` BIGINT NULL comment '下单人ID',
-     `shipping_comp_name` BIGINT NULL comment '快递公司名称'
+     `shipping_comp_name` BIGINT NULL comment '快递公司名称',
+     `product_id` BIGINT NULL comment '产品ID'
 ) WITH (
     'connector' = 'kafka',
     'topic' = 'order_master',
@@ -64,7 +65,8 @@ CREATE  TABLE IF NOT EXISTS ods.ods_order_master (
      `order_point` INT,
      `event_time` TIMESTAMP,
      `customer_id` BIGINT,
-     `shipping_comp_name` BIGINT
+     `shipping_comp_name` BIGINT,
+     `product_id` BIGINT
 );
 
 -- 是指checkpoint时间

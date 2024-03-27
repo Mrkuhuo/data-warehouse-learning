@@ -3,6 +3,7 @@ CREATE TABLE mall.`order_master` (
                                 `order_id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '订单ID',
                                 `order_sn` bigint unsigned NOT NULL COMMENT '订单编号 yyyymmddnnnnnnnn',
                                 `customer_id` int unsigned NOT NULL COMMENT '下单人ID',
+                                `product_id` int unsigned NOT NULL COMMENT '产品ID',
                                 `shipping_user` varchar(10)  NULL COMMENT '收货人姓名',
                                 `province` smallint  NULL COMMENT '省',
                                 `city` smallint  NULL COMMENT '市',
