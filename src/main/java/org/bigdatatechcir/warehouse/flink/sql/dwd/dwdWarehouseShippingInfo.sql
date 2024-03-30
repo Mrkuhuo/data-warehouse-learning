@@ -13,14 +13,16 @@ create  DATABASE IF NOT EXISTS ods;
 -- 切换database
 use ods;
 
+DROP  TABLE IF EXISTS ods.ods_warehouse_shipping_info;
+
 -- 创建paimon表
 CREATE  TABLE IF NOT EXISTS ods.ods_warehouse_shipping_info (
-    ship_id BIGINT,
-    ship_name STRING,
-    ship_contact STRING,
-    telephone STRING,
-    price FLOAT,
-    event_time TIMESTAMP
+                                                                ship_id BIGINT,
+                                                                ship_name STRING,
+                                                                ship_contact STRING,
+                                                                telephone STRING,
+                                                                price FLOAT,
+                                                                event_time TIMESTAMP
 );
 
 -- 创建database
@@ -33,12 +35,12 @@ DROP TABLE IF EXISTS dwd.dwd_warehouse_shipping_info ;
 
 -- 创建paimon表
 CREATE  TABLE IF NOT EXISTS dwd.dwd_warehouse_shipping_info (
-    ship_id BIGINT,
-    ship_name STRING,
-    ship_contact STRING,
-    telephone STRING,
-    price FLOAT,
-    event_time STRING
+                                                                ship_id BIGINT,
+                                                                ship_name STRING,
+                                                                ship_contact STRING,
+                                                                telephone STRING,
+                                                                price FLOAT,
+                                                                event_time STRING
 );
 
 -- 是指checkpoint时间

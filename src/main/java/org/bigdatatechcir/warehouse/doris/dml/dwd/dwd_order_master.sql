@@ -4,6 +4,7 @@ CREATE TABLE `dwd_order_master` (
   `order_id` bigint(20) NULL COMMENT '订单ID',
   `order_sn` bigint(20) NULL COMMENT '订单编号 yyyymmddnnnnnnnn',
   `customer_id` bigint(20) NULL COMMENT '下单人ID',
+  `product_id` bigint(20) NULL COMMENT '产品ID',
   `shipping_user` varchar(200) NULL COMMENT '收货人姓名',
   `province` smallint(6) NULL COMMENT '省',
   `city` smallint(6) NULL COMMENT '市',

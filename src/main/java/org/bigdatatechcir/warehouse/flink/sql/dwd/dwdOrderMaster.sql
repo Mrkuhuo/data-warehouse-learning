@@ -13,25 +13,28 @@ create  DATABASE IF NOT EXISTS ods;
 -- 切换database
 use ods;
 
+DROP TABLE  IF EXISTS ods.ods_order_master ;
+
 -- 创建paimon表
 CREATE  TABLE IF NOT EXISTS ods.ods_order_master (
-     order_id BIGINT,
-     order_sn BIGINT,
-     payment_method int,
-     order_money FLOAT,
-     district_money FLOAT,
-     shipping_money FLOAT,
-     payment_money FLOAT,
-     shipping_sn VARCHAR,
-     create_time TIMESTAMP,
-     shipping_time TIMESTAMP,
-     pay_time TIMESTAMP,
-     receive_time TIMESTAMP,
-     order_status INT,
-     order_point INT,
-     event_time TIMESTAMP,
-     customer_id BIGINT,
-     shipping_comp_name BIGINT
+                                                     order_id BIGINT,
+                                                     order_sn BIGINT,
+                                                     payment_method int,
+                                                     order_money FLOAT,
+                                                     district_money FLOAT,
+                                                     shipping_money FLOAT,
+                                                     payment_money FLOAT,
+                                                     shipping_sn VARCHAR,
+                                                     create_time TIMESTAMP,
+                                                     shipping_time TIMESTAMP,
+                                                     pay_time TIMESTAMP,
+                                                     receive_time TIMESTAMP,
+                                                     order_status INT,
+                                                     order_point INT,
+                                                     event_time TIMESTAMP,
+                                                     customer_id BIGINT,
+                                                     shipping_comp_name BIGINT,
+                                                     product_id BIGINT
 );
 
 -- 创建database
@@ -40,28 +43,28 @@ create  DATABASE IF NOT EXISTS dwd;
 -- 切换database
 use dwd;
 
--- DROP TABLE IF EXISTS dwd.dwd_order_master ;
+DROP TABLE IF EXISTS dwd.dwd_order_master ;
 
 -- 创建paimon表
 CREATE  TABLE IF NOT EXISTS dwd.dwd_order_master (
-     order_id BIGINT,
-     order_sn BIGINT,
-     payment_method int,
-     order_money FLOAT,
-     district_money FLOAT,
-     shipping_money FLOAT,
-     payment_money FLOAT,
-     shipping_sn VARCHAR,
-     create_time TIMESTAMP,
-     shipping_time TIMESTAMP,
-     pay_time TIMESTAMP,
-     receive_time TIMESTAMP,
-     order_status INT,
-     order_point INT,
-     event_time STRING,
-     customer_id BIGINT,
-     shipping_comp_name BIGINT,
-     product_id BIGINT
+                                                     order_id BIGINT,
+                                                     order_sn BIGINT,
+                                                     payment_method int,
+                                                     order_money FLOAT,
+                                                     district_money FLOAT,
+                                                     shipping_money FLOAT,
+                                                     payment_money FLOAT,
+                                                     shipping_sn VARCHAR,
+                                                     create_time TIMESTAMP,
+                                                     shipping_time TIMESTAMP,
+                                                     pay_time TIMESTAMP,
+                                                     receive_time TIMESTAMP,
+                                                     order_status INT,
+                                                     order_point INT,
+                                                     event_time STRING,
+                                                     customer_id BIGINT,
+                                                     shipping_comp_name BIGINT,
+                                                     product_id BIGINT
 );
 
 -- 是指checkpoint时间

@@ -31,7 +31,8 @@ CREATE  TABLE IF NOT EXISTS ods.ods_order_master (
      `order_point` INT,
      `event_time` TIMESTAMP,
      `customer_id` BIGINT,
-     `shipping_comp_name` BIGINT
+     `shipping_comp_name` BIGINT,
+     `product_id` BIGINT
 );
 
 

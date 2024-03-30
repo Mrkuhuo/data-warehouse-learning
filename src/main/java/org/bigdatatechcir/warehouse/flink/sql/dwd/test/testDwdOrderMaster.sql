@@ -33,7 +33,8 @@ CREATE  TABLE IF NOT EXISTS dwd.dwd_order_master (
      `order_point` INT,
      `event_time` STRING,
      `customer_id` BIGINT,
-     `shipping_comp_name` BIGINT
+     `shipping_comp_name` BIGINT,
+     `product_id` BIGINT
 );
 
 -- 批量读取数据

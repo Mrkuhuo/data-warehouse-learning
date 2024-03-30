@@ -10,11 +10,11 @@ CREATE CATALOG catalog_paimon WITH (
 USE CATALOG catalog_paimon;
 
 -- 创建database
-create  DATABASE IF NOT EXISTS dwd;
+create  DATABASE IF NOT EXISTS dws;
 
-use dwd;
+use dws;
 
--- DROP TABLE IF EXISTS dwd.dwd_customer_login ;
+-- DROP TABLE IF EXISTS dws.dws_customer_login ;
 -- 创建paimon dwd表
 CREATE  TABLE IF NOT EXISTS dws.dws_customer_login (
     login_name STRING,
