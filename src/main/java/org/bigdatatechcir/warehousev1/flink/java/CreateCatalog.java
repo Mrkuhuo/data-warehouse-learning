@@ -1,4 +1,4 @@
-package org.bigdatatechcir.warehouse.flink.java;
+package org.bigdatatechcir.warehousev1.flink.java;
 
 import org.apache.paimon.catalog.Catalog;
 import org.apache.paimon.catalog.CatalogContext;

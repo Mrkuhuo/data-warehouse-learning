@@ -1,0 +1,46 @@
+# 外部配置打开
+logging.config: "./logback.xml"
+#业务日期
+mock.date: "2024-05-01"
+
+# 模拟数据发送模式
+#mock.type: "log"
+#mock.type: "http"
+mock.type: "kafka"
+  #http模式下，发送的地址
+mock.url: "http://localhost:8090/applog"
+
+mock:
+  kafka-server: "192.168.244.129:9092"
+  kafka-topic: "ODS_BASE_LOG"
+
+  #启动次数
+mock.startup.count: 200
+  #设备最大值
+mock.max.mid: 1000000
+  #会员最大值
+mock.max.uid: 1000
+  #商品最大值
+mock.max.sku-id: 35
+  #页面平均访问时间
+mock.page.during-time-ms: 20000
+  #错误概率 百分比
+mock.error.rate: 3
+  #每条日志发送延迟 ms
+mock.log.sleep: 20
+  #商品详情来源  用户查询，商品推广，智能推荐, 促销活动
+mock.detail.source-type-rate: "40:25:15:20"
+
+#领取购物券概率
+mock.if_get_coupon_rate: 75
+
+#购物券最大id
+mock.max.coupon-id: 3
+
+  #搜索关键词  
+mock.search.keyword: "图书,小米,iphone11,电视,口红,ps5,苹果手机,小米盒子"
+
+# 男女浏览商品比重（35sku)
+mock.sku-weight.male: "10:10:10:10:10:10:10:5:5:5:5:5:10:10:10:10:12:12:12:12:12:5:5:5:5:3:3:3:3:3:3:3:3:10:10"
+mock.sku-weight.female: "1:1:1:1:1:1:1:5:5:5:5:5:1:1:1:1:2:2:2:2:2:8:8:8:8:15:15:15:15:15:15:15:15:1:1"
+
