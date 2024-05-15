@@ -32,7 +32,7 @@ PROPERTIES
     "enable_single_replica_compaction" = "false",
     "dynamic_partition.enable" = "true",
     "dynamic_partition.time_unit" = "DAY",
-    "dynamic_partition.start" = "-7",
+    -- "dynamic_partition.start" = "-7",
     "dynamic_partition.end" = "3",
     "dynamic_partition.prefix" = "p",
     "dynamic_partition.buckets" = "32"
