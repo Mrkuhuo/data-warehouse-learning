@@ -2,7 +2,7 @@ INSERT INTO ads.ads_traffic_stats_by_channel(dt, recent_days, channel, uv_count,
 select * from ads.ads_traffic_stats_by_channel
 union
 select
-    '2020-06-14' dt,
+    date('${pdate}') dt,
     recent_days,
     channel,
     cast(count(distinct(mid_id)) as bigint) uv_count,
@@ -11,4 +11,5 @@ select
     cast(count(*) as bigint) sv_count,
     cast(sum(if(page_count_1d=1,1,0))/count(*) as decimal(16,2)) bounce_rate
 from dws.dws_traffic_session_page_view_1d lateral view explode(array(1,7,30)) tmp as recent_days
+where k1>=date_add(date('${pdate}'),-recent_days+1)
 group by recent_days,channel;

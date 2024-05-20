@@ -18,13 +18,13 @@ from
             order_id,
             create_time,
             appraise
-        from ods_comment_info_inc
+        from ods.ods_comment_info_inc
     )ci
         left join
     (
         select
             dic_code,
             dic_name
-        from ods_base_dic_full
+        from ods.ods_base_dic_full
     )dic
     on ci.appraise=dic.dic_code;

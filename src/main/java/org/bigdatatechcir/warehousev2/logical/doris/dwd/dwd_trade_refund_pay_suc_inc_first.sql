@@ -1,7 +1,7 @@
 INSERT INTO dwd.dwd_trade_refund_pay_suc_inc(id, k1, user_id, order_id, sku_id, province_id, payment_type_code, payment_type_name, date_id, callback_time, refund_num, refund_amount)
 select
     rp.id,
-    current_date() as k1,
+    k1,
     user_id,
     rp.order_id,
     rp.sku_id,
@@ -16,6 +16,7 @@ from
     (
         select
             id,
+            k1,
             order_id,
             sku_id,
             payment_type,

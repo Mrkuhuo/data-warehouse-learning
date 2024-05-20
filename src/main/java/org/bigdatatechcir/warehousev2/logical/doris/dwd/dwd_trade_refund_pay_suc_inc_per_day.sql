@@ -1,7 +1,7 @@
 INSERT INTO dwd.dwd_trade_refund_pay_suc_inc(id, k1, user_id, order_id, sku_id, province_id, payment_type_code, payment_type_name, date_id, callback_time, refund_num, refund_amount)
 select
     rp.id,
-    current_date() as k1,
+    k1,
     user_id,
     rp.order_id,
     rp.sku_id,
@@ -16,13 +16,15 @@ from
     (
         select
             id,
+            k1,
             order_id,
             sku_id,
             payment_type,
             callback_time,
             total_amount
-        from ods_refund_payment_inc
+        from ods.ods_refund_payment_inc
         where refund_status='1602'
+          and k1=date('${pdate}')
     )rp
         left join
     (
@@ -30,27 +32,28 @@ from
             id,
             user_id,
             province_id
-        from ods_order_info_inc
-        where order_status='1006'
+        from ods.ods_order_info_inc
+        where k1=date('${pdate}')
     )oi
-    on rp.order_id=oi.id
-        left join
+on rp.order_id=oi.id
+    left join
     (
-        select
-            order_id,
-            sku_id,
-            refund_num
-        from ods_order_refund_info_inc
-        where refund_status='0705'
+    select
+    order_id,
+    sku_id,
+    refund_num
+    from ods.ods_order_refund_info_inc
+    where k1=date('${pdate}')
     )ri
     on rp.order_id=ri.order_id
-        and rp.sku_id=ri.sku_id
-        left join
+    and rp.sku_id=ri.sku_id
+    left join
     (
-        select
-            dic_code,
-            dic_name
-        from ods_base_dic_full
-        where parent_code='11'
+    select
+    dic_code,
+    dic_name
+    from ods.ods_base_dic_full
+    where parent_code='11'
+    and k1=date('${pdate}')
     )dic
     on rp.payment_type=dic.dic_code;

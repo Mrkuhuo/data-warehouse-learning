@@ -1,7 +1,7 @@
 INSERT INTO dwd.dwd_trade_order_refund_inc(id, k1, user_id, order_id, sku_id, province_id, date_id, create_time, refund_type_code, refund_type_name, refund_reason_type_code, refund_reason_type_name, refund_reason_txt, refund_num, refund_amount)
 select
     ri.id,
-    current_date() as k1,
+    k1,
     user_id,
     order_id,
     sku_id,
@@ -19,6 +19,7 @@ from
     (
         select
             id,
+            k1,
             user_id,
             order_id,
             sku_id,
@@ -28,32 +29,35 @@ from
             refund_reason_type,
             refund_reason_txt,
             create_time
-        from ods_order_refund_info_inc
+        from ods.ods_order_refund_info_inc
+        where k1=date('${pdate}')
     )ri
         left join
     (
         select
             id,
             province_id
-        from ods_order_info_inc
-        where order_status='1005'
+        from ods.ods_order_info_inc
+        where k1=date('${pdate}')
     )oi
-    on ri.order_id=oi.id
-        left join
+on ri.order_id=oi.id
+    left join
     (
-        select
-            dic_code,
-            dic_name
-        from ods_base_dic_full
-        where parent_code = '15'
+    select
+    dic_code,
+    dic_name
+    from ods.ods_base_dic_full
+    where parent_code = '15'
+    and k1=date('${pdate}')
     )type_dic
     on ri.refund_type=type_dic.dic_code
-        left join
+    left join
     (
-        select
-            dic_code,
-            dic_name
-        from ods_base_dic_full
-        where parent_code = '13'
+    select
+    dic_code,
+    dic_name
+    from ods.ods_base_dic_full
+    where  parent_code = '13'
+    and k1=date('${pdate}')
     )reason_dic
     on ri.refund_reason_type=reason_dic.dic_code;

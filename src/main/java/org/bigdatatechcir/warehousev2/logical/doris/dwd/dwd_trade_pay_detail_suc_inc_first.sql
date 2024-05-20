@@ -1,7 +1,7 @@
 INSERT INTO dwd.dwd_trade_pay_detail_suc_inc(id, k1, order_id, user_id, sku_id, province_id, activity_id, activity_rule_id, coupon_id, payment_type_code, payment_type_name, date_id, callback_time, source_id, source_type_code, source_type_name, sku_num, split_original_amount, split_activity_amount, split_coupon_amount,split_payment_amount)
 select
     od.id,
-    current_date() as k1,
+    k1,
     od.order_id,
     user_id,
     sku_id,
@@ -25,6 +25,7 @@ from
     (
         select
             id,
+            k1,
             order_id,
             sku_id,
             source_id,
@@ -34,7 +35,7 @@ from
             split_total_amount,
             split_activity_amount,
             split_coupon_amount
-        from ods_order_detail_inc
+        from ods.ods_order_detail_inc
     ) od
         join
     (
@@ -43,7 +44,7 @@ from
             order_id,
             payment_type,
             callback_time
-        from ods_payment_info_inc
+        from ods.ods_payment_info_inc
         where payment_status='1602'
     ) pi
     on od.order_id=pi.order_id
@@ -52,7 +53,7 @@ from
         select
             id,
             province_id
-        from ods_order_info_inc
+        from ods.ods_order_info_inc
     ) oi
     on od.order_id = oi.id
         left join
@@ -61,7 +62,7 @@ from
             order_detail_id,
             activity_id,
             activity_rule_id
-        from ods_order_detail_activity_inc
+        from ods.ods_order_detail_activity_inc
     ) act
     on od.id = act.order_detail_id
         left join
@@ -69,7 +70,7 @@ from
         select
             order_detail_id,
             coupon_id
-        from ods_order_detail_coupon_inc
+        from ods.ods_order_detail_coupon_inc
     ) cou
     on od.id = cou.order_detail_id
         left join
@@ -77,7 +78,7 @@ from
         select
             dic_code,
             dic_name
-        from ods_base_dic_full
+        from ods.ods_base_dic_full
         where parent_code='11'
     ) pay_dic
     on pi.payment_type=pay_dic.dic_code
@@ -86,7 +87,7 @@ from
         select
             dic_code,
             dic_name
-        from ods_base_dic_full
+        from ods.ods_base_dic_full
         where parent_code='24'
     )src_dic
     on od.source_type=src_dic.dic_code;

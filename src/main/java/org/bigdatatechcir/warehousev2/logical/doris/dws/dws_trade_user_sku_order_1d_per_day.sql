@@ -2,7 +2,7 @@ INSERT INTO dws.dws_trade_user_sku_order_1d(user_id, sku_id, k1, sku_name, categ
 select
     user_id,
     id,
-    CURRENT_DATE(),
+    k1,
     sku_name,
     category1_id,
     category1_name,
@@ -23,6 +23,7 @@ from
         select
             user_id,
             sku_id,
+            k1,
             count(*) order_count_1d,
             sum(sku_num) order_num_1d,
             sum(split_original_amount) order_original_amount_1d,
@@ -30,7 +31,8 @@ from
             sum(nvl(split_coupon_amount,0.0)) coupon_reduce_amount_1d,
             sum(split_total_amount) order_total_amount_1d
         from dwd.dwd_trade_order_detail_inc
-        group by user_id,sku_id
+        where k1=date('${pdate}')
+group by user_id,sku_id,k1
     )od
         left join
     (
@@ -47,4 +49,4 @@ from
             tm_name
         from dim.dim_sku_full
     )sku
-    on od.sku_id=sku.id;
+on od.sku_id=sku.id;

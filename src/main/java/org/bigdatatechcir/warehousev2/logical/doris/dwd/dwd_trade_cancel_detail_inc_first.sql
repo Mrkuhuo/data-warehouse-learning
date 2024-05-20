@@ -1,7 +1,7 @@
 INSERT INTO dwd.dwd_trade_cancel_detail_inc(id, k1, order_id, user_id, sku_id, province_id, activity_id, activity_rule_id, coupon_id, date_id, cancel_time, source_id, source_type_code, source_type_name, sku_num, split_original_amount, split_activity_amount, split_coupon_amount, split_total_amount)
 select
     od.id,
-    current_date() as k1,
+    k1,
     order_id,
     user_id,
     sku_id,
@@ -18,11 +18,12 @@ select
     split_original_amount,
     split_activity_amount,
     split_coupon_amount,
-    split_total_amount,
+    split_total_amount
 from
     (
         select
             id,
+            k1,
             order_id,
             sku_id,
             source_id,
@@ -32,7 +33,7 @@ from
             split_total_amount,
             split_activity_amount,
             split_coupon_amount
-        from ods_order_detail_inc
+        from ods.ods_order_detail_inc
     ) od
         join
     (
@@ -41,7 +42,7 @@ from
             user_id,
             province_id,
             operate_time canel_time
-        from ods_order_info_inc
+        from ods.ods_order_info_inc
         where order_status='1003'
     ) oi
     on od.order_id = oi.id
@@ -51,7 +52,7 @@ from
             order_detail_id,
             activity_id,
             activity_rule_id
-        from ods_order_detail_activity_inc
+        from ods.ods_order_detail_activity_inc
     ) act
     on od.id = act.order_detail_id
         left join
@@ -59,7 +60,7 @@ from
         select
             order_detail_id,
             coupon_id
-        from ods_order_detail_coupon_inc
+        from ods.ods_order_detail_coupon_inc
     ) cou
     on od.id = cou.order_detail_id
         left join
@@ -67,7 +68,7 @@ from
         select
             dic_code,
             dic_name
-        from ods_base_dic_full
+        from ods.ods_base_dic_full
         where parent_code='24'
     )dic
     on od.source_type=dic.dic_code;

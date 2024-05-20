@@ -1,5 +1,5 @@
--- DROP TABLE IF EXISTS dwd.dwd_trade_order_detail_inc;
-CREATE  TABLE dwd.dwd_trade_order_detail_inc
+-- DROP TABLE IF EXISTS dwd.dwd_trade_cart_full;
+CREATE  TABLE dwd.dwd_trade_cart_full
 (
     `id`       VARCHAR(255) COMMENT '编号',
     `k1`       DATE NOT NULL   COMMENT '分区字段',

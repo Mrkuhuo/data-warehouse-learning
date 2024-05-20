@@ -1,7 +1,7 @@
 INSERT INTO dwd.dwd_traffic_page_view_inc(id, k1, province_id, brand, channel, is_new, model, mid_id, operate_system, user_id, version_code, page_item, page_item_type, last_page_id, page_id, source_type, date_id, view_time, session_id, during_time)
 select
     id,
-    CURRENT_DATE(),
+    k1,
     province_id,
     brand,
     channel,
@@ -24,6 +24,7 @@ from
     (
         select
             id,
+            k1,
             common_ar area_code,
             common_ba brand,
             common_ch channel,
@@ -41,7 +42,7 @@ from
             page_source_type,
             ts,
             if(page_last_page_id is null,ts,null) session_start_point
-        from ods_log_inc
+        from ods.ods_log_inc
         where  page_during_time is not null
     )log
         left join
@@ -49,6 +50,6 @@ from
         select
             id province_id,
             area_code
-        from ods_base_province_full
+        from ods.ods_base_province_full
     )bp
     on log.area_code=bp.area_code;

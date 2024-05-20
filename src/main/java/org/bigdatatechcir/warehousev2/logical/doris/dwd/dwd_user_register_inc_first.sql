@@ -1,20 +1,21 @@
 INSERT INTO dwd.dwd_user_register_inc(k1, user_id, date_id, create_time, channel, province_id, version_code, mid_id, brand, model, operate_system)
 select
-            CURRENT_DATE(),
-            ui.user_id,
-            date_format(create_time,'yyyy-MM-dd') date_id,
-            create_time,
-            channel,
-            province_id,
-            version_code,
-            mid_id,
-            brand,
-            model,
-            operate_system
+    k1,
+    ui.user_id,
+    date_format(create_time,'yyyy-MM-dd') date_id,
+    create_time,
+    channel,
+    province_id,
+    version_code,
+    mid_id,
+    brand,
+    model,
+    operate_system
 from
     (
         select
             id user_id,
+            k1,
             create_time
         from ods.ods_user_info_inc
     )ui

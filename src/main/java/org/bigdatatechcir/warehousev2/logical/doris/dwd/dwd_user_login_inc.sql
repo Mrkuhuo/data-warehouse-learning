@@ -1,20 +1,21 @@
 INSERT INTO dwd.dwd_user_login_inc(k1, user_id, date_id, login_time, channel, province_id, version_code, mid_id, brand, model, operate_system)
 select
-            CURRENT_DATE(),
-            user_id,
-            date_format(FROM_UNIXTIME(ts,'GMT+8'),'yyyy-MM-dd') date_id,
-            date_format(FROM_UNIXTIME(ts,'GMT+8'),'yyyy-MM-dd HH:mm:ss') login_time,
-            channel,
-            province_id,
-            version_code,
-            mid_id,
-            brand,
-            model,
-            operate_system
+    k1,
+    user_id,
+    date_format(FROM_UNIXTIME(ts,'GMT+8'),'yyyy-MM-dd') date_id,
+    date_format(FROM_UNIXTIME(ts,'GMT+8'),'yyyy-MM-dd HH:mm:ss') login_time,
+    channel,
+    province_id,
+    version_code,
+    mid_id,
+    brand,
+    model,
+    operate_system
 from
     (
         select
             user_id,
+            k1,
             channel,
             area_code,
             version_code,
@@ -27,6 +28,7 @@ from
             (
                 select
                     user_id,
+                    k1,
                     channel,
                     area_code,
                     version_code,
@@ -40,6 +42,7 @@ from
                     (
                         select
                             user_id,
+                            k1,
                             channel,
                             area_code,
                             version_code,
@@ -53,6 +56,7 @@ from
                             (
                                 select
                                     common_uid user_id,
+                                    k1,
                                     common_ch channel,
                                     common_ar area_code,
                                     common_vc version_code,

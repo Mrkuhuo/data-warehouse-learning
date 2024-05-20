@@ -2,7 +2,7 @@ INSERT INTO dws.dws_traffic_session_page_view_1d(session_id, mid_id, k1, brand, 
 select
     session_id,
     mid_id,
-    CURRENT_DATE(),
+    k1,
     brand,
     model,
     operate_system,
@@ -10,5 +10,5 @@ select
     channel,
     sum(during_time),
     count(*)
-from dwd_traffic_page_view_inc
-group by session_id,mid_id,brand,model,operate_system,version_code,channel;
+from dwd.dwd_traffic_page_view_inc
+group by session_id,mid_id,k1,brand,model,operate_system,version_code,channel;

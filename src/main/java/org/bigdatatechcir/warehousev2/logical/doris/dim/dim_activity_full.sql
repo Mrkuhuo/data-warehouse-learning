@@ -31,7 +31,7 @@ from
             benefit_amount,
             benefit_discount,
             benefit_level
-        from ods_activity_rule_full
+        from ods.ods_activity_rule_full
     )rule
         left join
     (
@@ -43,15 +43,17 @@ from
             start_time,
             end_time,
             create_time
-        from ods_activity_info_full
+        from ods.ods_activity_info_full
+        where k1=date('${pdate}')
     )info
-    on rule.activity_id=info.id
-        left join
+on rule.activity_id=info.id
+    left join
     (
-        select
-            dic_code,
-            dic_name
-        from ods_base_dic_full
-        where  parent_code='31'
+    select
+    dic_code,
+    dic_name
+    from ods.ods_base_dic_full
+    where  parent_code='31'
+    and k1=date('${pdate}')
     )dic
     on rule.activity_type=dic.dic_code;

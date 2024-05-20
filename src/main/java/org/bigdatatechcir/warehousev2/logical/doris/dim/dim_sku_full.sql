@@ -4,6 +4,7 @@ with
         (
             select
                 id,
+                k1,
                 price,
                 sku_name,
                 sku_desc,
@@ -13,64 +14,65 @@ with
                 category3_id,
                 tm_id,
                 create_time
-            from ods_sku_info_full
-        ),
+            from ods.ods_sku_info_full
+            where k1=date('${pdate}')
+    ),
     spu as
-        (
-            select
-                id,
-                spu_name
-            from ods_spu_info_full
-        ),
+   (
+select
+    id,
+    spu_name
+from ods.ods_spu_info_full
+    ),
     c3 as
-        (
-            select
-                id,
-                name,
-                category2_id
-            from ods_base_category3_full
-        ),
+    (
+select
+    id,
+    name,
+    category2_id
+from ods.ods_base_category3_full
+    ),
     c2 as
-        (
-            select
-                id,
-                name,
-                category1_id
-            from ods_base_category2_full
-        ),
+    (
+select
+    id,
+    name,
+    category1_id
+from ods.ods_base_category2_full
+    ),
     c1 as
-        (
-            select
-                id,
-                name
-            from ods_base_category1_full
-        ),
+    (
+select
+    id,
+    name
+from ods.ods_base_category1_full
+    ),
     tm as
-        (
-            select
-                id,
-                tm_name
-            from ods_base_trademark_full
-        ),
+    (
+select
+    id,
+    tm_name
+from ods.ods_base_trademark_full
+    ),
     attr as
-        (
-            select
-                sku_id,
-                collect_set(id) as ids
-            from ods_sku_attr_value_full
-            group by sku_id
-        ),
+    (
+select
+    sku_id,
+    collect_set(id) as ids
+from ods.ods_sku_attr_value_full
+group by sku_id
+    ),
     sale_attr as
-        (
-            select
-                sku_id,
-                collect_set(id) as ids
-            from ods_sku_sale_attr_value_full
-            group by sku_id
-        )
+    (
+select
+    sku_id,
+    collect_set(id) as ids
+from ods.ods_sku_sale_attr_value_full
+group by sku_id
+    )
 select
     sku.id,
-    current_date() as k1,
+    sku.k1,
     sku.price,
     sku.sku_name,
     sku.sku_desc,

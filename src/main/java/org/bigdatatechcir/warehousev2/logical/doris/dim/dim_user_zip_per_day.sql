@@ -4,6 +4,7 @@ with
         (
             select
                 old.id old_id,
+                old.k1,
                 old.login_name old_login_name,
                 old.nick_name old_nick_name,
                 old.name old_name,
@@ -17,6 +18,7 @@ with
                 old.start_date old_start_date,
                 old.end_date old_end_date,
                 new.id new_id,
+                new.k2,
                 new.login_name new_login_name,
                 new.nick_name new_nick_name,
                 new.name new_name,
@@ -33,6 +35,7 @@ with
                 (
                     select
                         id,
+                        k1,
                         login_name,
                         nick_name,
                         name,
@@ -46,11 +49,13 @@ with
                         start_date,
                         end_date
                     from dim.dim_user_zip
+                    where end_date = '9999-12-31'
                 )old
                     full outer join
                 (
                     select
                         id,
+                        k1 as k2,
                         login_name,
                         nick_name,
                         md5(name) name,
@@ -67,6 +72,7 @@ with
                         (
                             select
                                 id,
+                                k1,
                                 login_name,
                                 nick_name,
                                 name,
@@ -78,15 +84,16 @@ with
                                 create_time,
                                 operate_time,
                                 row_number() over (partition by id order by create_time desc) rn
-                            from ods_user_info_inc
-                        )t1
-                    where rn=1
-                )new
-                on old.id=new.id
+                            from ods.ods_user_info_inc
+                            where k1=date('${pdate}')
+                )t1
+            where rn=1
+        )new
+    on old.id=new.id
         )
 select
     if(new_id is not null,new_id,old_id),
-    current_date() as k1,
+    k2,
     if(new_id is not null,new_login_name,old_login_name),
     if(new_id is not null,new_nick_name,old_nick_name),
     if(new_id is not null,new_name,old_name),
@@ -103,7 +110,7 @@ from tmp
 union all
 select
     old_id,
-    current_date() as k1,
+    k1,
     old_login_name,
     old_nick_name,
     old_name,
@@ -115,7 +122,7 @@ select
     old_create_time,
     old_operate_time,
     old_start_date,
-    cast(date_add('2024-06-15',-1) as string) old_end_date
+    cast(date_add(date('${pdate}'),-1) as string) old_end_date
 from tmp
 where old_id is not null
   and new_id is not null;

@@ -2,7 +2,7 @@ INSERT INTO dws.dws_trade_user_sku_order_refund_nd(user_id, sku_id, k1, sku_name
 select
     user_id,
     sku_id,
-    CURRENT_DATE(),
+    k1,
     sku_name,
     category1_id,
     category1_name,
@@ -12,11 +12,13 @@ select
     category3_name,
     tm_id,
     tm_name,
-    sum(order_refund_count_1d),
-    sum(order_refund_num_1d),
-    sum(order_refund_amount_1d),
+    sum(if(k1>=date_add(date('${pdate}'),-6),order_refund_count_1d,0)),
+    sum(if(k1>=date_add(date('${pdate}'),-6),order_refund_num_1d,0)),
+    sum(if(k1>=date_add(date('${pdate}'),-6),order_refund_amount_1d,0)),
     sum(order_refund_count_1d),
     sum(order_refund_num_1d),
     sum(order_refund_amount_1d)
 from dws.dws_trade_user_sku_order_refund_1d
-group by user_id,sku_id,sku_name,category1_id,category1_name,category2_id,category2_name,category3_id,category3_name,tm_id,tm_name;
+where k1>=date_add(date('${pdate}'),-29)
+  and k1<=date('${pdate}')
+group by user_id,sku_id,k1,sku_name,category1_id,category1_name,category2_id,category2_name,category3_id,category3_name,tm_id,tm_name;

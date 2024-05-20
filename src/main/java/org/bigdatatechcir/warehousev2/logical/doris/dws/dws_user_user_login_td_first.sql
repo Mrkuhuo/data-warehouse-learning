@@ -1,13 +1,14 @@
 INSERT INTO dws.dws_user_user_login_td(user_id, k1, login_date_last, login_count_td)
 select
     u.id,
-    CURRENT_DATE(),
+    u.k1,
     nvl(login_date_last,date_format(create_time,'yyyy-MM-dd')),
     nvl(login_count_td,1)
 from
     (
         select
             id,
+            k1,
             create_time
         from dim.dim_user_zip
     )u

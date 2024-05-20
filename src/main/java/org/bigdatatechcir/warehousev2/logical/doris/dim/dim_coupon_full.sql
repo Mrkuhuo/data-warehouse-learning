@@ -1,7 +1,7 @@
 insert into dim.dim_coupon_full(id, k1, coupon_name, coupon_type_code, coupon_type_name, condition_amount, condition_num, activity_id, benefit_amount, benefit_discount, benefit_rule, create_time, range_type_code, range_type_name, limit_num, taken_count, start_time, end_time, operate_time, expire_time)
 select
     id,
-    current_date() as k1,
+    k1,
     coupon_name,
     coupon_type,
     coupon_dic.dic_name,
@@ -28,6 +28,7 @@ from
     (
         select
             id,
+            k1,
             coupon_name,
             coupon_type,
             condition_amount,
@@ -43,23 +44,26 @@ from
             end_time,
             operate_time,
             expire_time
-        from ods_coupon_info_full
+        from ods.ods_coupon_info_full
+        where k1=date('${pdate}')
     )ci
         left join
     (
         select
             dic_code,
             dic_name
-        from ods_base_dic_full
-        where parent_code='32'
+        from ods.ods_base_dic_full
+        where k1=date('${pdate}')
+        and parent_code='32'
     )coupon_dic
-    on ci.coupon_type=coupon_dic.dic_code
-        left join
+on ci.coupon_type=coupon_dic.dic_code
+    left join
     (
-        select
-            dic_code,
-            dic_name
-        from ods_base_dic_full
-        where parent_code='33'
+    select
+    dic_code,
+    dic_name
+    from ods.ods_base_dic_full
+    where k1=date('${pdate}')
+    and parent_code='33'
     )range_dic
     on ci.range_type=range_dic.dic_code;

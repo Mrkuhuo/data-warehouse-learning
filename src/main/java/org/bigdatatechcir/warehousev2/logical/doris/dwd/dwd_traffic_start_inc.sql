@@ -1,7 +1,7 @@
 INSERT INTO dwd.dwd_traffic_start_inc(id, k1, province_id, brand, channel, is_new, model, mid_id, operate_system, user_id, version_code, entry, open_ad_id, date_id, start_time, loading_time_ms, open_ad_ms, open_ad_skip_ms)
 select
     id,
-    CURRENT_DATE(),
+    k1,
     province_id,
     brand,
     channel,
@@ -22,6 +22,7 @@ from
     (
         select
             id,
+            k1,
             common_ar area_code,
             common_ba brand,
             common_ch channel,
@@ -37,7 +38,7 @@ from
             start_open_ad_ms,
             start_open_ad_skip_ms,
             ts
-        from ods_log_inc
+        from ods.ods_log_inc
         where start_entry is not null
     )log
         left join
@@ -45,6 +46,6 @@ from
         select
             id province_id,
             area_code
-        from ods_base_province_full
+        from ods.ods_base_province_full
     )bp
     on log.area_code=bp.area_code;
