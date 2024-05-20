@@ -28,16 +28,16 @@ CREATE TABLE `activity_info`  (
   `activity_desc` varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '活动描述',
   `start_time` datetime(0) NULL DEFAULT NULL COMMENT '开始时间',
   `end_time` datetime(0) NULL DEFAULT NULL COMMENT '结束时间',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '活动表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of activity_info
 -- ----------------------------
-INSERT INTO `activity_info` VALUES (1, '联想专场', '3101', '联想满减', '2020-10-21 18:49:12', '2020-10-31 18:49:15', NULL);
-INSERT INTO `activity_info` VALUES (2, 'Apple品牌日', '3101', 'Apple品牌日', '2020-06-10 00:00:00', '2020-06-12 00:00:00', NULL);
-INSERT INTO `activity_info` VALUES (3, '女神节', '3102', '满件打折', '2020-03-08 00:00:00', '2020-03-09 00:00:00', NULL);
+INSERT INTO `activity_info` VALUES (1, '联想专场', '3101', '联想满减', '2020-10-21 18:49:12', '2020-10-31 18:49:15', CURRENT_TIME);
+INSERT INTO `activity_info` VALUES (2, 'Apple品牌日', '3101', 'Apple品牌日', '2020-06-10 00:00:00', '2020-06-12 00:00:00', CURRENT_TIME);
+INSERT INTO `activity_info` VALUES (3, '女神节', '3102', '满件打折', '2020-03-08 00:00:00', '2020-03-09 00:00:00', CURRENT_TIME);
 -- ----------------------------
 -- Table structure for activity_rule
 -- ----------------------------
@@ -72,27 +72,27 @@ CREATE TABLE `activity_sku`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
   `activity_id` bigint(20) NULL DEFAULT NULL COMMENT '活动id ',
   `sku_id` bigint(20) NULL DEFAULT NULL COMMENT 'sku_id',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '活动参与商品' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of activity_sku
 -- ----------------------------
-INSERT INTO `activity_sku` VALUES (1, 1, 11, NULL);
-INSERT INTO `activity_sku` VALUES (2, 1, 12, NULL);
-INSERT INTO `activity_sku` VALUES (3, 1, 13, NULL);
-INSERT INTO `activity_sku` VALUES (4, 2, 8, NULL);
-INSERT INTO `activity_sku` VALUES (5, 2, 9, NULL);
-INSERT INTO `activity_sku` VALUES (6, 2, 10, NULL);
-INSERT INTO `activity_sku` VALUES (7, 2, 11, NULL);
-INSERT INTO `activity_sku` VALUES (8, 2, 12, NULL);
-INSERT INTO `activity_sku` VALUES (9, 3, 26, NULL);
-INSERT INTO `activity_sku` VALUES (10, 3, 27, NULL);
-INSERT INTO `activity_sku` VALUES (11, 3, 28, NULL);
-INSERT INTO `activity_sku` VALUES (12, 3, 29, NULL);
-INSERT INTO `activity_sku` VALUES (13, 3, 30, NULL);
-INSERT INTO `activity_sku` VALUES (14, 3, 31, NULL);
+INSERT INTO `activity_sku` VALUES (1, 1, 11, CURRENT_TIME);
+INSERT INTO `activity_sku` VALUES (2, 1, 12, CURRENT_TIME);
+INSERT INTO `activity_sku` VALUES (3, 1, 13, CURRENT_TIME);
+INSERT INTO `activity_sku` VALUES (4, 2, 8, CURRENT_TIME);
+INSERT INTO `activity_sku` VALUES (5, 2, 9, CURRENT_TIME);
+INSERT INTO `activity_sku` VALUES (6, 2, 10, CURRENT_TIME);
+INSERT INTO `activity_sku` VALUES (7, 2, 11, CURRENT_TIME);
+INSERT INTO `activity_sku` VALUES (8, 2, 12, CURRENT_TIME);
+INSERT INTO `activity_sku` VALUES (9, 3, 26, CURRENT_TIME);
+INSERT INTO `activity_sku` VALUES (10, 3, 27, CURRENT_TIME);
+INSERT INTO `activity_sku` VALUES (11, 3, 28, CURRENT_TIME);
+INSERT INTO `activity_sku` VALUES (12, 3, 29, CURRENT_TIME);
+INSERT INTO `activity_sku` VALUES (13, 3, 30, CURRENT_TIME);
+INSERT INTO `activity_sku` VALUES (14, 3, 31, CURRENT_TIME);
 
 
 -- ----------------------------
@@ -1579,68 +1579,68 @@ CREATE TABLE `base_dic`  (
   `dic_code` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '编号',
   `dic_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '编码名称',
   `parent_code` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '父编号',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建日期',
-  `operate_time` datetime(0) NULL DEFAULT NULL COMMENT '修改日期'
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `operate_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改日期'
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of base_dic
 -- ----------------------------
-INSERT INTO `base_dic` VALUES ('10', '单据状态', NULL, NULL, NULL);
-INSERT INTO `base_dic` VALUES ('1001', '未支付', '10', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('1002', '已支付', '10', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('1003', '已取消', '10', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('1004', '已完成', '10', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('1005', '退款中', '10', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('1006', '退款完成', '10', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('11', '支付状态', NULL, NULL, NULL);
-INSERT INTO `base_dic` VALUES ('1101', '支付宝', '11', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('1102', '微信', '11', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('1103', '银联', '11', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('12', '评价', NULL, NULL, NULL);
-INSERT INTO `base_dic` VALUES ('1201', '好评', '12', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('1202', '中评', '12', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('1203', '差评', '12', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('1204', '自动', '12', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('13', '退货原因', NULL, NULL, NULL);
-INSERT INTO `base_dic` VALUES ('1301', '质量问题', '13', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('1302', '商品描述与实际描述不一致', '13', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('1303', '缺货', '13', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('1304', '号码不合适', '13', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('1305', '拍错', '13', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('1306', '不想买了', '13', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('1307', '其他', '13', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('14', '购物券状态', NULL, NULL, NULL);
-INSERT INTO `base_dic` VALUES ('1401', '未使用', '14', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('1402', '使用中', '14', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('1403', '已使用', '14', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('15', '退款类型', NULL, NULL, NULL);
-INSERT INTO `base_dic` VALUES ('1501', '仅退款', '15', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('1502', '退货退款', '15', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('24', '来源类型', '', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('2401', '用户查询', '24', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('2402', '商品推广', '24', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('2403', '智能推荐', '24', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('2404', '促销活动', '24', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('31', '活动类型', NULL, NULL, NULL);
-INSERT INTO `base_dic` VALUES ('3101', '满额减价', '31', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('3102', '满量打折', '31', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('3103', '直接折扣', '31', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('32', '购物券类型', '', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('3201', '满额减价', '32', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('3202', '满量打折', '32', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('3203', '代金券', '32', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('33', '优惠券范围', NULL, NULL, NULL);
-INSERT INTO `base_dic` VALUES ('3301', '品类券', '33', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('3302', '品牌券', '33', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('3303', '单品(spu)', '33', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('07', '退单状态', NULL, NULL, NULL);
-INSERT INTO `base_dic` VALUES ('0701', '商家审核中', '07', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('0702', '商家审核通过', '07', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('0703', '商家审核未通过', '07', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('0704', '买家已发货', '07', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('0705', '退单完成', '07', NULL, NULL);
-INSERT INTO `base_dic` VALUES ('0706', '退单失败', '07', NULL, NULL);
+INSERT INTO `base_dic` VALUES ('10', '单据状态', NULL, CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('1001', '未支付', '10', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('1002', '已支付', '10', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('1003', '已取消', '10', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('1004', '已完成', '10', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('1005', '退款中', '10', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('1006', '退款完成', '10', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('11', '支付状态', NULL, CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('1101', '支付宝', '11', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('1102', '微信', '11', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('1103', '银联', '11', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('12', '评价', NULL, CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('1201', '好评', '12', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('1202', '中评', '12', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('1203', '差评', '12', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('1204', '自动', '12', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('13', '退货原因', NULL, CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('1301', '质量问题', '13', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('1302', '商品描述与实际描述不一致', '13', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('1303', '缺货', '13', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('1304', '号码不合适', '13', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('1305', '拍错', '13', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('1306', '不想买了', '13', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('1307', '其他', '13', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('14', '购物券状态', NULL, CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('1401', '未使用', '14', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('1402', '使用中', '14', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('1403', '已使用', '14', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('15', '退款类型', NULL, CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('1501', '仅退款', '15', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('1502', '退货退款', '15', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('24', '来源类型', '', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('2401', '用户查询', '24', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('2402', '商品推广', '24', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('2403', '智能推荐', '24', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('2404', '促销活动', '24', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('31', '活动类型', NULL, CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('3101', '满额减价', '31', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('3102', '满量打折', '31', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('3103', '直接折扣', '31', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('32', '购物券类型', '', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('3201', '满额减价', '32', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('3202', '满量打折', '32', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('3203', '代金券', '32', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('33', '优惠券范围', NULL, CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('3301', '品类券', '33', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('3302', '品牌券', '33', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('3303', '单品(spu)', '33', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('07', '退单状态', NULL, CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('0701', '商家审核中', '07', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('0702', '商家审核通过', '07', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('0703', '商家审核未通过', '07', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('0704', '买家已发货', '07', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('0705', '退单完成', '07', CURRENT_TIME, CURRENT_TIME);
+INSERT INTO `base_dic` VALUES ('0706', '退单失败', '07', CURRENT_TIME, CURRENT_TIME);
 -- ----------------------------
 -- Table structure for base_frontend_param
 -- ----------------------------
@@ -1780,8 +1780,8 @@ CREATE TABLE `cart_info`  (
   `img_url` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图片文件',
   `sku_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'sku名称 (冗余)',
   `is_checked` int(1) NULL DEFAULT NULL,
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `operate_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `operate_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
   `is_ordered` bigint(20) NULL DEFAULT NULL COMMENT '是否已经下单',
   `order_time` datetime(0) NULL DEFAULT NULL COMMENT '下单时间',
   `source_type` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '来源类型',
@@ -1817,8 +1817,8 @@ CREATE TABLE `comment_info`  (
   `order_id` bigint(20) NULL DEFAULT NULL COMMENT '订单编号',
   `appraise` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '评价 1 好评 2 中评 3 差评',
   `comment_txt` varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '评价内容',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `operate_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `operate_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1325455748590022660 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商品评论表' ROW_FORMAT = Dynamic;
 
@@ -1836,13 +1836,13 @@ CREATE TABLE `coupon_info`  (
   `activity_id` bigint(20) NULL DEFAULT NULL COMMENT '活动编号',
   `benefit_amount` decimal(16, 2) NULL DEFAULT NULL COMMENT '减金额（1 3）',
   `benefit_discount` decimal(10, 2) NULL DEFAULT NULL COMMENT '折扣（2 4）',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `range_type` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '范围类型 1、商品(spuid) 2、品类(三级分类id) 3、品牌',
   `limit_num` int(11) NOT NULL DEFAULT 0 COMMENT '最多领用次数',
   `taken_count` int(11) NOT NULL DEFAULT 0 COMMENT '已领用次数',
   `start_time` datetime(0) NULL DEFAULT NULL COMMENT '可以领取的开始日期',
   `end_time` datetime(0) NULL DEFAULT NULL COMMENT '可以领取的结束日期',
-  `operate_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
+  `operate_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
   `expire_time` datetime(0) NULL DEFAULT NULL COMMENT '过期时间',
   `range_desc` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '范围描述',
   PRIMARY KEY (`id`) USING BTREE
@@ -1851,9 +1851,9 @@ CREATE TABLE `coupon_info`  (
 -- ----------------------------
 -- Records of coupon_info
 -- ----------------------------
-INSERT INTO `coupon_info` VALUES (1, '口红品类券', '3201', 99.00, NULL, NULL, 30.00, NULL, '2020-10-23 12:37:05', '3301', 100, 0, '2020-06-10 01:01:01', NULL, NULL, NULL, NULL);
-INSERT INTO `coupon_info` VALUES (2, '口红品类券2', '3201', 199.00, NULL, NULL, 70.00, NULL, '2020-10-23 12:37:34', '3301', 100, 0, '2020-06-10 01:01:01', NULL, NULL, NULL, NULL);
-INSERT INTO `coupon_info` VALUES (3, '口红品类券3', '3201', 499.00, NULL, NULL, 100.00, NULL, '2020-10-23 14:03:00', '3301', 100, 0, '2020-06-10 01:01:01', NULL, NULL, NULL, NULL);
+INSERT INTO `coupon_info` VALUES (1, '口红品类券', '3201', 99.00, NULL, NULL, 30.00, NULL, '2020-10-23 12:37:05', '3301', 100, 0, '2020-06-10 01:01:01', NULL, CURRENT_TIME, NULL, NULL);
+INSERT INTO `coupon_info` VALUES (2, '口红品类券2', '3201', 199.00, NULL, NULL, 70.00, NULL, '2020-10-23 12:37:34', '3301', 100, 0, '2020-06-10 01:01:01', NULL, CURRENT_TIME, NULL, NULL);
+INSERT INTO `coupon_info` VALUES (3, '口红品类券3', '3201', 499.00, NULL, NULL, 100.00, NULL, '2020-10-23 14:03:00', '3301', 100, 0, '2020-06-10 01:01:01', NULL, CURRENT_TIME, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for coupon_range
@@ -1884,7 +1884,7 @@ CREATE TABLE `coupon_use`  (
   `user_id` bigint(20) NULL DEFAULT NULL COMMENT '用户ID',
   `order_id` bigint(20) NULL DEFAULT NULL COMMENT '订单ID',
   `coupon_status` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '购物券状态（1：未使用 2：已使用）',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `get_time` datetime(0) NULL DEFAULT NULL COMMENT '获取时间',
   `using_time` datetime(0) NULL DEFAULT NULL COMMENT '使用时间',
   `used_time` datetime(0) NULL DEFAULT NULL COMMENT '支付时间',
@@ -1902,7 +1902,7 @@ CREATE TABLE `favor_info`  (
   `sku_id` bigint(20) NULL DEFAULT NULL COMMENT 'skuid',
   `spu_id` bigint(20) NULL DEFAULT NULL COMMENT '商品id',
   `is_cancel` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否已取消 0 正常 1 已取消',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `cancel_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1325455735210192908 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商品收藏表' ROW_FORMAT = Dynamic;
@@ -1919,7 +1919,7 @@ CREATE TABLE `financial_sku_cost`  (
   `busi_date` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '业务日期',
   `is_lastest` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否最近',
   `sku_cost` decimal(16, 2) NULL DEFAULT NULL COMMENT '商品结算成本',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -1935,7 +1935,7 @@ CREATE TABLE `order_detail`  (
   `img_url` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图片名称（冗余)',
   `order_price` decimal(10, 2) NULL DEFAULT NULL COMMENT '购买价格(下单时sku价格）',
   `sku_num` bigint(20) NULL DEFAULT NULL COMMENT '购买个数',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `source_type` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '来源类型',
   `source_id` bigint(20) NULL DEFAULT NULL COMMENT '来源编号',
   `split_total_amount` decimal(16, 2) NULL DEFAULT NULL,
@@ -1955,7 +1955,7 @@ CREATE TABLE `order_detail_activity`  (
   `activity_id` bigint(20) NULL DEFAULT NULL COMMENT '活动ID',
   `activity_rule_id` bigint(20) NULL DEFAULT NULL COMMENT '活动规则',
   `sku_id` bigint(20) NULL DEFAULT NULL COMMENT 'skuID',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '获取时间',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1661 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '订单明细购物券表' ROW_FORMAT = Dynamic;
 
@@ -1972,7 +1972,7 @@ CREATE TABLE `order_detail_coupon`  (
   `coupon_id` bigint(20) NULL DEFAULT NULL COMMENT '购物券ID',
   `coupon_use_id` bigint(20) NULL DEFAULT NULL COMMENT '购物券领用id',
   `sku_id` bigint(20) NULL DEFAULT NULL COMMENT 'skuID',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '获取时间',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1325455744987115556 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '订单明细购物券表' ROW_FORMAT = Dynamic;
 
@@ -1993,8 +1993,8 @@ CREATE TABLE `order_info`  (
   `order_comment` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '订单备注',
   `out_trade_no` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '订单交易编号（第三方支付用)',
   `trade_body` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '订单描述(第三方支付用)',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `operate_time` datetime(0) NULL DEFAULT NULL COMMENT '操作时间',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `operate_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
   `expire_time` datetime(0) NULL DEFAULT NULL COMMENT '失效时间',
   `process_status` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '进度状态',
   `tracking_no` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '物流单编号',
@@ -2026,7 +2026,7 @@ CREATE TABLE `order_refund_info`  (
   `refund_reason_type` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '原因类型',
   `refund_reason_txt` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '原因内容',
   `refund_status` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '退款状态（0：待审批 1：已退款）',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 748 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '退单表' ROW_FORMAT = Dynamic;
 
@@ -2039,7 +2039,7 @@ CREATE TABLE `order_status_log`  (
   `id` bigint(11) NOT NULL AUTO_INCREMENT,
   `order_id` bigint(11) NULL DEFAULT NULL,
   `order_status` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `operate_time` datetime(0) NULL DEFAULT NULL,
+  `operate_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 10355 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -2058,7 +2058,7 @@ CREATE TABLE `payment_info`  (
   `total_amount` decimal(10, 2) NULL DEFAULT NULL COMMENT '支付金额',
   `subject` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '交易内容',
   `payment_status` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '支付状态',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `callback_time` datetime(0) NULL DEFAULT NULL COMMENT '回调时间',
   `callback_content` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '回调信息',
   PRIMARY KEY (`id`) USING BTREE
@@ -2079,7 +2079,7 @@ CREATE TABLE `refund_payment`  (
   `total_amount` decimal(10, 2) NULL DEFAULT NULL COMMENT '退款金额',
   `subject` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '交易内容',
   `refund_status` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '退款状态',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `callback_time` datetime(0) NULL DEFAULT NULL COMMENT '回调时间',
   `callback_content` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '回调信息',
   PRIMARY KEY (`id`) USING BTREE,
@@ -2099,7 +2099,7 @@ CREATE TABLE `seckill_goods`  (
   `sku_default_img` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '商品图片',
   `price` decimal(10, 2) NULL DEFAULT NULL COMMENT '原价格',
   `cost_price` decimal(10, 2) NULL DEFAULT NULL COMMENT '秒杀价格',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '添加日期',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `check_time` datetime(0) NULL DEFAULT NULL COMMENT '审核日期',
   `status` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '审核状态',
   `start_time` datetime(0) NULL DEFAULT NULL COMMENT '开始时间',
@@ -2486,7 +2486,7 @@ CREATE TABLE `sku_info`  (
   `category3_id` bigint(20) NULL DEFAULT NULL COMMENT '三级分类id（冗余)',
   `sku_default_img` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '默认显示图片(冗余)',
   `is_sale` tinyint(3) NOT NULL DEFAULT 0 COMMENT '是否销售（1：是 0：否）',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '库存单元表' ROW_FORMAT = Dynamic;
 
@@ -2749,7 +2749,7 @@ CREATE TABLE `spu_poster`  (
   `spu_id` bigint(20) NULL DEFAULT NULL COMMENT '商品id',
   `img_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件名称',
   `img_url` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件路径',
-  `create_time` datetime(0) NOT NULL COMMENT '创建时间',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime(0) NOT NULL COMMENT '更新时间',
   `is_deleted` tinyint(3) NOT NULL DEFAULT 0 COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
   PRIMARY KEY (`id`) USING BTREE
@@ -2872,8 +2872,8 @@ CREATE TABLE `user_info`  (
   `user_level` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户级别',
   `birthday` date NULL DEFAULT NULL COMMENT '用户生日',
   `gender` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '性别 M男,F女',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `operate_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `operate_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
   `status` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '状态',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 201 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
@@ -2907,7 +2907,7 @@ CREATE TABLE `ware_order_task`  (
   `task_status` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '工作单状态',
   `order_body` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '订单描述',
   `tracking_no` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '物流单号',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `ware_id` bigint(20) NULL DEFAULT NULL COMMENT '仓库编号',
   `task_comment` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '工作单备注',
   PRIMARY KEY (`id`) USING BTREE
