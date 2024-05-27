@@ -28,7 +28,7 @@
 
 生成用户日志数据如下图所示：
 
-![用户日志数据](src/main/java/org/bigdatatechcir/warehousev1/images/yonghurizhishuju.png)
+![img_1.png](img_1.png)![用户日志数据](src/main/java/org/bigdatatechcir/warehousev1/images/yonghurizhishuju.png)
 
 #### 第三步  数据采集
 
@@ -95,6 +95,12 @@
 任务编排效果如下图所示
 
 ![Doris 任务概览](src/main/java/org/bigdatatechcir/warehousev1/images/bianpai.png)
+
+#### 第十步  数据展示
+
+![大屏](src/main/java/org/bigdatatechcir/warehousev1/images/daping1.png)
+
+![大屏](src/main/java/org/bigdatatechcir/warehousev1/images/daping2.png)
 
 ## 关注微信公众号《大数据技能圈》获取最新消息
 
