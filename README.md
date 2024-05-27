@@ -28,7 +28,7 @@
 
 生成用户日志数据如下图所示：
 
-![img_1.png](img_1.png)![用户日志数据](src/main/java/org/bigdatatechcir/warehousev1/images/yonghurizhishuju.png)
+![用户日志数据](src/main/java/org/bigdatatechcir/warehousev1/images/yonghurizhishuju.png)
 
 #### 第三步  数据采集
 
