@@ -16,7 +16,85 @@
 
 #### 第一步 组件安装
 
-[【实时离线数仓实战组件安装教程】](https://mp.weixin.qq.com/s?__biz=Mzg5Mzg3MzkwNA==&mid=2247488063&idx=1&sn=10ecc03fccfc90649e308aa8c357dcaf&chksm=c02969a0f75ee0b67769fba698b2a00746eb25ffcf19f1f56e324dea33a315703754f0736b2c#rd)
+![安装文档](src/main/java/org/bigdatatechcir/warehousev1/images/anzhaungbuzhou.png)
+
+#### 第二步 模拟数据生成
+
+![模拟数据生成](src/main/java/org/bigdatatechcir/warehousev1/images/monishuju.png)
+
+生成业务库数据如下图所示：
+
+![业务库数据](src/main/java/org/bigdatatechcir/warehousev1/images/yewushuju.png)
+
+生成用户日志数据如下图所示：
+
+![用户日志数据](src/main/java/org/bigdatatechcir/warehousev1/images/yonghurizhishuju.png)
+
+#### 第三步  数据采集
+
+Kafka 数据通过 Flink 接入 Doris
+
+![Kafka 数据接入](src/main/java/org/bigdatatechcir/warehousev1/images/flink.png)
+
+MySQL 数据通过 SeaTunnel 接入 Doris
+
+![MySQL 数据接入](src/main/java/org/bigdatatechcir/warehousev1/images/seatunnel.png)
+
+#### 第四步  Doris ODS层建设
+
+数据采集进 Doris ODS 层，实现效果如下图所示：
+
+![Doris ODS层建设](src/main/java/org/bigdatatechcir/warehousev1/images/ods.png)
+
+#### 第五步  Doris DIM层建设
+
+开发 DorisSQL 进行 DIM层数据处理
+
+![Doris DIM层处理逻辑](src/main/java/org/bigdatatechcir/warehousev1/images/dim.png)
+
+DIM层数据实现效果如下图：
+
+![Doris DIM层数据库](src/main/java/org/bigdatatechcir/warehousev1/images/dwddatabase.png)
+
+#### 第六步  Doris DWD层建设
+
+开发 DorisSQL 进行 DWD层数据处理
+
+![Doris DWD层处理逻辑](src/main/java/org/bigdatatechcir/warehousev1/images/dwd.png)
+
+DWD层数据实现效果如下图：
+
+![Doris DWD层数据库](src/main/java/org/bigdatatechcir/warehousev1/images/dimdatabase.png)
+
+#### 第七步  Doris DWS层建设
+
+开发 DorisSQL 进行 DWS层数据处理
+
+![Doris DWS层处理逻辑](src/main/java/org/bigdatatechcir/warehousev1/images/dws.png)
+
+DWS层数据实现效果如下图：
+
+![Doris DWS层数据库](src/main/java/org/bigdatatechcir/warehousev1/images/dwsdatabase.png)
+
+#### 第八步  Doris ADS层建设
+
+开发 DorisSQL 进行 ADS层数据处理
+
+![Doris ADS层处理逻辑](src/main/java/org/bigdatatechcir/warehousev1/images/ads.png)
+
+ADS层数据实现效果如下图：
+
+![Doris ADS层数据库](src/main/java/org/bigdatatechcir/warehousev1/images/adsdatabase.png)
+
+#### 第九步  任务编排
+
+最终的任务概览如下图所示
+
+![Doris 任务概览](src/main/java/org/bigdatatechcir/warehousev1/images/allrenwu.png)
+
+任务编排效果如下图所示
+
+![Doris 任务概览](src/main/java/org/bigdatatechcir/warehousev1/images/bianpai.png)
 
 文档获取：知识星球《大数据技能圈》
 
