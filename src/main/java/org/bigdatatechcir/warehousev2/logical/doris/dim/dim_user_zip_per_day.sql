@@ -66,7 +66,7 @@ with
                         gender,
                         create_time,
                         operate_time,
-                        '2020-06-15' start_date,
+                        '2024-06-15' start_date,
                         '9999-12-31' end_date
                     from
                         (
@@ -85,11 +85,11 @@ with
                                 operate_time,
                                 row_number() over (partition by id order by create_time desc) rn
                             from ods.ods_user_info_inc
-                            where k1=date('${pdate}')
-                )t1
-            where rn=1
-        )new
-    on old.id=new.id
+                            -- where k1=date('${pdate}')
+                        )t1
+                    where rn=1
+                )new
+                on old.id=new.id
         )
 select
     if(new_id is not null,new_id,old_id),
@@ -107,6 +107,7 @@ select
     if(new_id is not null,new_start_date,old_start_date),
     if(new_id is not null,new_end_date,old_end_date)
 from tmp
+where k2 is not NULL
 union all
 select
     old_id,
@@ -123,6 +124,8 @@ select
     old_operate_time,
     old_start_date,
     cast(date_add(date('${pdate}'),-1) as string) old_end_date
+
 from tmp
-where old_id is not null
+where k1 is not NULL
+  and  old_id is not null
   and new_id is not null;

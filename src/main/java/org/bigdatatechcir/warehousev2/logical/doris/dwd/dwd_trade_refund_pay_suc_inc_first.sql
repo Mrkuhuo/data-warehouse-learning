@@ -22,7 +22,7 @@ from
             payment_type,
             callback_time,
             total_amount
-        from ods_refund_payment_inc
+        from ods.ods_refund_payment_inc
         where refund_status='1602'
     )rp
         left join
@@ -31,7 +31,7 @@ from
             id,
             user_id,
             province_id
-        from ods_order_info_inc
+        from ods.ods_order_info_inc
     )oi
     on rp.order_id=oi.id
         left join
@@ -40,7 +40,7 @@ from
             order_id,
             sku_id,
             refund_num
-        from ods_order_refund_info_inc
+        from ods.ods_order_refund_info_inc
     )ri
     on rp.order_id=ri.order_id
         and rp.sku_id=ri.sku_id
@@ -49,7 +49,7 @@ from
         select
             dic_code,
             dic_name
-        from ods_base_dic_full
+        from ods.ods_base_dic_full
         where parent_code='11'
     )dic
     on rp.payment_type=dic.dic_code;

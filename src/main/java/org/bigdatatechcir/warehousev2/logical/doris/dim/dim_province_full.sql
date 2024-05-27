@@ -16,13 +16,13 @@ from
             area_code,
             iso_code,
             iso_3166_2
-        from ods_base_province_full
+        from ods.ods_base_province_full
     )province
         left join
     (
         select
             id,
             region_name
-        from ods_base_region_full
+        from ods.ods_base_region_full
     )region
     on province.region_id=region.id;

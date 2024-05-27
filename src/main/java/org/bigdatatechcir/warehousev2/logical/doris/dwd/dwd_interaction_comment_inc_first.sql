@@ -1,7 +1,7 @@
 INSERT INTO dwd.dwd_interaction_comment_inc(id, k1, user_id, sku_id, order_id, date_id, create_time, appraise_code, appraise_name)
 select
     id,
-    current_date() as k1,
+    k1,
     user_id,
     sku_id,
     order_id,
@@ -13,6 +13,7 @@ from
     (
         select
             id,
+            k1,
             user_id,
             sku_id,
             order_id,
