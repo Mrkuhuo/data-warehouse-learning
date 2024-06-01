@@ -6,6 +6,8 @@ SET 'table.exec.mini-batch.size' = '10000';
 SET 'table.local-time-zone' = 'Asia/Shanghai';
 SET 'table.exec.sink.not-null-enforcer'='DROP';
 SET 'table.exec.sink.upsert-materialize' = 'NONE';
+SET 'sql-client.execution.result-mode' = 'tableau';
+SET 'execution.runtime-mode' = 'batch';
 
 CREATE CATALOG paimon_hive WITH (
     'type' = 'paimon',
@@ -26,7 +28,7 @@ CREATE TABLE IF NOT EXISTS dwd.dwd_user_login_full(
     `date_id`        STRING COMMENT '日期ID',
     `login_time`     STRING COMMENT '登录时间',
     `channel`        STRING COMMENT '应用下载渠道',
-    `province_id`    STRING COMMENT '省份id',
+    `province_id`    BIGINT COMMENT '省份id',
     `version_code`   STRING COMMENT '应用版本',
     `mid_id`         STRING COMMENT '设备id',
     `brand`          STRING COMMENT '设备品牌',
@@ -34,7 +36,23 @@ CREATE TABLE IF NOT EXISTS dwd.dwd_user_login_full(
     `operate_system` STRING COMMENT '设备操作系统'
     );
 
-INSERT INTO dwd.dwd_user_login_full(k1, user_id, date_id, login_time, channel, province_id, version_code, mid_id, brand, model, operate_system)
+ALTER TABLE dwd.dwd_user_login_full SET (
+    'sink.parallelism' = '10'
+    );
+
+INSERT INTO dwd.dwd_user_login_full(
+    k1,
+    user_id,
+    date_id,
+    login_time,
+    channel,
+    province_id,
+    version_code,
+    mid_id,
+    brand,
+    model,
+    operate_system
+    )
 select
     k1,
     user_id,
@@ -87,7 +105,7 @@ from
                             model,
                             operate_system,
                             ts,
-                            concat(mid_id,'-',last_value(session_start_point) over(partition by mid_id order by ts)) session_id
+                            concat(mid_id,'-',CAST(LAST_VALUE(session_start_point) over (partition by mid_id order by ts) as STRING)) session_id
                         from
                             (
                                 select
@@ -101,7 +119,7 @@ from
                                     common_md model,
                                     common_os operate_system,
                                     ts,
-                                    if(page_last_page_id is null,ts,null) session_start_point
+                                    ts session_start_point
                                 from ods.ods_log_inc
                                 where  page_last_page_id is not null
                             )t1

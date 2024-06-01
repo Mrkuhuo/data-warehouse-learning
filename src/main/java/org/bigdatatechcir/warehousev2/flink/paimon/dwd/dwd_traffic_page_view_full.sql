@@ -6,6 +6,8 @@ SET 'table.exec.mini-batch.size' = '10000';
 SET 'table.local-time-zone' = 'Asia/Shanghai';
 SET 'table.exec.sink.not-null-enforcer'='DROP';
 SET 'table.exec.sink.upsert-materialize' = 'NONE';
+SET 'sql-client.execution.result-mode' = 'tableau';
+SET 'execution.runtime-mode' = 'batch';
 
 CREATE CATALOG paimon_hive WITH (
     'type' = 'paimon',
@@ -52,6 +54,10 @@ CREATE TABLE IF NOT EXISTS dwd.dwd_traffic_page_view_full(
     'partition.expiration-check-interval' = '1 h',
     'partition.timestamp-formatter' = 'yyyy-MM-dd',
     'partition.timestamp-pattern' = '$k1'
+    );
+
+ALTER TABLE dwd.dwd_traffic_page_view_full SET (
+    'sink.parallelism' = '10'
     );
 
 INSERT INTO dwd.dwd_traffic_page_view_full(
