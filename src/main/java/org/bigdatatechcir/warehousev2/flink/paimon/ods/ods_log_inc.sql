@@ -46,7 +46,7 @@ create  DATABASE IF NOT EXISTS ods;
 
 CREATE TABLE IF NOT EXISTS ods.ods_log_inc(
     `id`                            STRING,
-    `k1`                            DATE,
+    `k1`                            STRING,
     `common_ar`                     STRING,
     `common_ba`                     STRING,
     `common_ch`                     STRING,
@@ -79,7 +79,7 @@ insert into ods.ods_log_inc(
     `id`, `k1`,`common_ar`,`common_ba`,`common_ch`,`common_is_new`,`common_md`,`common_mid`,`common_os`,`common_uid`,`common_vc`,`start_entry`,`start_loading_time`,`start_open_ad_id`,`start_open_ad_ms`,`start_open_ad_skip_ms`,`page_during_time`,`page_item`,`page_item_type`,`page_last_page_id`,`page_page_id`,`page_source_type`,`actions`,`displays`,`err_error_code`,`err_msg`,`ts`)
 select
     CONCAT(cast(kafka_partition as string), cast(kafka_offset as string), cast(kafka_timestamp as string)) as id,
-    current_date,
+    DATE_FORMAT(FROM_UNIXTIME(cast(ts / 1000 as BIGINT)), 'yyyy-MM-dd') AS k1,
     `common`.ar,
     `common`.ba,
     `common`.ch,

@@ -11,7 +11,7 @@ import org.apache.flink.types.Row;
  * 2. 上传jar包到flink_home/lib
  * 3. 重启flink集群
  * 4. 创建临时方法  CREATE TEMPORARY FUNCTION json_actions_array_parser AS 'org.bigdatatechcir.warehousev2.flink.udf.JsonActionsArrayParser';
- * 5. 查询 select json_array_parser(`actions`).`action_id` as action_id, json_array_parser(`actions`).`item` as item,json_array_parser(`actions`).`item_type` as item_type,json_array_parser(`actions`).`ts` as ts from ods.ods_log_inc;
+ * 5. 查询 select json_actions_array_parser(`actions`).`action_id` as action_id, json_actions_array_parser(`actions`).`item` as item,json_actions_array_parser(`actions`).`item_type` as item_type,json_actions_array_parser(`actions`).`ts` as ts from ods.ods_log_inc;
  */
 public class JsonActionsArrayParser extends ScalarFunction {
     private static final ObjectMapper mapper = new ObjectMapper();

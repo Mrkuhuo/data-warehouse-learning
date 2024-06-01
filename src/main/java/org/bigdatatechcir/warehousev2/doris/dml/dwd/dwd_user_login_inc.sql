@@ -13,7 +13,7 @@ CREATE  TABLE dwd.dwd_user_login_inc
     `model`          STRING COMMENT '设备型号',
     `operate_system` STRING COMMENT '设备操作系统'
 )
-    ENGINE=OLAP
+ENGINE=OLAP
 DUPLICATE KEY(`k1`)
 COMMENT '用户域用户登录事务事实表'
 PARTITION BY RANGE(`k1`) ()
