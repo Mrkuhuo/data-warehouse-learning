@@ -101,17 +101,3 @@
 ![大屏](src/main/java/org/bigdatatechcir/warehousev1/images/daping1.png)
 
 ![大屏](src/main/java/org/bigdatatechcir/warehousev1/images/daping2.png)
-
-## 关注微信公众号《大数据技能圈》获取最新消息
-
-![公众号](src/main/java/org/bigdatatechcir/warehousev1/images/gongzhonghao.jpg)
-
-![公众号](src/main/java/org/bigdatatechcir/warehousev1/images/weixinshcang.png)
-
-## 添加作者微信
-
-![作者微信](src/main/java/org/bigdatatechcir/warehousev1/images/weixin.jpg)
-
-## 离线文档获取：知识星球《大数据技能圈》
-
-![知识星球](src/main/java/org/bigdatatechcir/warehousev1/images/zhishixingqiu.jpg)
