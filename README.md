@@ -16,7 +16,7 @@
 
 #### 第一步 组件安装
 
-![安装文档](src/main/java/org/bigdatatechcir/warehousev1/images/anzhuangbuzhou.png)
+![安装文档](src/main/java/org/bigdatatechcir/warehousev1/images/anzhuangbuzhou1.png)
 
 #### 第二步 模拟数据生成
 
