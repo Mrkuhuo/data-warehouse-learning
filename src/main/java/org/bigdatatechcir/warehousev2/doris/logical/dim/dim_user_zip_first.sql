@@ -15,4 +15,3 @@ select
     '2020-06-14' start_date,
     '9999-12-31' end_date
 from ods.ods_user_info_inc
-where k1=date('${pdate}')

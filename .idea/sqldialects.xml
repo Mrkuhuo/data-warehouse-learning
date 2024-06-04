@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/src/main/java/org/bigdatatechcir/warehousev2/logical/doris/ads/ads_user_stats.sql" dialect="MySQL" />
-  </component>
-</project>
