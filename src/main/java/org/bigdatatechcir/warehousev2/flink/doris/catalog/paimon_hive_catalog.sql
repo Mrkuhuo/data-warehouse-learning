@@ -1,9 +1,3 @@
-CREATE CATALOG `paimon_catalog` PROPERTIES (
-    "type" = "paimon",
-    "warehouse" = "hdfs://hive/warehouse",
-    "hadoop.username" = "root"
-);
-
 CREATE CATALOG `paimon_hive_catalog` PROPERTIES (
     "type" = "paimon",
     "paimon.catalog.type" = "hms",
