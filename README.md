@@ -166,6 +166,6 @@
 
 ![Paimon ADS层建设](src/main/java/org/bigdatatechcir/warehousev1/images/hiveads.png)
 
-#### 第六步  **Doris Catalog ** 连接 **Paimon** + ** DataRT ** 进行数据展示
+#### 第六步  **Doris Catalog** 连接 **Paimon** + **DataRT** 进行数据展示
 
 ![大屏](src/main/java/org/bigdatatechcir/warehousev1/images/daping2.png)
