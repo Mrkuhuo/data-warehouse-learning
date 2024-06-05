@@ -66,6 +66,12 @@
 │                      │  ├─doris
 │                      │  │  ├─catalog
 │                      │  │  └─ods
+│                      │  ├─hudi
+│                      │  │  ├─ads
+│                      │  │  ├─dim
+│                      │  │  ├─dwd
+│                      │  │  ├─dws
+│                      │  │  └─ods
 │                      │  ├─iceberg
 │                      │  │  ├─ads
 │                      │  │  ├─dim
