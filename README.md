@@ -118,13 +118,15 @@
 
 #### 第一步  数据采集
 
-**Kafka** 数据通过 **FlinkCDC** 接入 **Paimon** ,实际数据落到 **Hive**
+**Kafka** 数据通过 **FlinkSQL** 接入 **Paimon** ,实际数据落到 **Hive**
 
-![Kafka 数据接入](src/main/java/org/bigdatatechcir/warehousev1/images/paimon%20ods.png)
+**MySQL** 数据通过 **FlinkCDC** 接入 **Paimon** ,实际数据落到 **Hive**
 
-**MySQL** 数据通过 **SeaTunnel** 接入 **Doris**
+![Kafka/MySQL 数据接入](src/main/java/org/bigdatatechcir/warehousev1/images/paimon%20ods.png)
 
-![MySQL 数据接入](src/main/java/org/bigdatatechcir/warehousev1/images/seatunnel.png)
+数据采集进 **Paimon ODS** 层，实现效果如下图所示：
+
+![Paimon ODS层建设](src/main/java/org/bigdatatechcir/warehousev1/images/hiveods.png)
 
 #### 第二步  **Doris ODS** 层建设
 
