@@ -8,6 +8,82 @@
 
 《实时/离线数仓实战》代码，其中 **warehouseV1** 和 **warehouseV2** 的区别是V1业务逻辑较为简单，V2业务逻辑比较齐全，V1的模拟数据生产是通过 **Python** 脚本模拟生成，V2的模拟数据是通过 **JAVA** 代码来生成。
 
+#### 代码结构
+
+```shell
+├─src
+│  └─main
+│      └─java
+│          └─org
+│              └─bigdatatechcir
+│                  ├─warehousev1
+│                  │  ├─datageneration
+│                  │  │  └─python
+│                  │  │      └─__pycache__
+│                  │  ├─doris
+│                  │  │  ├─dml
+│                  │  │  │  ├─ads
+│                  │  │  │  ├─dwd
+│                  │  │  │  ├─dws
+│                  │  │  │  └─ods
+│                  │  │  └─logical
+│                  │  │      ├─ads
+│                  │  │      ├─dwd
+│                  │  │      └─dws
+│                  │  ├─flink
+│                  │  │  └─sql
+│                  │  │      ├─ads
+│                  │  │      │  └─test
+│                  │  │      ├─dwd
+│                  │  │      │  └─test
+│                  │  │      ├─dws
+│                  │  │      │  └─test
+│                  │  │      └─ods
+│                  │  │          └─test
+│                  │  ├─images
+│                  │  ├─mysql
+│                  │  │  ├─dml
+│                  │  │  └─logical
+│                  │  └─seatunnel
+│                  └─warehousev2
+│                      ├─datageneration
+│                      │  ├─business
+│                      │  └─userlog
+│                      ├─doris
+│                      │  ├─dml
+│                      │  │  ├─ads
+│                      │  │  ├─dim
+│                      │  │  │  └─data
+│                      │  │  ├─dwd
+│                      │  │  ├─dws
+│                      │  │  └─ods
+│                      │  └─logical
+│                      │      ├─ads
+│                      │      ├─dim
+│                      │      ├─dwd
+│                      │      └─dws
+│                      ├─flink
+│                      │  ├─doris
+│                      │  │  ├─catalog
+│                      │  │  └─ods
+│                      │  ├─iceberg
+│                      │  │  ├─ads
+│                      │  │  ├─dim
+│                      │  │  ├─dwd
+│                      │  │  ├─dws
+│                      │  │  └─ods
+│                      │  ├─paimon
+│                      │  │  ├─ads
+│                      │  │  ├─dim
+│                      │  │  ├─dwd
+│                      │  │  ├─dws
+│                      │  │  └─ods
+│                      │  └─udf
+│                      └─seatunnel
+│                          └─ods
+```
+
+
 #### 技术架构
 
 ![技术架构](src/main/java/org/bigdatatechcir/warehousev1/images/jiagou.png)
