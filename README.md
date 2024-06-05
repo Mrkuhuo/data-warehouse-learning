@@ -110,8 +110,6 @@
 
 ![大屏](src/main/java/org/bigdatatechcir/warehousev1/images/daping1.png)
 
-![大屏](src/main/java/org/bigdatatechcir/warehousev1/images/daping2.png)
-
 # 实时数仓（数据湖）建设
 
 #### 实时数仓建设，涉及组件：Kafka + Flink(CDC/SQL/UDF) + Paimon + Hive + Dinky
@@ -167,3 +165,7 @@
 **ADS** 层数据实现效果如下图：
 
 ![Paimon ADS层建设](src/main/java/org/bigdatatechcir/warehousev1/images/hiveads.png)
+
+#### 第六步  **Doris Catalog ** 连接 **Paimon** + ** DataRT ** 进行数据展示
+
+![大屏](src/main/java/org/bigdatatechcir/warehousev1/images/daping2.png)
