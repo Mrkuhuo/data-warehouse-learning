@@ -114,13 +114,13 @@
 
 # 实时数仓（数据湖）建设
 
-#### 实时数仓建设，涉及组件：Kafka + Flink + Paimon + Hive
+#### 实时数仓建设，涉及组件：Kafka + Flink(CDC/SQL/UDF) + Paimon + Hive
 
 #### 第一步  数据采集
 
-**Kafka** 数据通过 **Flink** 接入 **Doris**
+**Kafka** 数据通过 **FlinkCDC** 接入 **Paimon** ,实际数据落到 **Hive**
 
-![Kafka 数据接入](src/main/java/org/bigdatatechcir/warehousev1/images/flink.png)
+![Kafka 数据接入](src/main/java/org/bigdatatechcir/warehousev1/images/paimon%20ods.png)
 
 **MySQL** 数据通过 **SeaTunnel** 接入 **Doris**
 
