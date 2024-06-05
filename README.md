@@ -114,7 +114,7 @@
 
 # 实时数仓（数据湖）建设
 
-#### 实时数仓建设，涉及组件：Kafka + Flink(CDC/SQL/UDF) + Paimon + Hive
+#### 实时数仓建设，涉及组件：Kafka + Flink(CDC/SQL/UDF) + Paimon + Hive + Dinky
 
 #### 第一步  **Paimon ODS** 层建设
 
