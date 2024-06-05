@@ -116,7 +116,7 @@
 
 #### 实时数仓建设，涉及组件：Kafka + Flink(CDC/SQL/UDF) + Paimon + Hive
 
-#### 第一步  数据采集
+#### 第一步  **Paimon ODS** 层建设
 
 **Kafka** 数据通过 **FlinkSQL** 接入 **Paimon** ,实际数据落到 **Hive**
 
@@ -128,64 +128,42 @@
 
 ![Paimon ODS层建设](src/main/java/org/bigdatatechcir/warehousev1/images/hiveods.png)
 
-#### 第二步  **Doris ODS** 层建设
+#### 第二步  **Paimon DWD** 层建设
 
-数据采集进 **Doris ODS** 层，实现效果如下图所示：
+开发 **FlinkSQL** 进行 **DWD** 层数据处理
 
-![Doris ODS层建设](src/main/java/org/bigdatatechcir/warehousev1/images/ods.png)
-
-#### 第三步  **Doris DIM** 层建设
-
-开发 **DorisSQL** 进行 **DIM** 层数据处理
-
-![Doris DIM层处理逻辑](src/main/java/org/bigdatatechcir/warehousev1/images/dim.png)
-
-**DIM** 层数据实现效果如下图：
-
-![Doris DIM层数据库](src/main/java/org/bigdatatechcir/warehousev1/images/dwddatabase.png)
-
-#### 第四步  **Doris DWD** 层建设
-
-开发 **DorisSQL** 进行 **DWD** 层数据处理
-
-![Doris DWD层处理逻辑](src/main/java/org/bigdatatechcir/warehousev1/images/dwd.png)
+![Paimon DWD层建设](src/main/java/org/bigdatatechcir/warehousev1/images/paimondwd.png)
 
 **DWD** 层数据实现效果如下图：
 
-![Doris DWD层数据库](src/main/java/org/bigdatatechcir/warehousev1/images/dimdatabase.png)
+![Paimon DWD层建设](src/main/java/org/bigdatatechcir/warehousev1/images/hivedwd.png)
 
-#### 第五步  **Doris DWS** 层建设
+#### 第三步  **Paimon DIM** 层建设
 
-开发 **DorisSQL** 进行 **DWS** 层数据处理
+开发 **FlinkSQL** 进行 **DIM** 层数据处理
 
-![Doris DWS层处理逻辑](src/main/java/org/bigdatatechcir/warehousev1/images/dws.png)
+![Paimon DIM层建设](src/main/java/org/bigdatatechcir/warehousev1/images/paimondim.png)
+
+**DIM** 层数据实现效果如下图：
+
+![Paimon DIM层建设](src/main/java/org/bigdatatechcir/warehousev1/images/hivedim.png)
+
+#### 第四步  **Paimon DWS** 层建设
+
+开发 **FlinkSQL** 进行 **DWS** 层数据处理
+
+![Paimon DWS层建设](src/main/java/org/bigdatatechcir/warehousev1/images/paimondws.png)
 
 **DWS** 层数据实现效果如下图：
 
-![Doris DWS层数据库](src/main/java/org/bigdatatechcir/warehousev1/images/dwsdatabase.png)
+![Paimon DWS层建设](src/main/java/org/bigdatatechcir/warehousev1/images/hivedws.png)
 
-#### 第六步  **Doris ADS** 层建设
+#### 第五步  **Paimon ADS** 层建设
 
-开发 **DorisSQL** 进行 **ADS** 层数据处理
+开发 **FlinkSQL** 进行 **ADS** 层数据处理
 
-![Doris ADS层处理逻辑](src/main/java/org/bigdatatechcir/warehousev1/images/ads.png)
+![Paimon ADS层建设](src/main/java/org/bigdatatechcir/warehousev1/images/paimonads.png)
 
 **ADS** 层数据实现效果如下图：
 
-![Doris ADS层数据库](src/main/java/org/bigdatatechcir/warehousev1/images/adsdatabase.png)
-
-#### 第七步  任务编排
-
-最终的任务概览如下图所示
-
-![Doris 任务概览](src/main/java/org/bigdatatechcir/warehousev1/images/allrenwu.png)
-
-任务编排效果如下图所示
-
-![Doris 任务概览](src/main/java/org/bigdatatechcir/warehousev1/images/bianpai.png)
-
-#### 第八步  数据展示
-
-![大屏](src/main/java/org/bigdatatechcir/warehousev1/images/daping1.png)
-
-![大屏](src/main/java/org/bigdatatechcir/warehousev1/images/daping2.png)
+![Paimon ADS层建设](src/main/java/org/bigdatatechcir/warehousev1/images/hiveads.png)
