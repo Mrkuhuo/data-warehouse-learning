@@ -110,7 +110,7 @@
 
 ![大屏](src/main/java/org/bigdatatechcir/warehousev1/images/daping1.png)
 
-# 实时数仓（数据湖）建设
+# 实时数仓（数据湖）建设部分
 
 #### 实时数仓建设，涉及组件：Kafka + Flink(CDC/SQL/UDF) + Paimon + Hive + Dinky
 
