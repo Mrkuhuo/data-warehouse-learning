@@ -1,14 +1,14 @@
-# 开源不易，请各位朋友点个 ***★star★*** 支持一下，非常感谢~
+## 开源不易，请各位朋友点个 ***★star★*** 支持一下，非常感谢~
 
 [【 Github地址：https://github.com/Mrkuhuo/data-warehouse-learning 】](https://github.com/Mrkuhuo/data-warehouse-learning)
 
 [【 Gitee 地址：https://gitee.com/wzylzjtn/data-warehouse-learning 】](https://gitee.com/wzylzjtn/data-warehouse-learning)
 
-#### 介绍
+## 介绍
 
 《实时/离线数仓实战》代码，其中 **warehouseV1** 和 **warehouseV2** 的区别是V1业务逻辑较为简单，V2业务逻辑比较齐全，V1的模拟数据生产是通过 **Python** 脚本模拟生成，V2的模拟数据是通过 **JAVA** 代码来生成。
 
-#### 代码结构
+## 代码结构
 
 ```shell
 ├─src
@@ -75,15 +75,14 @@
 │                          └─ods
 ```
 
-
-#### 技术架构
+## 技术架构
 
 ![技术架构](src/main/java/org/bigdatatechcir/images/jiagou1.png)
 
 该电商数仓（实时/离线）项目技术架构分为四部分：
 1. 数据源模块：采用 **JAVA** 代码来生成电商业务数据写入 **MySQL** ，生成用户日志数据写入 **Kafka** ，两者都可以在配置文件中配置需要生成数据的日期
-2. 数据采集模块：使用 **Dinky** 开发 **FlinkSQL** 代码来消费 **Kafka** 数据并写入 **Doris** \ **Paimon** ODS 层，使用 **DolphinScheduler** 配置 **SeaTunnel** 任务同步 **MySQL** 业务数据到 **Doris** \ **Paimon** ODS 层
-3. 数仓模块：数仓模块采用业界通用的 **ODS** -> **DWD/DIM** -> **DWS** -> **ADS** 四级分层，数据在 **Doris** \ **Paimon** 中分别通过批量调度和实时处理的方式进行流转
+2. 数据采集模块：使用 **Dinky** 开发 **FlinkSQL** 代码来消费 **Kafka** 用户日志数据并写入 **Doris** \ **Paimon** \ **Hudi** \ **Iceberg** ODS 层，使用 **DolphinScheduler** 配置 **SeaTunnel** 任务同步 **MySQL** 业务数据到 **Doris** ODS 层, 使用 **FlinkSQL/CDC** 方式分别采集 **Kafka** 和 **MySQL** 中的数据到 **Paimon** \ **Hudi** \ **Iceberg** ODS 层
+3. 数仓模块：数仓模块采用业界通用的 **ODS** -> **DWD/DIM** -> **DWS** -> **ADS** 四级分层，数据在 **Doris** \ **Paimon** \ **Hudi** \ **Iceberg** 中分别通过批量调度和实时处理的方式进行流转
 4. 数据可视化：**ADS** 层和 **DWS** 层的数据可以通过 **SuperSet** 和 **DataRT** 来进行报表和大屏制作及展示 
 
 # 通用部分
