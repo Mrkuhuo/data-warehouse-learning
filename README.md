@@ -103,9 +103,9 @@
 
 ![用户日志数据](src/main/java/org/bigdatatechcir/images/yonghurizhishuju.png)
 
-# 离线数仓建设部分
+# 离线数仓建设部分(Doris)
 
-#### 涉及组件：Kafka + Flink + Doris + Seatunnel + Dolphinscheduler
+涉及组件：**Kafka** + **Flink** + **Doris** + **Seatunnel** + **Dolphinscheduler**
 
 #### 第一步  数据采集
 
@@ -177,15 +177,15 @@
 
 ![大屏](src/main/java/org/bigdatatechcir/images/daping1.png)
 
-# 实时数仓（数据湖）建设部分
+# 实时数仓（数据湖）建设部分（Paimon/Hudi/Iceberg）
 
-#### 实时数仓建设，涉及组件：Kafka + Flink(CDC/SQL/UDF) + Paimon + Hive + Dinky
+涉及组件：**Kafka** + **Flink(CDC/SQL/UDF)** + **Paimon** + **Hive** + **Dinky**
 
 #### 第一步  **Paimon ODS** 层建设
 
-**Kafka** 数据通过 **FlinkSQL** 接入 **Paimon** ,实际数据落到 **Hive**
+**Kafka** 数据通过 **FlinkSQL** 接入 **Paimon/Hudi/Iceberg** ,实际数据落到 **Hive**
 
-**MySQL** 数据通过 **FlinkCDC** 接入 **Paimon** ,实际数据落到 **Hive**
+**MySQL** 数据通过 **FlinkCDC** 接入 **Paimon/Hudi/Iceberg** ,实际数据落到 **Hive**
 
 ![Kafka/MySQL 数据接入](src/main/java/org/bigdatatechcir/images/paimon%20ods.png)
 
