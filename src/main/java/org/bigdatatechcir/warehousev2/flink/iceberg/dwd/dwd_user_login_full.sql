@@ -9,8 +9,8 @@ SET 'table.exec.sink.upsert-materialize' = 'NONE';
 SET 'sql-client.execution.result-mode' = 'tableau';
 SET 'execution.runtime-mode' = 'batch';
 
-CREATE CATALOG paimon_hive WITH (
-    'type' = 'paimon',
+CREATE CATALOG iceberg_catalog WITH (
+    'type' = 'iceberg',
     'metastore' = 'hive',
     'uri' = 'thrift://192.168.244.129:9083',
     'hive-conf-dir' = '/opt/software/apache-hive-3.1.3-bin/conf',
@@ -18,11 +18,11 @@ CREATE CATALOG paimon_hive WITH (
     'warehouse' = 'hdfs:////user/hive/warehouse'
 );
 
-use CATALOG paimon_hive;
+use CATALOG iceberg_catalog;
 
-create  DATABASE IF NOT EXISTS dwd;
+create  DATABASE IF NOT EXISTS iceberg_dwd;
 
-CREATE TABLE IF NOT EXISTS dwd.dwd_user_login_full(
+CREATE TABLE IF NOT EXISTS iceberg_dwd.dwd_user_login_full (
     `k1`             STRING COMMENT '分区字段',
     `user_id`        STRING COMMENT '用户ID',
     `date_id`        STRING COMMENT '日期ID',
@@ -36,22 +36,16 @@ CREATE TABLE IF NOT EXISTS dwd.dwd_user_login_full(
     `operate_system` STRING COMMENT '设备操作系统',
     PRIMARY KEY (`k1`,`user_id`,`date_id` ) NOT ENFORCED
     )   PARTITIONED BY (`k1` ) WITH (
-    'connector' = 'paimon',
-    'metastore.partitioned-table' = 'true',
-    'file.format' = 'parquet',
-    'write-buffer-size' = '512mb',
-    'write-buffer-spillable' = 'true' ,
-    'partition.expiration-time' = '1 d',
-    'partition.expiration-check-interval' = '1 h',
-    'partition.timestamp-formatter' = 'yyyy-MM-dd',
-    'partition.timestamp-pattern' = '$k1'
+    'catalog-name'='hive_prod',
+    'uri'='thrift://192.168.244.129:9083',
+    'warehouse'='hdfs://192.168.244.129:9000/user/hive/warehouse/'
     );
 
-ALTER TABLE dwd.dwd_user_login_full SET (
+ALTER TABLE iceberg_dwd.dwd_user_login_full SET (
     'sink.parallelism' = '10'
     );
 
-INSERT INTO dwd.dwd_user_login_full(
+INSERT INTO iceberg_dwd.dwd_user_login_full /*+ OPTIONS('upsert-enabled'='true') */(
     k1,
     user_id,
     date_id,
@@ -131,7 +125,7 @@ from
                                     common_os operate_system,
                                     ts,
                                     ts session_start_point
-                                from ods.ods_log_inc
+                                from iceberg_ods.ods_log_inc
                                 where  page_last_page_id is not null
                             )t1
                     )t2
@@ -144,6 +138,6 @@ from
         select
             id province_id,
             area_code
-        from ods.ods_base_province_full
+        from iceberg_ods.ods_base_province_full
     )bp
     on t4.area_code=bp.area_code;
