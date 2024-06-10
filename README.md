@@ -91,7 +91,7 @@
 
 ## 3 技术架构
 
-![技术架构](src/main/java/org/bigdatatechcir/images/jiagou1.png)
+![技术架构](src/main/java/org/bigdatatechcir/images/jiagou.png)
 
 该电商数仓（实时/离线）项目技术架构分为四部分：
 1. 数据源模块：采用 **JAVA** 代码来生成电商业务数据写入 **MySQL** ，生成用户日志数据写入 **Kafka** ，两者都可以在配置文件中配置需要生成数据的日期
