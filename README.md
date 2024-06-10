@@ -103,7 +103,7 @@
 
 #### 1) 组件安装
 
-![安装文档](src/main/java/org/bigdatatechcir/images/jiagou.png)
+![安装文档](src/main/java/org/bigdatatechcir/images/anzhuang.jpg)
 
 #### 2) 模拟数据生成
 
