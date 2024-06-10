@@ -16,12 +16,13 @@
 │      └─java
 │          └─org
 │              └─bigdatatechcir
+│                  ├─images
 │                  ├─warehousev1
 │                  │  ├─datageneration
 │                  │  ├─doris
 │                  │  │  ├─dml
 │                  │  │  │  ├─ads
-│                  │  │  │  ├─dwd
+│                  │  │  │  ├─dwdarehouse-learning>
 │                  │  │  │  ├─dws
 │                  │  │  │  └─ods
 │                  │  │  └─logical
@@ -42,7 +43,6 @@
 │                  │  │      ├─dwd
 │                  │  │      ├─dws
 │                  │  │      └─ods
-│                  │  ├─images
 │                  │  ├─mysql
 │                  │  └─seatunnel
 │                  └─warehousev2
@@ -70,6 +70,20 @@
 │                      │  │  ├─ads
 │                      │  │  ├─dim
 │                      │  │  ├─dwd
+│                      │  │  ├─dws
+│                      │  │  └─ods
+│                      │  ├─iceberg
+│                      │  │  ├─ads
+│                      │  │  ├─dim
+│                      │  │  ├─dwd
+│                      │  │  ├─dws
+│                      │  │  └─ods
+│                      │  ├─paimon
+│                      │  │  ├─ads
+│                      │  │  ├─dim
+│                      │  │  ├─dwd
+│                      │  │  ├─dws
+│                      │  │  └─ods
 │                      │  └─udf
 │                      └─seatunnel
 │                          └─ods
