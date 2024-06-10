@@ -4,11 +4,11 @@
 
 [【 Gitee 地址：https://gitee.com/wzylzjtn/data-warehouse-learning 】](https://gitee.com/wzylzjtn/data-warehouse-learning)
 
-## 介绍
+## 1 介绍
 
 《实时/离线数仓实战》代码，其中 **warehouseV1** 和 **warehouseV2** 的区别是V1业务逻辑较为简单，V2业务逻辑比较齐全，V1的模拟数据生产是通过 **Python** 脚本模拟生成，V2的模拟数据是通过 **JAVA** 代码来生成。
 
-## 代码结构
+## 2 代码结构
 
 ```shell
 ├─src
@@ -89,7 +89,7 @@
 │                          └─ods
 ```
 
-## 技术架构
+## 3 技术架构
 
 ![技术架构](src/main/java/org/bigdatatechcir/images/jiagou1.png)
 
@@ -101,11 +101,11 @@
 
 # 通用部分
 
-#### 第一步 组件安装
+#### 1) 组件安装
 
 ![安装文档](src/main/java/org/bigdatatechcir/images/anzhuangbuzhou1.png)
 
-#### 第二步 模拟数据生成
+#### 2) 模拟数据生成
 
 ![模拟数据生成](src/main/java/org/bigdatatechcir/images/monishuju.png)
 
@@ -121,7 +121,7 @@
 
 涉及组件：**Kafka** + **Flink** + **Doris** + **Seatunnel** + **Dolphinscheduler**
 
-#### 第一步  数据采集
+#### 1) 数据采集
 
 **Kafka** 数据通过 **Flink** 接入 **Doris**
 
@@ -131,13 +131,13 @@
 
 ![MySQL 数据接入](src/main/java/org/bigdatatechcir/images/seatunnel.png)
 
-#### 第二步  **Doris ODS** 层建设
+#### 2) **Doris ODS** 层建设
 
 数据采集进 **Doris ODS** 层，实现效果如下图所示：
 
 ![Doris ODS层建设](src/main/java/org/bigdatatechcir/images/ods.png)
 
-#### 第三步  **Doris DIM** 层建设
+#### 3) **Doris DIM** 层建设
 
 开发 **DorisSQL** 进行 **DIM** 层数据处理
 
@@ -147,7 +147,7 @@
 
 ![Doris DIM层数据库](src/main/java/org/bigdatatechcir/images/dwddatabase.png)
 
-#### 第四步  **Doris DWD** 层建设
+#### 4) **Doris DWD** 层建设
 
 开发 **DorisSQL** 进行 **DWD** 层数据处理
 
@@ -157,7 +157,7 @@
 
 ![Doris DWD层数据库](src/main/java/org/bigdatatechcir/images/dimdatabase.png)
 
-#### 第五步  **Doris DWS** 层建设
+#### 5) **Doris DWS** 层建设
 
 开发 **DorisSQL** 进行 **DWS** 层数据处理
 
@@ -167,7 +167,7 @@
 
 ![Doris DWS层数据库](src/main/java/org/bigdatatechcir/images/dwsdatabase.png)
 
-#### 第六步  **Doris ADS** 层建设
+#### 6) **Doris ADS** 层建设
 
 开发 **DorisSQL** 进行 **ADS** 层数据处理
 
@@ -177,7 +177,7 @@
 
 ![Doris ADS层数据库](src/main/java/org/bigdatatechcir/images/adsdatabase.png)
 
-#### 第七步  任务编排
+#### 7) 任务编排
 
 最终的任务概览如下图所示
 
@@ -187,7 +187,7 @@
 
 ![Doris 任务概览](src/main/java/org/bigdatatechcir/images/bianpai.png)
 
-#### 第八步  数据展示
+#### 8) 数据展示
 
 ![大屏](src/main/java/org/bigdatatechcir/images/daping1.png)
 
@@ -195,7 +195,7 @@
 
 涉及组件：**Kafka** + **Flink(CDC/SQL/UDF)** + **Paimon/Hudi/Iceberg** + **Hive** + **Dinky**
 
-#### 第一步  **Paimon ODS** 层建设
+#### 1) **Paimon ODS** 层建设
 
 **Kafka** 数据通过 **FlinkSQL** 接入 **Paimon/Hudi/Iceberg** ,实际数据落到 **Hive**
 
@@ -207,7 +207,7 @@
 
 ![Paimon ODS层建设](src/main/java/org/bigdatatechcir/images/hiveods.png)
 
-#### 第二步  **Paimon DWD** 层建设
+#### 2) **Paimon DWD** 层建设
 
 开发 **FlinkSQL** 进行 **DWD** 层数据处理
 
@@ -217,7 +217,7 @@
 
 ![Paimon DWD层建设](src/main/java/org/bigdatatechcir/images/hivedwd.png)
 
-#### 第三步  **Paimon DIM** 层建设
+#### 3) **Paimon DIM** 层建设
 
 开发 **FlinkSQL** 进行 **DIM** 层数据处理
 
@@ -227,7 +227,7 @@
 
 ![Paimon DIM层建设](src/main/java/org/bigdatatechcir/images/hivedim.png)
 
-#### 第四步  **Paimon DWS** 层建设
+#### 4) **Paimon DWS** 层建设
 
 开发 **FlinkSQL** 进行 **DWS** 层数据处理
 
@@ -237,7 +237,7 @@
 
 ![Paimon DWS层建设](src/main/java/org/bigdatatechcir/images/hivedws.png)
 
-#### 第五步  **Paimon ADS** 层建设
+#### 5) **Paimon ADS** 层建设
 
 开发 **FlinkSQL** 进行 **ADS** 层数据处理
 
@@ -247,6 +247,6 @@
 
 ![Paimon ADS层建设](src/main/java/org/bigdatatechcir/images/hiveads.png)
 
-#### 第六步  **Doris Catalog** 连接 **Paimon** + **DataRT** 进行数据展示
+#### 6) **Doris Catalog** 连接 **Paimon** + **DataRT** 进行数据展示
 
 ![大屏](src/main/java/org/bigdatatechcir/images/daping2.png)
