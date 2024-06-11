@@ -22,7 +22,7 @@
 │                  │  ├─doris
 │                  │  │  ├─dml
 │                  │  │  │  ├─ads
-│                  │  │  │  ├─dwdarehouse-learning>
+│                  │  │  │  ├─dwdarehouse-learning
 │                  │  │  │  ├─dws
 │                  │  │  │  └─ods
 │                  │  │  └─logical
