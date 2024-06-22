@@ -1,3 +1,4 @@
+-- 交易域活动粒度订单最近n日汇总表
 INSERT INTO dws.dws_trade_activity_order_nd(activity_id, k1, activity_name, activity_type_code, activity_type_name, start_date, original_amount_30d, activity_reduce_amount_30d)
 select
     act.activity_id,

@@ -1,3 +1,4 @@
+-- 用户域用户粒度登录历史至今汇总表
 INSERT INTO dws.dws_user_user_login_td(user_id, k1, login_date_last, login_count_td)
 select
     nvl(old.user_id,new.user_id),

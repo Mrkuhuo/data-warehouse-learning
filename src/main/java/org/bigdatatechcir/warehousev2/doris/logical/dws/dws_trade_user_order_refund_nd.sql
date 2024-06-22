@@ -1,3 +1,4 @@
+-- 交易域用户粒度退单最近n日汇总表
 INSERT INTO dws.dws_trade_user_order_refund_nd(user_id, k1, order_refund_count_7d, order_refund_num_7d, order_refund_amount_7d, order_refund_count_30d, order_refund_num_30d, order_refund_amount_30d)
 select
     user_id,

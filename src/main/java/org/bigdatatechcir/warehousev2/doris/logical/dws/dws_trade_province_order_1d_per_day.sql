@@ -1,3 +1,4 @@
+-- 交易域省份粒度订单最近1日汇总表
 INSERT INTO dws.dws_trade_province_order_1d(province_id, k1, province_name, area_code, iso_code, iso_3166_2, order_count_1d, order_original_amount_1d, activity_reduce_amount_1d, coupon_reduce_amount_1d, order_total_amount_1d)
 select
     province_id,

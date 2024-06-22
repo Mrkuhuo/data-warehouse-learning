@@ -1,3 +1,4 @@
+-- 交易域优惠券粒度订单最近n日汇总表
 INSERT INTO dws.dws_trade_coupon_order_nd(coupon_id, k1, coupon_name, coupon_type_code, coupon_type_name, coupon_rule, start_date, original_amount_30d, coupon_reduce_amount_30d)
 select
     id,

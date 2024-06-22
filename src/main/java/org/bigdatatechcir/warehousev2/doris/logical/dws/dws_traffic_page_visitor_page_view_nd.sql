@@ -1,3 +1,4 @@
+-- 流量域访客页面粒度页面浏览最近n日汇总表
 INSERT INTO dws.dws_traffic_page_visitor_page_view_nd(mid_id, k1, brand, model, operate_system, page_id, during_time_7d, view_count_7d, during_time_30d, view_count_30d)
 select
     mid_id,

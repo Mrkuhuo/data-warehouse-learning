@@ -1,3 +1,4 @@
+-- 交易域用户粒度订单历史至今汇总表
 INSERT INTO dws.dws_trade_user_order_td(user_id, k1, order_date_first, order_date_last, order_count_td, order_num_td, original_amount_td, activity_reduce_amount_td, coupon_reduce_amount_td, total_amount_td)
 select
     nvl(old.user_id,new.user_id),
