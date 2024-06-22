@@ -1,3 +1,4 @@
+-- 商品维度表
 insert into dim.dim_sku_full(id, k1, price, sku_name, sku_desc, weight, is_sale, spu_id, spu_name, category3_id, category3_name, category2_id, category2_name, category1_id, category1_name, tm_id, tm_name, attr_ids, sale_attr_ids, create_time)
 with
     sku as

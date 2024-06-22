@@ -1,3 +1,4 @@
+-- 优惠券维度表
 insert into dim.dim_coupon_full(id, k1, coupon_name, coupon_type_code, coupon_type_name, condition_amount, condition_num, activity_id, benefit_amount, benefit_discount, benefit_rule, create_time, range_type_code, range_type_name, limit_num, taken_count, start_time, end_time, operate_time, expire_time)
 select
     id,

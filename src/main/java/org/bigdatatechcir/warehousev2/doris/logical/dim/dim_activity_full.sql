@@ -1,3 +1,4 @@
+-- 活动维度表
 insert into dim.dim_activity_full(activity_rule_id, activity_id, k1, activity_name, activity_type_code, activity_type_name, activity_desc, start_time, end_time, create_time, condition_amount, condition_num, benefit_amount, benefit_discount, benefit_rule, benefit_level)
 select
     rule.id,

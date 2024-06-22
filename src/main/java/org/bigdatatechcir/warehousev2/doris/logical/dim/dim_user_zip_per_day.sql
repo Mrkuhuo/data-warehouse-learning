@@ -1,3 +1,4 @@
+-- 用户维度表
 insert into dim.dim_user_zip(id, k1, login_name, nick_name, name, phone_num, email, user_level, birthday, gender, create_time, operate_time, start_date, end_date)
 with
     tmp as

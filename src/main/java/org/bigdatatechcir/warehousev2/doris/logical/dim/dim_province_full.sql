@@ -1,3 +1,4 @@
+-- 地区维度表
 insert into dim.dim_province_full(id, province_name, area_code, iso_code, iso_3166_2, region_id, region_name)
 select
     province.id,
