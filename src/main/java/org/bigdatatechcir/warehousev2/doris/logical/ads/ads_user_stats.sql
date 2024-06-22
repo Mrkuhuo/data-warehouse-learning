@@ -1,3 +1,4 @@
+-- 用户新增活跃统计
 INSERT INTO ads.ads_user_stats(dt, recent_days, new_user_count, active_user_count)
 select * from ads.ads_user_stats
 union

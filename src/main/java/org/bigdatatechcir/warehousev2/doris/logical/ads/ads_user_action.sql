@@ -1,3 +1,4 @@
+-- 用户行为漏斗分析
 INSERT INTO ads.ads_user_action(dt, recent_days, home_count, good_detail_count, cart_count, order_count, payment_count)
 select * from ads.ads_user_action
 union

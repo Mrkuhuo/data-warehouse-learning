@@ -1,3 +1,4 @@
+-- 各渠道流量统计各渠道流量统计
 INSERT INTO ads.ads_traffic_stats_by_channel(dt, recent_days, channel, uv_count, avg_duration_sec, avg_page_count, sv_count, bounce_rate)
 select * from ads.ads_traffic_stats_by_channel
 union

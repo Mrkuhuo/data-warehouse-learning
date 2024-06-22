@@ -1,3 +1,4 @@
+--  各分类商品购物车存量Top10
 INSERT INTO ads.ads_sku_cart_num_top10_by_cate(dt, category1_id, category1_name, category2_id, category2_name, category3_id, category3_name, sku_id, sku_name, cart_num, rk)
 select * from ads.ads_sku_cart_num_top10_by_cate
 union

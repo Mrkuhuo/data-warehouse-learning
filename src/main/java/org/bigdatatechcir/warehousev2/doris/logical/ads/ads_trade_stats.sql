@@ -1,3 +1,4 @@
+-- 交易综合统计
 INSERT INTO ads.ads_trade_stats(dt, recent_days, order_total_amount, order_count, order_user_count, order_refund_count, order_refund_user_count)
 select * from ads.ads_trade_stats
 union

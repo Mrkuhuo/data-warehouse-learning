@@ -1,3 +1,4 @@
+-- 最近30天发布的活动的补贴率
 INSERT INTO ads.ads_activity_stats(dt, activity_id, activity_name, start_date, reduce_rate)
 select * from ads.ads_activity_stats
 union

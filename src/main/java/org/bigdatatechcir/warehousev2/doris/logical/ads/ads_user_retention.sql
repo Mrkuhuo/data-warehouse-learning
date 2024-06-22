@@ -1,3 +1,4 @@
+-- 用户留存率
 INSERT INTO ads.ads_user_retention(dt, create_date, retention_day, retention_count, new_user_count, retention_rate)
 select * from ads.ads_user_retention
 union

@@ -1,3 +1,4 @@
+-- 最近30天发布的优惠券的补贴率
 INSERT INTO ads.ads_coupon_stats(dt, coupon_id, coupon_name, start_date, rule_name, reduce_rate)
 select * from ads.ads_coupon_stats
 union

@@ -1,3 +1,4 @@
+-- 最近7/30日各品牌复购率
 INSERT INTO ads.ads_repeat_purchase_by_tm(dt, recent_days, tm_id, tm_name, order_repeat_rate)
 select * from ads.ads_repeat_purchase_by_tm
 union

@@ -1,3 +1,4 @@
+-- 各省份交易统计
 INSERT INTO ads.ads_order_by_province(dt, recent_days, province_id, province_name, area_code, iso_code, iso_code_3166_2, order_count, order_total_amount)
 select * from ads.ads_order_by_province
 union

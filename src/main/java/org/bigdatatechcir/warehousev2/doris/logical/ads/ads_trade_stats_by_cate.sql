@@ -1,3 +1,4 @@
+-- 各品类商品交易统计
 INSERT INTO  ads.ads_trade_stats_by_cate(dt, recent_days, category1_id, category1_name, category2_id, category2_name, category3_id, category3_name, order_count, order_user_count, order_refund_count, order_refund_user_count)
 select * from ads.ads_trade_stats_by_cate
 union

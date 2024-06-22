@@ -1,3 +1,4 @@
+-- 路径分析
 INSERT INTO ads.ads_page_path(dt, recent_days, source, target, path_count)
 select * from ads.ads_page_path
 union

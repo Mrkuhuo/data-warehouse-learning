@@ -1,3 +1,4 @@
+-- 新增交易用户统计
 INSERT INTO ads.ads_new_buyer_stats(dt, recent_days, new_order_user_count, new_payment_user_count)
 select * from ads.ads_new_buyer_stats
 union

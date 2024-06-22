@@ -1,3 +1,4 @@
+-- 用户变动统计
 INSERT INTO ads.ads_user_change(dt, user_churn_count, user_back_count)
 select * from ads.ads_user_change
 union
