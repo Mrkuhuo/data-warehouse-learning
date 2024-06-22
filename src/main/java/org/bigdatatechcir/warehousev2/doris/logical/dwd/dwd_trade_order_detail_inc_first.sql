@@ -1,3 +1,4 @@
+-- 交易域下单事务事实表
 INSERT INTO dwd.dwd_trade_order_detail_inc(id, k1, order_id, user_id, sku_id, province_id, activity_id, activity_rule_id, coupon_id, date_id, create_time, source_id, source_type_code, source_type_name, sku_num, split_original_amount, split_activity_amount, split_coupon_amount, split_total_amount)
 select
     od.id,

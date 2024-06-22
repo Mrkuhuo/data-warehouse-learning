@@ -1,3 +1,4 @@
+-- 交易域购物车周期快照事实表
 INSERT INTO dwd.dwd_trade_cart_full(id, k1, user_id, sku_id, sku_name, sku_num)
 select
     id,

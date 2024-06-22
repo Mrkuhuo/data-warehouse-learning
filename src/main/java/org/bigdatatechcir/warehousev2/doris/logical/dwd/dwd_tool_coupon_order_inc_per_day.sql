@@ -1,3 +1,4 @@
+-- 工具域优惠券使用(下单)事务事实表
 INSERT INTO  dwd.dwd_tool_coupon_order_inc(id, k1, coupon_id, user_id, order_id, date_id, order_time)
 select
     id,

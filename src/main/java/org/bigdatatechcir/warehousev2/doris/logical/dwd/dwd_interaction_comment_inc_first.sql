@@ -1,3 +1,4 @@
+-- 互动域评价事务事实表
 INSERT INTO dwd.dwd_interaction_comment_inc(id, k1, user_id, sku_id, order_id, date_id, create_time, appraise_code, appraise_name)
 select
     id,

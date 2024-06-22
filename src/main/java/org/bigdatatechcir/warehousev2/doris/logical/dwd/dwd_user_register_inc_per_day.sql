@@ -1,3 +1,4 @@
+-- 用户域用户注册事务事实表
 INSERT INTO dwd.dwd_user_register_inc(k1, user_id, date_id, create_time, channel, province_id, version_code, mid_id, brand, model, operate_system)
 select
     k1,

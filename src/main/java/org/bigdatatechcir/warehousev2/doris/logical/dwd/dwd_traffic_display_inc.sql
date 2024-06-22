@@ -1,3 +1,4 @@
+-- 流量域曝光事务事实表
 INSERT INTO dwd.dwd_traffic_display_inc(id, k1, province_id, brand, channel, is_new, model, mid_id, operate_system, user_id, version_code, during_time, page_item, page_item_type, last_page_id, page_id, source_type, date_id, display_time, display_type, display_item, display_item_type, display_order, display_pos_id)
 select
     id,

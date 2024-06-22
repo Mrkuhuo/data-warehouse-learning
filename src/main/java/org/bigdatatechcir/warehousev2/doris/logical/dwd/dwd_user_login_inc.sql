@@ -1,3 +1,4 @@
+-- 用户域用户登录事务事实表
 INSERT INTO dwd.dwd_user_login_inc(k1, user_id, date_id, login_time, channel, province_id, version_code, mid_id, brand, model, operate_system)
 select
     k1,

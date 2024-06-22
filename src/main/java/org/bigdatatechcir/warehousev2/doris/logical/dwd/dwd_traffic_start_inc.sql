@@ -1,3 +1,4 @@
+-- 流量域启动事务事实表
 INSERT INTO dwd.dwd_traffic_start_inc(id, k1, province_id, brand, channel, is_new, model, mid_id, operate_system, user_id, version_code, entry, open_ad_id, date_id, start_time, loading_time_ms, open_ad_ms, open_ad_skip_ms)
 select
     id,

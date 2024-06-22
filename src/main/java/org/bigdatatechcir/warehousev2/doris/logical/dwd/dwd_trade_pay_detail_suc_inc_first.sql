@@ -1,3 +1,4 @@
+-- 交易域支付成功事务事实表
 INSERT INTO dwd.dwd_trade_pay_detail_suc_inc(id, k1, order_id, user_id, sku_id, province_id, activity_id, activity_rule_id, coupon_id, payment_type_code, payment_type_name, date_id, callback_time, source_id, source_type_code, source_type_name, sku_num, split_original_amount, split_activity_amount, split_coupon_amount,split_payment_amount)
 select
     od.id,

@@ -1,3 +1,4 @@
+-- 流量域动作事务事实表
 INSERT INTO dwd.dwd_traffic_action_inc(id, k1, province_id, brand, channel, is_new, model, mid_id, operate_system, user_id, version_code, during_time, page_item, page_item_type, last_page_id, page_id, source_type, action_id, action_item, action_item_type, date_id, action_time)
 select
     id,

@@ -1,3 +1,4 @@
+-- 交易域加购事务事实表
 INSERT INTO dwd.dwd_trade_cart_add_inc(id, k1, user_id, sku_id, date_id, create_time, source_id, source_type_code, source_type_name, sku_num)
 select
     id,

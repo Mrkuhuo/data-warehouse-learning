@@ -1,3 +1,4 @@
+-- 交易域退单事务事实表
 INSERT INTO dwd.dwd_trade_order_refund_inc(id, k1, user_id, order_id, sku_id, province_id, date_id, create_time, refund_type_code, refund_type_name, refund_reason_type_code, refund_reason_type_name, refund_reason_txt, refund_num, refund_amount)
 select
     ri.id,

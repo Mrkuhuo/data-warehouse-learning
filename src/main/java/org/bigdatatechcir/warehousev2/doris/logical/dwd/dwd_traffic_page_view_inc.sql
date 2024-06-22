@@ -1,3 +1,4 @@
+-- 流量域页面浏览事务事实表
 INSERT INTO dwd.dwd_traffic_page_view_inc(id, k1, province_id, brand, channel, is_new, model, mid_id, operate_system, user_id, version_code, page_item, page_item_type, last_page_id, page_id, source_type, date_id, view_time, session_id, during_time)
 select
     id,

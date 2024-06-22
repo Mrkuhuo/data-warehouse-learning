@@ -1,3 +1,4 @@
+-- 交易域退款成功事务事实表
 INSERT INTO dwd.dwd_trade_refund_pay_suc_inc(id, k1, user_id, order_id, sku_id, province_id, payment_type_code, payment_type_name, date_id, callback_time, refund_num, refund_amount)
 select
     rp.id,
