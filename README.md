@@ -4,7 +4,7 @@
 
 [【 Gitee 地址：https://gitee.com/wzylzjtn/data-warehouse-learning 】](https://gitee.com/wzylzjtn/data-warehouse-learning)
 
-[【 博客 地址：http://bigdatacircle.top:8090/ 】](http://bigdatacircle.top:8090/)
+[【 博客 地址：https://bigdatacircle.top/ 】](https://bigdatacircle.top/)
 
 ![博客截图](src/main/java/org/bigdatatechcir/images/img_2.png)
 
