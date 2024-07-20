@@ -1,3 +1,4 @@
+-- 交易域用户商品粒度订单最近1日汇总表
 SET 'execution.checkpointing.interval' = '100s';
 SET 'table.exec.state.ttl'= '8640000';
 SET 'table.exec.mini-batch.enabled' = 'true';

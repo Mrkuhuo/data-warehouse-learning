@@ -1,3 +1,4 @@
+-- 互动域收藏商品事务事实表
 SET 'execution.checkpointing.interval' = '100s';
 SET 'table.exec.state.ttl'= '8640000';
 SET 'table.exec.mini-batch.enabled' = 'true';

@@ -1,3 +1,4 @@
+-- 优惠券维度表
 SET 'execution.checkpointing.interval' = '100s';
 SET 'table.exec.state.ttl'= '8640000';
 SET 'table.exec.mini-batch.enabled' = 'true';

@@ -1,3 +1,4 @@
+-- 流量域访客页面粒度页面浏览最近1日汇总表
 SET 'execution.checkpointing.interval' = '100s';
 SET 'table.exec.state.ttl'= '8640000';
 SET 'table.exec.mini-batch.enabled' = 'true';
