@@ -10,7 +10,7 @@ import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.util.Collector;
 
-public class SocketWoedCount {
+public class SocketWordCountDemo {
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
 //设置WebUI绑定的本地端口
