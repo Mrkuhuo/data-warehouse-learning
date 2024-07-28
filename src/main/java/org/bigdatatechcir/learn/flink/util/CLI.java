@@ -1,4 +1,4 @@
-package org.bigdatatechcir.learn.flink.local.util;
+package org.bigdatatechcir.learn.flink.util;
 
 import org.apache.flink.api.common.ExecutionConfig;
 import org.apache.flink.api.common.RuntimeExecutionMode;

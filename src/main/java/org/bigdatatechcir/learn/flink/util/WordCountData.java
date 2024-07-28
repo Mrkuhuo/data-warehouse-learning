@@ -1,4 +1,4 @@
-package org.bigdatatechcir.learn.flink.local.util;
+package org.bigdatatechcir.learn.flink.util;
 
 public class WordCountData {
     public static final String[] WORDS =

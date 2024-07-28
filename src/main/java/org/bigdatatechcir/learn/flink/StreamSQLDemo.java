@@ -1,4 +1,4 @@
-package org.bigdatatechcir.learn.flink.local;
+package org.bigdatatechcir.learn.flink;
 
 
 

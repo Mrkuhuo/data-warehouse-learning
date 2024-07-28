@@ -1,12 +1,12 @@
-package org.bigdatatechcir.learn.flink.local;
+package org.bigdatatechcir.learn.flink;
 
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.util.Collector;
-import org.bigdatatechcir.learn.flink.local.util.CLI;
-import org.bigdatatechcir.learn.flink.local.util.WordCountData;
+import org.bigdatatechcir.learn.flink.util.CLI;
+import org.bigdatatechcir.learn.flink.util.WordCountData;
 
 public class StreamingWordCountDemo {
     /**
