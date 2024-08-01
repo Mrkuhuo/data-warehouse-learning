@@ -8,7 +8,7 @@ import org.apache.flink.util.Collector;
 import org.bigdatatechcir.learn.flink.util.CLI;
 import org.bigdatatechcir.learn.flink.util.WordCountData;
 
-public class StreamingWordCountDemo {
+public class StreamingTableSetApiDemo {
     /**
      * 主函数，执行WordCount示例程序。
      * @param args 命令行参数，通过CLI库解析为程序参数。
