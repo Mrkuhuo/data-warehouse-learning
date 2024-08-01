@@ -4,18 +4,15 @@ import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.TableEnvironment;
 import org.apache.flink.table.functions.ScalarFunction;
 import org.apache.flink.types.Row;
-import org.apache.flink.util.CloseableIterator;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.apache.flink.table.api.Expressions.$;
 import static org.apache.flink.table.api.Expressions.call;
 import static org.apache.flink.table.api.Expressions.lit;
 import static org.apache.flink.table.api.Expressions.range;
 import static org.apache.flink.table.api.Expressions.withColumns;
-public class GettingStartedDemo {
+public class TableApiDemo {
     public static void main(String[] args) throws Exception {
 
         // 初始化Flink的运行环境，设置为批处理模式
@@ -125,8 +122,6 @@ public class GettingStartedDemo {
 
     public static class AddressNormalizer extends ScalarFunction {
 
-        // the 'eval()' method defines input and output types (reflectively extracted)
-        // and contains the runtime logic
         public String eval(String street, String zipCode, String city) {
             return normalize(street) + ", " + normalize(zipCode) + ", " + normalize(city);
         }
