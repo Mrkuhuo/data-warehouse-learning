@@ -15,6 +15,7 @@ public class SocketWordCountDemo {
         Configuration conf = new Configuration();
 //设置WebUI绑定的本地端口
         conf.setString(RestOptions.BIND_PORT,"8081");
+        conf.setString("rest.flamegraph.enabled","true");
 //使用配置
         StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(conf);
 
