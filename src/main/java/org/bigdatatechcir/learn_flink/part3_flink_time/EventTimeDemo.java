@@ -32,11 +32,9 @@ public class EventTimeDemo {
 
         // 定义窗口逻辑
         DataStream<Tuple2<String, Integer>> result = withTimestampsAndWatermarks
-                .map(event -> new Event(event.user, event.page, event.timestamp))
                 .keyBy(event -> event.user)
                 .window(TumblingEventTimeWindows.of(Time.milliseconds(5)))
                 .process(new ProcessWindowFunction<Event, Tuple2<String, Integer>, String, TimeWindow>(){
-
                     @Override
                     public void process(String s, ProcessWindowFunction<Event, Tuple2<String, Integer>, String, TimeWindow>.Context context, Iterable<Event> iterable, Collector<Tuple2<String, Integer>> collector) throws Exception {
                         int count = 0;

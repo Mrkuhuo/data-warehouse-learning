@@ -24,7 +24,6 @@ public class ProcessTimeDemo {public static void main(String[] args) throws Exce
 
     // 定义窗口逻辑
     DataStream<Tuple3<String, Integer, Long>> result = events
-            .map(event -> new Event(event.user, event.page))
             .keyBy(event -> event.user)
             .window(TumblingProcessingTimeWindows.of(Time.milliseconds(1)))
             .process(new ProcessWindowFunction<Event, Tuple3<String, Integer, Long>, String, TimeWindow>() {
