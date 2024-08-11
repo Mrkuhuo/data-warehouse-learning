@@ -11,7 +11,7 @@ import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.source.RichParallelSourceFunction;
 import org.apache.flink.streaming.api.functions.windowing.ProcessWindowFunction;
-import org.apache.flink.streaming.api.windowing.assigners.SlidingEventTimeWindows;
+import org.apache.flink.streaming.api.windowing.assigners.EventTimeSessionWindows;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.util.Collector;
@@ -23,7 +23,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
-public class SlidingWindowingDemo {
+public class SessionWindowDemo {
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
         //设置WebUI绑定的本地端口
@@ -43,16 +43,17 @@ public class SlidingWindowingDemo {
 
             @Override
             public void run(SourceContext<String> ctx) throws Exception {
-                int count = 1;
+                int count = 0;
                 while (running) {
                     int randomNum = random.nextInt(5) + 1; // 生成1到5之间的随机数
                     long timestamp = System.currentTimeMillis(); // 获取当前时间作为时间戳
-                    ctx.collect("key" + randomNum + "," + 1 + "," + timestamp);
+                    ctx.collect("key" + randomNum + "," + count + "," + timestamp);
                     ZonedDateTime generateDataDateTime = Instant.ofEpochMilli(timestamp).atZone(ZoneId.systemDefault());
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
                     String formattedGenerateDataDateTime = generateDataDateTime.format(formatter);
                     System.out.println("Generated data: " + "key" + randomNum + "," + count + "," + timestamp + " at " + formattedGenerateDataDateTime);
                     Thread.sleep(1000); // 每秒生成一条数据
+                    count++;
                 }
             }
 
@@ -77,27 +78,35 @@ public class SlidingWindowingDemo {
 
         DataStream<Tuple2<String, Integer>> keyedStream = withWatermarks
                 .keyBy(value -> value.f0)
-                .window(SlidingEventTimeWindows.of(Time.seconds(10), Time.seconds(2))) // 这里设置窗口大小为7秒，滑动间隔为2秒
+                .window(EventTimeSessionWindows.withGap(Time.seconds(5))) // 设置5秒的空闲期
                 .process(new ProcessWindowFunction<Tuple3<String, Integer, Long>, Tuple2<String, Integer>, String, TimeWindow>() {
                     @Override
-                    public void process(String s, Context context, Iterable<Tuple3<String, Integer, Long>> elements, Collector<Tuple2<String, Integer>> out) throws Exception {
+                    public void process(String s, Context context, Iterable<Tuple3<String, Integer, Long>> iterable, Collector<Tuple2<String, Integer>> collector) throws Exception {
                         int count = 0;
-                        for (Tuple3<String, Integer, Long> element : elements) {
+
+                        // 遍历窗口内的所有元素并计数
+                        for (Tuple3<String, Integer, Long> element : iterable) {
                             count++;
                         }
 
+                        // 获取窗口的开始和结束时间
                         long start = context.window().getStart();
                         long end = context.window().getEnd();
+
+                        // 将时间戳转换为 ZonedDateTime
                         ZonedDateTime startDateTime = Instant.ofEpochMilli(start).atZone(ZoneId.systemDefault());
                         ZonedDateTime endDateTime = Instant.ofEpochMilli(end).atZone(ZoneId.systemDefault());
 
+                        // 格式化日期时间字符串
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
                         String formattedStart = startDateTime.format(formatter);
                         String formattedEnd = endDateTime.format(formatter);
 
-                        System.out.println("Sliding Window [ start " + formattedStart + ", end " + formattedEnd + ", slide " + 2 + " s ] for key " + s);
+                        // 打印窗口信息
+                        System.out.println("Session Window [ start " + formattedStart + ", end " + formattedEnd + ") for key " + s);
 
-                        out.collect(new Tuple2<>(s, count));
+                        // 收集输出结果
+                        collector.collect(new Tuple2<>(s, count));
                     }
                 });
 
@@ -105,6 +114,6 @@ public class SlidingWindowingDemo {
         keyedStream.print();
 
         // 执行任务
-        env.execute("Sliding Window Demo");
+        env.execute("Tumbling Window Demo");
     }
 }

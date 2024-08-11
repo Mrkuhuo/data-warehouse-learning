@@ -11,7 +11,7 @@ import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.source.RichParallelSourceFunction;
 import org.apache.flink.streaming.api.functions.windowing.ProcessWindowFunction;
-import org.apache.flink.streaming.api.windowing.assigners.EventTimeSessionWindows;
+import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.util.Collector;
@@ -23,7 +23,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
-public class TumblingWindowingDemo {
+public class TumblingWindowDemo {
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
         //设置WebUI绑定的本地端口
@@ -43,17 +43,15 @@ public class TumblingWindowingDemo {
 
             @Override
             public void run(SourceContext<String> ctx) throws Exception {
-                int count = 0;
                 while (running) {
                     int randomNum = random.nextInt(5) + 1; // 生成1到5之间的随机数
                     long timestamp = System.currentTimeMillis(); // 获取当前时间作为时间戳
-                    ctx.collect("key" + randomNum + "," + count + "," + timestamp);
+                    ctx.collect("key" + randomNum + "," + 1 + "," + timestamp);
                     ZonedDateTime generateDataDateTime = Instant.ofEpochMilli(timestamp).atZone(ZoneId.systemDefault());
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
                     String formattedGenerateDataDateTime = generateDataDateTime.format(formatter);
-                    System.out.println("Generated data: " + "key" + randomNum + "," + count + "," + timestamp + " at " + formattedGenerateDataDateTime);
+                    System.out.println("Generated data: " + "key" + randomNum + "," + 1 + "," + timestamp + " at " + formattedGenerateDataDateTime);
                     Thread.sleep(1000); // 每秒生成一条数据
-                    count++;
                 }
             }
 
@@ -73,15 +71,16 @@ public class TumblingWindowingDemo {
         }).returns(Types.TUPLE(Types.STRING, Types.INT, Types.LONG));
 
         // 设置 Watermark 策略
-        DataStream<Tuple3<String, Integer, Long>> withWatermarks = tuplesWithTimestamp.assignTimestampsAndWatermarks(WatermarkStrategy.<Tuple3<String, Integer, Long>>forBoundedOutOfOrderness(Duration.ofSeconds(5))
+        DataStream<Tuple3<String, Integer, Long>> withWatermarks = tuplesWithTimestamp.assignTimestampsAndWatermarks(WatermarkStrategy.<Tuple3<String, Integer, Long>>forBoundedOutOfOrderness(Duration.ofSeconds(0))
                 .withTimestampAssigner((element, recordTimestamp) -> element.f2));
 
+        // 窗口逻辑
         DataStream<Tuple2<String, Integer>> keyedStream = withWatermarks
                 .keyBy(value -> value.f0)
-                .window(EventTimeSessionWindows.withGap(Time.seconds(5))) // 设置3秒的空闲期
+                .window(TumblingEventTimeWindows.of(Time.seconds(5)))
                 .process(new ProcessWindowFunction<Tuple3<String, Integer, Long>, Tuple2<String, Integer>, String, TimeWindow>() {
                     @Override
-                    public void process(String s, Context context, Iterable<Tuple3<String, Integer, Long>> iterable, Collector<Tuple2<String, Integer>> collector) throws Exception {
+                    public void process(String s, ProcessWindowFunction<Tuple3<String, Integer, Long>, Tuple2<String, Integer>, String, TimeWindow>.Context context, Iterable<Tuple3<String, Integer, Long>> iterable, Collector<Tuple2<String, Integer>> collector) throws Exception {
                         int count = 0;
 
                         // 遍历窗口内的所有元素并计数
@@ -103,7 +102,7 @@ public class TumblingWindowingDemo {
                         String formattedEnd = endDateTime.format(formatter);
 
                         // 打印窗口信息
-                        System.out.println("Session Window [ start " + formattedStart + ", end " + formattedEnd + ") for key " + s);
+                        System.out.println("Tumbling Window [ start " + formattedStart + ", end " + formattedEnd + ") for key " + s);
 
                         // 收集输出结果
                         collector.collect(new Tuple2<>(s, count));
