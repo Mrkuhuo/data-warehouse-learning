@@ -1,4 +1,4 @@
-package org.bigdatatechcir.learn.flink;
+package org.bigdatatechcir.learn_flink.part2_flink_local_model;
 
 
 import org.apache.flink.api.common.typeinfo.Types;
@@ -9,7 +9,11 @@ import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.util.Collector;
-
+/*
+* 首先在开启虚拟机等其他客户端开启8888端口
+* nc -lp 8888
+*
+* */
 public class SocketWordCountDemo {
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();

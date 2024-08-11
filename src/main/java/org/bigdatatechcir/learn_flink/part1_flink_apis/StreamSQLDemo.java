@@ -1,4 +1,4 @@
-package org.bigdatatechcir.learn.flink;
+package org.bigdatatechcir.learn_flink.part1_flink_apis;
 
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;

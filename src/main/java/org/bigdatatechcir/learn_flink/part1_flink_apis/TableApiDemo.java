@@ -1,4 +1,4 @@
-package org.bigdatatechcir.learn.flink;
+package org.bigdatatechcir.learn_flink.part1_flink_apis;
 import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.TableEnvironment;
