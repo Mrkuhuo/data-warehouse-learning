@@ -5,7 +5,6 @@ import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.util.Collector;
-import org.bigdatatechcir.learn_flink.util.CLI;
 import org.bigdatatechcir.learn_flink.util.WordCountData;
 
 public class StreamingTableSetApiDemo {
@@ -15,16 +14,8 @@ public class StreamingTableSetApiDemo {
      * @throws Exception 如果程序执行过程中遇到异常。
      */
     public static void main(String[] args) throws Exception {
-        // 从命令行参数中解析配置信息。
-        final CLI params = CLI.fromArgs(args);
         // 获取流执行环境。
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        // 根据参数设置运行模式。
-        env.setRuntimeMode(params.getExecutionMode());
-
-        // 设置全局作业参数。
-        env.getConfig().setGlobalJobParameters(params);
-
         // 从内存中读取单词数据流。
         DataStream<String> text = env.fromElements(WordCountData.WORDS).name("in-memory-input");
 
