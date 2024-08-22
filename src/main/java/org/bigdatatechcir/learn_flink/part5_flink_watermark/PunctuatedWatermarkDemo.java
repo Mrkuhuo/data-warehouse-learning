@@ -23,7 +23,6 @@ import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.util.Collector;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -85,7 +84,6 @@ public class PunctuatedWatermarkDemo {
             }
         });
 
-
         // 窗口逻辑
         DataStream<Tuple2<String, Integer>> keyedStream = withWatermarks
                 .keyBy(value -> value.f0)
@@ -125,39 +123,39 @@ public class PunctuatedWatermarkDemo {
 
         // 执行任务
         env.execute("Punctuated Watermark Demo");
-
-    }
-}
-class PunctuatedWatermarkGenerator
-        implements WatermarkGenerator<Tuple3<String, Integer, Long>> , TimestampAssigner<Tuple3<String, Integer, Long>> {
-    private long maxTimestamp = Long.MIN_VALUE;
-    @Override
-    public long extractTimestamp(Tuple3<String, Integer, Long> element, long recordTimestamp) {
-        // 提前事件时间要先判断时间戳字段是否为-1
-        if(element.f2 != -1) {
-            return element.f2;
-        }
-        else {
-            // 如果为空，返回上一次的事件时间
-            return recordTimestamp > 0 ? recordTimestamp : 0;
-        }
     }
 
-    @Override
-    public void onEvent(Tuple3<String, Integer, Long> event, long eventTimestamp, WatermarkOutput output) {
-        maxTimestamp = Math.max(maxTimestamp, eventTimestamp);
-        if(event.f0.equals("key2")) {
-            System.out.println("Event: " + event.f0 + "," + event.f1 + "," + event.f2);
-            ZonedDateTime watermarkDateTime = Instant.ofEpochMilli(maxTimestamp).atZone(ZoneId.systemDefault());
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
-            String formattedWatermark = watermarkDateTime.format(formatter);
-            System.out.println("Emitting Watermark: " + formattedWatermark);
-            output.emitWatermark(new Watermark(event.f2));
-        }
-    }
+    private static class PunctuatedWatermarkGenerator
+            implements WatermarkGenerator<Tuple3<String, Integer, Long>>, TimestampAssigner<Tuple3<String, Integer, Long>> {
+        private long maxTimestamp = Long.MIN_VALUE;
 
-    @Override
-    public void onPeriodicEmit(WatermarkOutput output) {
-        // nothing
+        @Override
+        public long extractTimestamp(Tuple3<String, Integer, Long> element, long recordTimestamp) {
+            // 提前事件时间要先判断时间戳字段是否为-1
+            if (element.f2 != -1) {
+                return element.f2;
+            } else {
+                // 如果为空，返回上一次的事件时间
+                return recordTimestamp > 0 ? recordTimestamp : 0;
+            }
+        }
+
+        @Override
+        public void onEvent(Tuple3<String, Integer, Long> event, long eventTimestamp, WatermarkOutput output) {
+            maxTimestamp = Math.max(maxTimestamp, eventTimestamp);
+            if (event.f0.equals("key2")) {
+                System.out.println("Event: " + event.f0 + "," + event.f1 + "," + event.f2);
+                ZonedDateTime watermarkDateTime = Instant.ofEpochMilli(maxTimestamp).atZone(ZoneId.systemDefault());
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+                String formattedWatermark = watermarkDateTime.format(formatter);
+                System.out.println("Emitting Watermark: " + formattedWatermark);
+                output.emitWatermark(new Watermark(event.f2));
+            }
+        }
+
+        @Override
+        public void onPeriodicEmit(WatermarkOutput output) {
+            // nothing
+        }
     }
 }
