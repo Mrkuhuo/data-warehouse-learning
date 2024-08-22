@@ -1,5 +1,6 @@
 package org.bigdatatechcir.learn_flink.part5_flink_watermark;
 
+import org.apache.flink.api.common.ExecutionConfig;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.typeinfo.Types;
@@ -30,6 +31,8 @@ public class PeriodicWatermarkDemo {
         Configuration conf = new Configuration();
         conf.setString(RestOptions.BIND_PORT, "8081");
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(conf);
+        // 设置自动生成Watermark的间隔时间
+        // env.getConfig().setAutoWatermarkInterval(100000);
         env.setParallelism(1);
 
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
@@ -44,9 +47,23 @@ public class PeriodicWatermarkDemo {
                 while (running) {
                     int randomNum = random.nextInt(5) + 1;
                     long timestamp = System.currentTimeMillis();
-                    ctx.collectWithTimestamp("key" + randomNum + "," + 1 + "," + timestamp, timestamp);
 
-                    if (++count % 200 == 0) { // 每200条数据发送一次Watermark
+                    // 如果生成的是 key2，则在一个新线程中处理延迟
+                    if (randomNum == 2) {
+                        new Thread(() -> {
+                            try {
+                                int delay = random.nextInt(10) + 1; // 随机数范围从1到10
+                                Thread.sleep(delay * 1000); // 增加1到10秒的延迟
+                                ctx.collectWithTimestamp("key" + randomNum + "," + 1 + "," + timestamp, timestamp);
+                            } catch (InterruptedException e) {
+                                Thread.currentThread().interrupt();
+                            }
+                        }).start();
+                    } else {
+                        ctx.collectWithTimestamp("key" + randomNum + "," + 1 + "," + timestamp, timestamp);
+                    }
+
+                    if (++count % 200 == 0) {
                         ctx.emitWatermark(new Watermark(timestamp));
                         System.out.println("Manual Watermark emitted: " + timestamp);
                     }
@@ -55,7 +72,8 @@ public class PeriodicWatermarkDemo {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
                     String formattedGenerateDataDateTime = generateDataDateTime.format(formatter);
                     System.out.println("Generated data: " + "key" + randomNum + "," + 1 + "," + timestamp + " at " + formattedGenerateDataDateTime);
-                    Thread.sleep(1000);
+
+                    Thread.sleep(1000); // 每次循环后等待1秒
                 }
             }
 

@@ -44,9 +44,23 @@ public class AllowedLatenessDemo {
                 while (running) {
                     int randomNum = random.nextInt(5) + 1;
                     long timestamp = System.currentTimeMillis();
-                    ctx.collectWithTimestamp("key" + randomNum + "," + 1 + "," + timestamp, timestamp);
 
-                    if (++count % 200 == 0) { // 每200条数据发送一次Watermark
+                    // 如果生成的是 key2，则在一个新线程中处理延迟
+                    if (randomNum == 2) {
+                        new Thread(() -> {
+                            try {
+                                int delay = random.nextInt(10) + 1; // 随机数范围从1到10
+                                Thread.sleep(delay * 1000); // 增加1到10秒的延迟
+                                ctx.collectWithTimestamp("key" + randomNum + "," + 1 + "," + timestamp, timestamp);
+                            } catch (InterruptedException e) {
+                                Thread.currentThread().interrupt();
+                            }
+                        }).start();
+                    } else {
+                        ctx.collectWithTimestamp("key" + randomNum + "," + 1 + "," + timestamp, timestamp);
+                    }
+
+                    if (++count % 200 == 0) {
                         ctx.emitWatermark(new Watermark(timestamp));
                         System.out.println("Manual Watermark emitted: " + timestamp);
                     }
@@ -55,7 +69,8 @@ public class AllowedLatenessDemo {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
                     String formattedGenerateDataDateTime = generateDataDateTime.format(formatter);
                     System.out.println("Generated data: " + "key" + randomNum + "," + 1 + "," + timestamp + " at " + formattedGenerateDataDateTime);
-                    Thread.sleep(1000);
+
+                    Thread.sleep(1000); // 每次循环后等待1秒
                 }
             }
 

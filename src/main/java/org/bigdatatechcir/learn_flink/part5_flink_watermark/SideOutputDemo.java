@@ -46,18 +46,33 @@ public class SideOutputDemo {
                 while (running) {
                     int randomNum = random.nextInt(5) + 1;
                     long timestamp = System.currentTimeMillis();
-                    ctx.collectWithTimestamp("key" + randomNum + "," + 1 + "," + timestamp, timestamp);
 
-                    if (++count % 200 == 0) { // 每200条数据发送一次Watermark
+                    // 如果生成的是 key2，则在一个新线程中处理延迟
+                    if (randomNum == 2) {
+                        new Thread(() -> {
+                            try {
+                                int delay = random.nextInt(10) + 1; // 随机数范围从1到10
+                                Thread.sleep(delay * 1000); // 增加1到10秒的延迟
+                                ctx.collectWithTimestamp("key" + randomNum + "," + 1 + "," + timestamp, timestamp);
+                            } catch (InterruptedException e) {
+                                Thread.currentThread().interrupt();
+                            }
+                        }).start();
+                    } else {
+                        ctx.collectWithTimestamp("key" + randomNum + "," + 1 + "," + timestamp, timestamp);
+                    }
+
+                    if (++count % 200 == 0) {
                         ctx.emitWatermark(new Watermark(timestamp));
-                        System.out.println("Manual Watermark emitted: " + timestamp);
+                        //System.out.println("Manual Watermark emitted: " + timestamp);
                     }
 
                     ZonedDateTime generateDataDateTime = Instant.ofEpochMilli(timestamp).atZone(ZoneId.systemDefault());
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
                     String formattedGenerateDataDateTime = generateDataDateTime.format(formatter);
-                    System.out.println("Generated data: " + "key" + randomNum + "," + 1 + "," + timestamp + " at " + formattedGenerateDataDateTime);
-                    Thread.sleep(1000);
+                    //System.out.println("Generated data: " + "key" + randomNum + "," + 1 + "," + timestamp + " at " + formattedGenerateDataDateTime);
+
+                    Thread.sleep(1000); // 每次循环后等待1秒
                 }
             }
 
@@ -86,9 +101,10 @@ public class SideOutputDemo {
 
 
         // 窗口逻辑
-        DataStream<Tuple2<String, Integer>> keyedStream = withWatermarks
+        SingleOutputStreamOperator<Tuple2<String, Integer>> keyedStream = withWatermarks
                 .keyBy(value -> value.f0)
                 .window(TumblingEventTimeWindows.of(Time.seconds(5)))
+                .sideOutputLateData(outputTag)
                 .process(new ProcessWindowFunction<Tuple3<String, Integer, Long>, Tuple2<String, Integer>, String, TimeWindow>() {
 
                     @Override
@@ -108,16 +124,15 @@ public class SideOutputDemo {
                         String formattedStart = startDateTime.format(formatter);
                         String formattedEnd = endDateTime.format(formatter);
 
-                        System.out.println("Tumbling Window [start " + formattedStart + ", end " + formattedEnd + ") for key " + s);
+                        //System.out.println("Tumbling Window [start " + formattedStart + ", end " + formattedEnd + ") for key " + s);
 
                         // 输出窗口结束时的Watermark
                         long windowEndWatermark = context.currentWatermark();
                         ZonedDateTime windowEndDateTime = Instant.ofEpochMilli(windowEndWatermark).atZone(ZoneId.systemDefault());
                         String formattedWindowEndWatermark = windowEndDateTime.format(formatter);
-                        System.out.println("Watermark at the end of window: " + formattedWindowEndWatermark);
+                        //System.out.println("Watermark at the end of window: " + formattedWindowEndWatermark);
 
                         out.collect(new Tuple2<>(s, count));
-
 
                     }
                 });
@@ -125,20 +140,11 @@ public class SideOutputDemo {
         // 输出结果
         keyedStream.print();
 
-        SingleOutputStreamOperator<Tuple3<String, Integer, Long>> mainDataStream = withWatermarks.map(
-                new MapFunction<Tuple3<String, Integer, Long>, Tuple3<String, Integer, Long>>() {
-                    @Override
-                    public Tuple3<String, Integer, Long> map(Tuple3<String, Integer, Long> value) throws Exception {
-                        return value;
-                    }
-                }
-        );
+        DataStream<Tuple3<String, Integer, Long>> lateStream = keyedStream.getSideOutput(outputTag);
 
-        DataStream<Tuple3<String, Integer, Long>> sideOutputStream = mainDataStream.getSideOutput(outputTag);
-
-        sideOutputStream.print();
+        lateStream.print();
 
         // 执行任务
-        env.execute("Periodic Watermark Demo");
+        env.execute("Side Output Demo");
     }
 }

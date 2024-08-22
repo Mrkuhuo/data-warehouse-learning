@@ -146,8 +146,9 @@ class PunctuatedWatermarkGenerator
     @Override
     public void onEvent(Tuple3<String, Integer, Long> event, long eventTimestamp, WatermarkOutput output) {
         maxTimestamp = Math.max(maxTimestamp, eventTimestamp);
-        if(event.f2 != -1) {
-            ZonedDateTime watermarkDateTime = Instant.ofEpochMilli(maxTimestamp - 200).atZone(ZoneId.systemDefault());
+        if(event.f0.equals("key2")) {
+            System.out.println("Event: " + event.f0 + "," + event.f1 + "," + event.f2);
+            ZonedDateTime watermarkDateTime = Instant.ofEpochMilli(maxTimestamp).atZone(ZoneId.systemDefault());
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
             String formattedWatermark = watermarkDateTime.format(formatter);
             System.out.println("Emitting Watermark: " + formattedWatermark);
