@@ -93,7 +93,7 @@ public class PeriodicWatermarkDemo {
 
         // 设置 Watermark 策略
         DataStream<Tuple3<String, Integer, Long>> withWatermarks = tuplesWithTimestamp.assignTimestampsAndWatermarks(
-                WatermarkStrategy.<Tuple3<String, Integer, Long>>forBoundedOutOfOrderness(Duration.ofSeconds(5))
+                WatermarkStrategy.<Tuple3<String, Integer, Long>>forBoundedOutOfOrderness(Duration.ofSeconds(0))
                         .withTimestampAssigner((element, recordTimestamp) -> element.f2)
         );
 
