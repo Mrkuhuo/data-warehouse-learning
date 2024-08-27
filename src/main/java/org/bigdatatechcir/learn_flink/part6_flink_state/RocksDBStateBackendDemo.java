@@ -11,8 +11,8 @@ import org.apache.flink.configuration.CheckpointingOptions;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.configuration.RestOptions;
 import org.apache.flink.configuration.StateBackendOptions;
-import org.apache.flink.runtime.state.hashmap.HashMapStateBackend;
-import org.apache.flink.runtime.state.storage.JobManagerCheckpointStorage;
+import org.apache.flink.contrib.streaming.state.EmbeddedRocksDBStateBackend;
+import org.apache.flink.contrib.streaming.state.RocksDBStateBackend;
 import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
@@ -33,21 +33,19 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
-public class MemoryStateBackendDemo {
+public class RocksDBStateBackendDemo {
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
         conf.setString(RestOptions.BIND_PORT, "8081");
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(conf);
-        env.setStateBackend(new HashMapStateBackend());
-        env.getCheckpointConfig().setCheckpointStorage(new JobManagerCheckpointStorage());
-        // 设置自动生成Watermark的间隔时间
-        // env.getConfig().setAutoWatermarkInterval(100000);
+        env.setStateBackend(new EmbeddedRocksDBStateBackend());
+        env.getCheckpointConfig().setCheckpointStorage("file:///D:/flink-state");
         // 开启 checkpoint，并设置间隔 ms
         env.enableCheckpointing(1000);
         // 模式 Exactly-Once、At-Least-Once
         env.getCheckpointConfig().setCheckpointingMode(CheckpointingMode.EXACTLY_ONCE);
         // 两个 checkpoint 之间最小间隔
-        env.getCheckpointConfig().setMinPauseBetweenCheckpoints(500);
+        env.getCheckpointConfig().setMinPauseBetweenCheckpoints(5000);
         // 超时时间
         env.getCheckpointConfig().setCheckpointTimeout(60000);
         // 同时执行的 checkpoint 数量（比如上一个还没执行完，下一个已经触发开始了）

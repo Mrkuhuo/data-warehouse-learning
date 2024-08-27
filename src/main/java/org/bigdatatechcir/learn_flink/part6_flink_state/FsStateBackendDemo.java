@@ -12,7 +12,6 @@ import org.apache.flink.configuration.Configuration;
 import org.apache.flink.configuration.RestOptions;
 import org.apache.flink.configuration.StateBackendOptions;
 import org.apache.flink.runtime.state.hashmap.HashMapStateBackend;
-import org.apache.flink.runtime.state.storage.JobManagerCheckpointStorage;
 import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
@@ -33,15 +32,17 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
-public class MemoryStateBackendDemo {
+public class FsStateBackendDemo {
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
         conf.setString(RestOptions.BIND_PORT, "8081");
+        //conf.set(StateBackendOptions.STATE_BACKEND, "hashmap");
+        //conf.set(CheckpointingOptions.CHECKPOINT_STORAGE, "filesystem");
+        //conf.set(CheckpointingOptions.CHECKPOINTS_DIRECTORY, "file:///D:/flink-state");
+        //conf.set(CheckpointingOptions.FS_WRITE_BUFFER_SIZE, 4 * 1024);
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(conf);
         env.setStateBackend(new HashMapStateBackend());
-        env.getCheckpointConfig().setCheckpointStorage(new JobManagerCheckpointStorage());
-        // 设置自动生成Watermark的间隔时间
-        // env.getConfig().setAutoWatermarkInterval(100000);
+        env.getCheckpointConfig().setCheckpointStorage("file:///D:/flink-state");
         // 开启 checkpoint，并设置间隔 ms
         env.enableCheckpointing(1000);
         // 模式 Exactly-Once、At-Least-Once
