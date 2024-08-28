@@ -2,6 +2,7 @@ package org.bigdatatechcir.learn_flink.part6_flink_state;
 
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.MapFunction;
+import org.apache.flink.api.common.restartstrategy.RestartStrategies;
 import org.apache.flink.api.common.state.ValueState;
 import org.apache.flink.api.common.state.ValueStateDescriptor;
 import org.apache.flink.api.common.typeinfo.Types;
@@ -55,6 +56,8 @@ public class RocksDBStateBackendDemo {
         // 设置自动生成Watermark的间隔时间
         // env.getConfig().setAutoWatermarkInterval(100000);
         env.setParallelism(1);
+
+        //env.setRestartStrategy(RestartStrategies.noRestart());
 
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
 
