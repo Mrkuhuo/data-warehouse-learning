@@ -76,6 +76,7 @@ public class WithIdLenessDemo {
         // 设置 Watermark 策略
         DataStream<Tuple3<String, Integer, Long>> withWatermarks = tuplesWithTimestamp.assignTimestampsAndWatermarks(
                 WatermarkStrategy.<Tuple3<String, Integer, Long>>forBoundedOutOfOrderness(Duration.ofSeconds(5))
+                        //处理空闲数据源
                         .withIdleness(Duration.ofSeconds(15))
                         .withTimestampAssigner((element, recordTimestamp) -> element.f2)
         );
