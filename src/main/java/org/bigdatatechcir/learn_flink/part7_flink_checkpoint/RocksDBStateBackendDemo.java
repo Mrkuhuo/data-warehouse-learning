@@ -1,4 +1,4 @@
-package org.bigdatatechcir.learn_flink.part6_flink_state;
+package org.bigdatatechcir.learn_flink.part7_flink_checkpoint;
 
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.MapFunction;

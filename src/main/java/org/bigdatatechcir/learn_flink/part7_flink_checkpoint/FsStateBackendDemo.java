@@ -1,4 +1,4 @@
-package org.bigdatatechcir.learn_flink.part6_flink_state;
+package org.bigdatatechcir.learn_flink.part7_flink_checkpoint;
 
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.MapFunction;
@@ -36,10 +36,6 @@ public class FsStateBackendDemo {
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
         conf.setString(RestOptions.BIND_PORT, "8081");
-        //conf.set(StateBackendOptions.STATE_BACKEND, "hashmap");
-        //conf.set(CheckpointingOptions.CHECKPOINT_STORAGE, "filesystem");
-        //conf.set(CheckpointingOptions.CHECKPOINTS_DIRECTORY, "file:///D:/flink-state");
-        //conf.set(CheckpointingOptions.FS_WRITE_BUFFER_SIZE, 4 * 1024);
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(conf);
         env.setStateBackend(new HashMapStateBackend());
         env.getCheckpointConfig().setCheckpointStorage("file:///D:/flink-state");
