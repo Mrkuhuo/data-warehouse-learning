@@ -1,4 +1,4 @@
-package org.bigdatatechcir.learn_flink.part7_flink_checkpoint;
+package org.bigdatatechcir.learn_flink.part7_flink_statebackend;
 
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.MapFunction;
@@ -7,11 +7,10 @@ import org.apache.flink.api.common.state.ValueStateDescriptor;
 import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple3;
-import org.apache.flink.configuration.CheckpointingOptions;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.configuration.RestOptions;
-import org.apache.flink.configuration.StateBackendOptions;
 import org.apache.flink.runtime.state.hashmap.HashMapStateBackend;
+import org.apache.flink.runtime.state.storage.JobManagerCheckpointStorage;
 import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
@@ -32,13 +31,15 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
-public class FsStateBackendDemo {
+public class MemoryStateBackendDemo {
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
         conf.setString(RestOptions.BIND_PORT, "8081");
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(conf);
         env.setStateBackend(new HashMapStateBackend());
-        env.getCheckpointConfig().setCheckpointStorage("file:///D:/flink-state");
+        env.getCheckpointConfig().setCheckpointStorage(new JobManagerCheckpointStorage());
+        // 设置自动生成Watermark的间隔时间
+        // env.getConfig().setAutoWatermarkInterval(100000);
         // 开启 checkpoint，并设置间隔 ms
         env.enableCheckpointing(1000);
         // 模式 Exactly-Once、At-Least-Once
