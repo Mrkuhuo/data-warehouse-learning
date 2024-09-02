@@ -79,7 +79,7 @@ public class OperatorStateDemo {
                         .withTimestampAssigner((element, recordTimestamp) -> element.f2)
         );
 
-        withWatermarks.keyBy(value -> value.f0).addSink(new BufferingSink());
+        withWatermarks.addSink(new BufferingSink());
 
         env.execute("KeyedState");
     }
@@ -122,6 +122,7 @@ public class OperatorStateDemo {
             for (Tuple3<String, Integer, Long> element : bufferedElements){
                 System.out.println(Thread.currentThread().getId() + " >> " + element.f0 + " : " + element.f1 + " : " + element.f2);
             }
+            System.out.println("listSize  " + bufferedElements.size());
         }
     }
 }
