@@ -1,29 +1,35 @@
-package org.bigdatatechcir.learn_flink.part6_flink_state;
+package org.bigdatatechcir.learn_flink.part9_flink_state_ttl;
+
+
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.state.ListState;
 import org.apache.flink.api.common.state.ListStateDescriptor;
+import org.apache.flink.api.common.state.StateTtlConfig;
+import org.apache.flink.api.common.time.Time;
 import org.apache.flink.api.common.typeinfo.TypeHint;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.common.typeinfo.Types;
-import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.runtime.state.FunctionInitializationContext;
 import org.apache.flink.runtime.state.FunctionSnapshotContext;
 import org.apache.flink.streaming.api.checkpoint.CheckpointedFunction;
 import org.apache.flink.streaming.api.datastream.DataStream;
-import org.apache.flink.streaming.api.datastream.DataStreamSink;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.sink.SinkFunction;
 import org.apache.flink.streaming.api.functions.source.RichParallelSourceFunction;
+import org.bigdatatechcir.learn_flink.part6_flink_state.OperatorStateDemo;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class OperatorStateDemo {
+public class StateTtlDemo {
     public static void main(String[] args) throws Exception {
+
+
+
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
         DataStream<String> text = env.addSource(new RichParallelSourceFunction<String>() {
@@ -79,15 +85,21 @@ public class OperatorStateDemo {
                         .withTimestampAssigner((element, recordTimestamp) -> element.f2)
         );
 
-        withWatermarks.addSink(new BufferingSink());
+        withWatermarks.addSink(new OperatorStateDemo.BufferingSink());
 
         env.execute("KeyedState");
     }
 
-    public static class BufferingSink implements SinkFunction<Tuple3<String, Integer, Long>>, CheckpointedFunction {
+    static class BufferingSink implements SinkFunction<Tuple3<String, Integer, Long>>, CheckpointedFunction {
 
         private ListState<Tuple3<String, Integer, Long>> listState;
         private List<Tuple3<String, Integer, Long>> bufferedElements = new ArrayList<>();
+
+        StateTtlConfig ttlConfig = StateTtlConfig
+                .newBuilder(Time.seconds(10))
+                .setUpdateType(StateTtlConfig.UpdateType.OnCreateAndWrite)
+                .setStateVisibility(StateTtlConfig.StateVisibility.NeverReturnExpired)
+                .build();
 
 
         @Override
@@ -96,6 +108,8 @@ public class OperatorStateDemo {
             ListStateDescriptor<Tuple3<String, Integer, Long>> descriptor =
                     new ListStateDescriptor<Tuple3<String, Integer, Long>>("bufferedSinkState",
                             TypeInformation.of(new TypeHint<Tuple3<String, Integer, Long>>() {}));
+
+            descriptor.enableTimeToLive(ttlConfig);
 
             listState = context.getOperatorStateStore().getListState(descriptor);
 
