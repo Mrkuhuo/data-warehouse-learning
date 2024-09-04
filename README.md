@@ -180,3 +180,5 @@
 #### 6) **Doris Catalog** 连接 **Paimon** + **DataRT** 进行数据展示
 
 ![大屏](src/main/java/org/bigdatatechcir/images/daping2.png)
+
+<img width="219" alt="image" src="https://gitee.com/wzylzjtn/data-warehouse-learning/tree/master/src/main/java/org/bigdatatechcir/images/daping2.png">
