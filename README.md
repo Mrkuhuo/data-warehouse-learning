@@ -14,88 +14,8 @@
 
 "《实时/离线数仓实战》是一个以电商系统为基础，围绕电商业务指标统计需求而构建的数仓项目。该项目涵盖了基于Doris、Piamon、Hudi和Iceberg的离线数仓和实时数仓（数据湖）的构建。两种场景在数据处理逻辑上保持一致，但采用了不同的技术实现，为数仓建设提供了多样化的思路。
 项目包含两个版本：warehouseV1 和 warehouseV2。V1版本在业务逻辑上较为基础，适合初学者快速理解数仓构建的基本概念；而V2版本则提供了更为全面和复杂的业务逻辑，适合深入学习和实践。在数据生成方面，V1版本使用Python脚本进行模拟，便于快速迭代和测试；V2版本则采用Java代码生成模拟数据，以适应更大规模和更复杂的数据处理需求。"
-## 2 代码结构
 
-```shell
-├─src
-│  └─main
-│      └─java
-│          └─org
-│              └─bigdatatechcir
-│                  ├─images
-│                  ├─warehousev1
-│                  │  ├─datageneration
-│                  │  ├─doris
-│                  │  │  ├─dml
-│                  │  │  │  ├─ads
-│                  │  │  │  ├─dwdarehouse-learning
-│                  │  │  │  ├─dws
-│                  │  │  │  └─ods
-│                  │  │  └─logical
-│                  │  │      ├─ads
-│                  │  │      ├─dwd
-│                  │  │      └─dws
-│                  │  ├─flink
-│                  │  │  ├─ads
-│                  │  │  │  └─test
-│                  │  │  ├─dwd
-│                  │  │  │  └─test
-│                  │  │  ├─dws
-│                  │  │  │  └─test
-│                  │  │  ├─ods
-│                  │  │  │  └─test
-│                  │  │  └─sql
-│                  │  │      ├─ads
-│                  │  │      ├─dwd
-│                  │  │      ├─dws
-│                  │  │      └─ods
-│                  │  ├─mysql
-│                  │  └─seatunnel
-│                  └─warehousev2
-│                      ├─datageneration
-│                      │  ├─business
-│                      │  └─userlog
-│                      ├─doris
-│                      │  ├─dml
-│                      │  │  ├─ads
-│                      │  │  ├─dim
-│                      │  │  │  └─data
-│                      │  │  ├─dwd
-│                      │  │  ├─dws
-│                      │  │  └─ods
-│                      │  └─logical
-│                      │      ├─ads
-│                      │      ├─dim
-│                      │      ├─dwd
-│                      │      └─dws
-│                      ├─flink
-│                      │  ├─doris
-│                      │  │  ├─catalog
-│                      │  │  └─ods
-│                      │  ├─hudi
-│                      │  │  ├─ads
-│                      │  │  ├─dim
-│                      │  │  ├─dwd
-│                      │  │  ├─dws
-│                      │  │  └─ods
-│                      │  ├─iceberg
-│                      │  │  ├─ads
-│                      │  │  ├─dim
-│                      │  │  ├─dwd
-│                      │  │  ├─dws
-│                      │  │  └─ods
-│                      │  ├─paimon
-│                      │  │  ├─ads
-│                      │  │  ├─dim
-│                      │  │  ├─dwd
-│                      │  │  ├─dws
-│                      │  │  └─ods
-│                      │  └─udf
-│                      └─seatunnel
-│                          └─ods
-```
-
-## 3 技术架构
+## 2 技术架构
 
 ![技术架构](src/main/java/org/bigdatatechcir/images/jiagou1.png)
 
