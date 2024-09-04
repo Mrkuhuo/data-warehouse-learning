@@ -10,6 +10,8 @@ import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.configuration.RestOptions;
 import org.apache.flink.contrib.streaming.state.EmbeddedRocksDBStateBackend;
+import org.apache.flink.runtime.state.storage.FileSystemCheckpointStorage;
+import org.apache.flink.runtime.state.storage.JobManagerCheckpointStorage;
 import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
@@ -36,7 +38,8 @@ public class RocksDBStateBackendDemo {
         conf.setString(RestOptions.BIND_PORT, "8081");
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(conf);
         env.setStateBackend(new EmbeddedRocksDBStateBackend());
-        env.getCheckpointConfig().setCheckpointStorage("file:///D:/flink-state");
+        //env.getCheckpointConfig().setCheckpointStorage(new JobManagerCheckpointStorage("file:///D:/flink-state"));
+        env.getCheckpointConfig().setCheckpointStorage(new FileSystemCheckpointStorage("file:///D:/flink-state"));
         // 开启 checkpoint，并设置间隔 ms
         env.enableCheckpointing(1000);
         // 模式 Exactly-Once、At-Least-Once

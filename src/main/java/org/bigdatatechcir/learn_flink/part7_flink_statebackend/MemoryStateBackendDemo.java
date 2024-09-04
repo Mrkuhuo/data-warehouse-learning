@@ -37,7 +37,8 @@ public class MemoryStateBackendDemo {
         conf.setString(RestOptions.BIND_PORT, "8081");
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(conf);
         env.setStateBackend(new HashMapStateBackend());
-        env.getCheckpointConfig().setCheckpointStorage(new JobManagerCheckpointStorage());
+        //env.getCheckpointConfig().setCheckpointStorage(new JobManagerCheckpointStorage());
+        env.getCheckpointConfig().setCheckpointStorage(new JobManagerCheckpointStorage("file:///D:/flink-state"));
         // 设置自动生成Watermark的间隔时间
         // env.getConfig().setAutoWatermarkInterval(100000);
         // 开启 checkpoint，并设置间隔 ms
