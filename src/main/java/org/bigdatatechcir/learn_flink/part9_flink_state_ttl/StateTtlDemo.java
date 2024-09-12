@@ -98,7 +98,8 @@ public class StateTtlDemo {
         StateTtlConfig ttlConfig = StateTtlConfig
                 .newBuilder(Time.seconds(10))
                 .setUpdateType(StateTtlConfig.UpdateType.OnCreateAndWrite)
-                .setStateVisibility(StateTtlConfig.StateVisibility.NeverReturnExpired)
+                .setStateVisibility(StateTtlConfig.StateVisibility.ReturnExpiredIfNotCleanedUp)
+                .cleanupIncrementally(10, true)
                 .build();
 
 

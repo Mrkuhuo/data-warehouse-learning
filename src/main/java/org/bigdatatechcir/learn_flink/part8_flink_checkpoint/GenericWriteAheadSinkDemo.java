@@ -1,15 +1,13 @@
 package org.bigdatatechcir.learn_flink.part8_flink_checkpoint;
 
-import org.apache.flink.api.common.ExecutionConfig;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.state.ValueState;
 import org.apache.flink.api.common.state.ValueStateDescriptor;
 import org.apache.flink.api.common.typeinfo.Types;
-import org.apache.flink.api.common.typeutils.base.VoidSerializer;
+import org.apache.flink.api.common.typeutils.TypeSerializer;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple3;
-import org.apache.flink.api.java.typeutils.runtime.kryo.KryoSerializer;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.configuration.RestOptions;
 import org.apache.flink.runtime.state.hashmap.HashMapStateBackend;
@@ -18,29 +16,26 @@ import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.CheckpointConfig;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.api.functions.sink.TwoPhaseCommitSinkFunction;
 import org.apache.flink.streaming.api.functions.source.RichParallelSourceFunction;
 import org.apache.flink.streaming.api.functions.windowing.ProcessWindowFunction;
 import org.apache.flink.streaming.api.watermark.Watermark;
 import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
+import org.apache.flink.streaming.runtime.operators.CheckpointCommitter;
+import org.apache.flink.streaming.runtime.operators.GenericWriteAheadSink;
+import org.apache.flink.streaming.runtime.streamrecord.StreamRecord;
 import org.apache.flink.util.Collector;
-import org.bigdatatechcir.learn_flink.util.DruidUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
-public class TwoPhaseCommitSinkFunctionDemo {
+public class GenericWriteAheadSinkDemo {
+
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
         conf.setString(RestOptions.BIND_PORT, "8081");
@@ -200,114 +195,26 @@ public class TwoPhaseCommitSinkFunctionDemo {
         env.execute("Periodic Watermark Demo");
     }
 
-    public class YRCanbusTwoPhaseCommitSinkFunction extends TwoPhaseCommitSinkFunction<YRcanbusStore, YRCanbusTransaction, Void>{
+    public class GenericWriteAheadSinkFunction extends GenericWriteAheadSink<TwoPhaseCommitSinkFunctionDemo.YRcanbusStore> {
 
-        public YRCanbusTwoPhaseCommitSinkFunction() {
-            super(new KryoSerializer<>(YRCanbusTransaction.class, new ExecutionConfig()), VoidSerializer.INSTANCE);
+        public GenericWriteAheadSinkFunction(CheckpointCommitter committer, TypeSerializer<TwoPhaseCommitSinkFunctionDemo.YRcanbusStore> serializer, String jobID) throws Exception {
+            super(committer, serializer, jobID);
         }
 
         @Override
-        protected void invoke(YRCanbusTransaction yrCanbusTransaction, YRcanbusStore yRcanbusStore, Context context) throws Exception {
-            yrCanbusTransaction.store(yRcanbusStore);
+        protected boolean sendValues(Iterable<TwoPhaseCommitSinkFunctionDemo.YRcanbusStore> iterable, long l, long l1) throws Exception {
+            return false;
         }
 
         @Override
-        protected YRCanbusTransaction beginTransaction() throws Exception {
-            return new YRCanbusTransaction();
+        public boolean hasKeyContext() {
+            return super.hasKeyContext();
         }
 
         @Override
-        protected void preCommit(YRCanbusTransaction yrCanbusTransaction) throws Exception {
-
-        }
-
-        @Override
-        protected void commit(YRCanbusTransaction yrCanbusTransaction) {
-            try {
-                yrCanbusTransaction.commit();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        @Override
-        protected void abort(YRCanbusTransaction yrCanbusTransaction) {
-            try {
-                yrCanbusTransaction.rollback();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+        public void setKeyContextElement(StreamRecord<TwoPhaseCommitSinkFunctionDemo.YRcanbusStore> record) throws Exception {
+            super.setKeyContextElement(record);
         }
     }
 
-    public class YRCanbusTransaction {
-        private transient Connection connection;
-        private List<YRcanbusStore> list = new ArrayList<>();
-
-        public void store(YRcanbusStore yrcanbusStore) {
-            list.add(yrcanbusStore);
-        }
-
-        public void commit() throws SQLException {
-            connection = DruidUtil.getConnection();
-            connection.setAutoCommit(false);
-            for (YRcanbusStore yrcanbusStore : list) {
-                String platform = yrcanbusStore.getPlatform();
-                String type = yrcanbusStore.getType();
-                String day = yrcanbusStore.getDay();
-                String hour = yrcanbusStore.getHour();
-                String sql = "";
-                PreparedStatement preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setString(1, platform);
-                preparedStatement.setString(2, type);
-                preparedStatement.setString(3, day);
-                preparedStatement.setString(4, hour);
-                preparedStatement.execute();
-            }
-            connection.commit();
-            connection.close();
-        }
-
-        public void rollback() throws SQLException {
-            connection.rollback();
-            connection.close();
-        }
-    }
-    public class YRcanbusStore {
-        private String platform;
-        private String type;
-        private String day;
-        private String hour;
-
-        public YRcanbusStore(String platform, String type, String day, String hour) {
-            this.platform = platform;
-            this.type = type;
-            this.day = day;
-            this.hour = hour;
-        }
-        public String getPlatform() {
-            return platform;
-        }
-        public void setPlatform(String platform) {
-            this.platform = platform;
-        }
-        public String getType() {
-            return type;
-        }
-        public void setType(String type) {
-            this.type = type;
-        }
-        public String getDay() {
-            return day;
-        }
-        public void setDay(String day) {
-            this.day = day;
-        }
-        public String getHour() {
-            return hour;
-        }
-        public void setHour(String hour) {
-            this.hour = hour;
-        }
-    }
 }
