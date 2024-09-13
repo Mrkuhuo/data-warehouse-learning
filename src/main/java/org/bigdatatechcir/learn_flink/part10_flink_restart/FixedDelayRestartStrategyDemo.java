@@ -150,10 +150,9 @@ public class FixedDelayRestartStrategyDemo {
 
                         // 在更新状态之前获取当前状态值
                         Integer previousCount = countState.value();
-
+                        System.err.println("key "+ s +" previousCount: " + previousCount);
                         if (previousCount != null &&  previousCount == 3){
                             int failre = previousCount / 0;
-                            System.out.println(failre);
                         }else {
                             // 更新状态
                             countState.update(count);
