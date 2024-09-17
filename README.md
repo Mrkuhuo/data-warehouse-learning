@@ -19,6 +19,28 @@
 
 ![技术架构](src/main/java/org/bigdatatechcir/images/jiagou1.png)
 
+## 3 软件版本
+
+| 软件               | 版本     | 安装包        | 对应依赖包                                                                                                                                     |
+|------------------|--------|------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| Zookeeper        | 3.9.1  | apache-zookeeper-3.9.1-bin.tar.gz       |                                                                                                                                           |
+| Kafka            | 3.6.1  | kafka_2.12-3.6.1.tgz       |                                                                                                                                           |
+| Seatunnel        | 2.3.3  | apache-seatunnel-2.3.3-bin.tar.gz       | seatunnel-hadoop3-3.1.4-uber-2.3.3-optional.jar                                                                                           |
+| Dolphinscheduler | 3.2.0  | apache-dolphinscheduler-3.2.0-bin.tar.gz       | mysql-connector-java-8.0.16.jar                                                                                                                                          |
+| Doris            | 2.0.4  | apache-doris-2.0.4-bin-x64.tar.gz       |                                                                                                                                           |
+| Flink            | 1.18.1 | flink-1.18.1-bin-scala_2.12.tgz       | flink-sql-connector-mysql-cdc-2.4.2.jar <br> flink-sql-connector-kafka-3.1.0-1.18.jar <br> flink-sql-connector-hive-3.1.3_2.12-1.19.0.jar |
+| Iceberg          | 1.5.2  | iceberg-flink-runtime-1.18-1.5.2.jar       |                                                                                                                                           |
+| Hudi             | 0.15.0 | hudi-flink1.18-bundle-0.15.0.jar       |                                                                                                                                           |
+| Paimon           | 0.8    | paimon-flink-1.18-0.8-20240301.002155-30.jar       | flink-shaded-hadoop-2-uber-2.7.5-9.0.jar                                                                                                  |
+| Dinky            | 1.0.0  | dinky-release-1.18-1.0.0-rc4.tar.gz       |                                                                                                                                           |
+| Hadoop           | 3.1.3  | hadoop-3.1.3.tar.gz       |                                                                                                                                           |
+| Hadoop           | 3.1.3  | apache-hive-3.1.3-bin.tar.gz       | paimon-hive-connector-3.1-0.7.0-incubating.jar  <br> iceberg-hive-runtime-1.5.2.jar  <br> hudi-hadoop-mr-bundle-0.15.0.jar                                                |
+| Maven            | 3.9.6  | apache-maven-3.9.6-bin.tar.gz       |                                                 |
+| Centos           | 8      | CentOS-8.5.2111-x86_64-dvd1.iso       |                                                 |
+| OpenJDK          | 8      | openlogic-openjdk-8u402-b06-linux-x64.tar.gz       |                                                 |
+
+
+
 电商数仓项目（实时/离线）的技术架构由四个关键部分组成：
 
 1. 数据源模块：本模块通过 **JAVA** 编写的代码来生成电商业务数据，并将这些数据写入 **MySQL** 数据库。同时，生成的用户日志数据被写入 **Kafka** 消息队列。模块支持在配置文件中设定数据生成的日期，以满足不同时间点的数据需求。
