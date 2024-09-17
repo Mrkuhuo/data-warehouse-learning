@@ -34,7 +34,7 @@
 | Paimon           | 0.8    | paimon-flink-1.18-0.8-20240301.002155-30.jar       | flink-shaded-hadoop-2-uber-2.7.5-9.0.jar                                                                                                  |
 | Dinky            | 1.0.0  | dinky-release-1.18-1.0.0-rc4.tar.gz       |                                                                                                                                           |
 | Hadoop           | 3.1.3  | hadoop-3.1.3.tar.gz       |                                                                                                                                           |
-| Hadoop           | 3.1.3  | apache-hive-3.1.3-bin.tar.gz       | paimon-hive-connector-3.1-0.7.0-incubating.jar  <br> iceberg-hive-runtime-1.5.2.jar  <br> hudi-hadoop-mr-bundle-0.15.0.jar                                                |
+| Hive             | 3.1.3  | apache-hive-3.1.3-bin.tar.gz       | paimon-hive-connector-3.1-0.7.0-incubating.jar  <br> iceberg-hive-runtime-1.5.2.jar  <br> hudi-hadoop-mr-bundle-0.15.0.jar                                                |
 | Maven            | 3.9.6  | apache-maven-3.9.6-bin.tar.gz       |                                                 |
 | Centos           | 8      | CentOS-8.5.2111-x86_64-dvd1.iso       |                                                 |
 | OpenJDK          | 8      | openlogic-openjdk-8u402-b06-linux-x64.tar.gz       |                                                 |
