@@ -6,8 +6,6 @@
 
 [【 推荐开发平台：https://github.com/642933588/jiron-cloud 】](https://github.com/642933588/jiron-cloud)
 
-[【 博客 地址：https://bigdatacircle.top/ 】](https://bigdatacircle.top/)
-
 ![博客截图](src/main/java/org/bigdatatechcir/images/img_2.png)
 
 ## 1 介绍
