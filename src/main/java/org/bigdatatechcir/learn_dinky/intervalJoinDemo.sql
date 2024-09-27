@@ -6,7 +6,7 @@ SET 'table.exec.mini-batch.size' = '10000';
 SET 'table.local-time-zone' = 'Asia/Shanghai';
 SET 'table.exec.sink.not-null-enforcer'='DROP';
 SET 'table.exec.sink.upsert-materialize' = 'NONE';
-
+set 'execution.savepoint.ignore-unclaimed-state' = 'true';
 
 CREATE TABLE show_log_table (
     log_id BIGINT,
