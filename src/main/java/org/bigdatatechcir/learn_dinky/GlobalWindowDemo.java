@@ -1,4 +1,4 @@
-package org.bigdatatechcir.learn_flink.part4_flink_window;
+package org.bigdatatechcir.learn_dinky;
 
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.MapFunction;
@@ -41,7 +41,7 @@ public class GlobalWindowDemo {
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
 
         // 使用 DataGeneratorSource 生成数据
-        DataStream<String> text = env.addSource(new DataGeneratorSourceFunction());
+        DataStream<String> text = env.addSource(new org.bigdatatechcir.learn_flink.part4_flink_window.GlobalWindowDemo.DataGeneratorSourceFunction());
 
         // 解析数据并提取时间戳
         DataStream<Tuple3<String, Integer, Long>> tuplesWithTimestamp = text
@@ -64,7 +64,7 @@ public class GlobalWindowDemo {
                 .keyBy(value -> value.f0)
                 .windowAll(GlobalWindows.create())
                 .trigger(CountTrigger.of(10)) // 当每个键接收到10个元素时，触发计算
-                .process(new CountProcessFunction());
+                .process(new org.bigdatatechcir.learn_flink.part4_flink_window.GlobalWindowDemo.CountProcessFunction());
 
         // 输出结果
         globalWindowedStream.print();
