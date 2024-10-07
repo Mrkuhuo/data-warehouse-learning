@@ -1,0 +1,16 @@
+version: '2.1'
+services:
+  doris:
+    image: yagagagaga/doris-standalone
+    ports:
+      - "8030:8030"
+      - "8040:8040"
+      - "9030:9030"
+  mysql:
+    image: debezium/example-mysql:1.1
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_USER=mysqluser
+      - MYSQL_PASSWORD=mysqlpw

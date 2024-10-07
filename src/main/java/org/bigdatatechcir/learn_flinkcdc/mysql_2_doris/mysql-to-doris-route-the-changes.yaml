@@ -1,0 +1,33 @@
+################################################################################
+# Description: Sync MySQL all tables to Doris
+################################################################################
+source:
+  type: mysql
+  hostname: localhost
+  port: 3306
+  username: root
+  password: 123456
+  tables: app_db.\.*
+  server-id: 5400-5404
+  server-time-zone: UTC
+
+sink:
+  type: doris
+  fenodes: 127.0.0.1:8030
+  benodes: 127.0.0.1:8040
+  username: root
+  password: ""
+  table.create.properties.light_schema_change: true
+  table.create.properties.replication_num: 1
+
+route:
+  - source-table: app_db.orders
+    sink-table: ods_db.ods_orders
+  - source-table: app_db.shipments
+    sink-table: ods_db.ods_shipments
+  - source-table: app_db.products
+    sink-table: ods_db.ods_products
+
+pipeline:
+  name: Sync MySQL Database to Doris
+  parallelism: 2

@@ -1,0 +1,15 @@
+version: '2.1'
+services:
+  StarRocks:
+    image: starrocks/allin1-ubuntu:3.2.6
+    ports:
+      - "8080:8080"
+      - "9030:9030"
+  MySQL:
+    image: debezium/example-mysql:1.1
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_USER=mysqluser
+      - MYSQL_PASSWORD=mysqlpw
