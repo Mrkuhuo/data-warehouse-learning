@@ -196,3 +196,7 @@
 #### 6) **Doris Catalog** 连接 **Paimon** + **DataRT** 进行数据展示
 
 ![大屏](src/main/java/org/bigdatatechcir/images/daping2.png)
+
+# 友情链接
+
+[【 智能体网络协议：https://github.com/chgaowei/AgentConnect 】](https://github.com/chgaowei/AgentConnect)
