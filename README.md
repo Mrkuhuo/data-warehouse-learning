@@ -200,3 +200,5 @@
 # 友情链接
 
 [【 智能体网络协议：https://github.com/chgaowei/AgentConnect 】](https://github.com/chgaowei/AgentConnect)
+
+[【 新一代数据可观测性平台：https://github.com/datavane/datavines 】](https://github.com/datavane/datavines)
