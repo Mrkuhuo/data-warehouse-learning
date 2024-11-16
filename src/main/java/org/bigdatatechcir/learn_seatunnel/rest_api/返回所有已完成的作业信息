@@ -1,0 +1,31 @@
+GET /finished-jobs/:state (返回所有已完成的作业信息。)
+参数
+参数名称	是否必传	参数类型	参数描述
+state	optional	string	finished job status. FINISHED,CANCELED,FAILED,UNKNOWABLE
+响应
+[
+  {
+    "jobId": "",
+    "jobName": "",
+    "jobStatus": "",
+    "errorMsg": null,
+    "createTime": "",
+    "finishTime": "",
+    "jobDag": {
+      "jobId": "",
+      "envOptions": [],
+      "vertexInfoMap": [
+        {
+          "vertexId": 1,
+          "type": "",
+          "vertexName": "",
+          "tablePaths": [
+            ""
+          ]
+        }
+      ],
+      "pipelineEdges": {}
+    },
+    "metrics": ""
+  }
+]

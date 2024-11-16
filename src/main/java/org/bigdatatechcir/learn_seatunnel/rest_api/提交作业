@@ -1,0 +1,40 @@
+POST /submit-job (如果作业提交成功，返回jobId和jobName。)
+参数
+参数名称	是否必传	参数类型	参数描述
+jobId	optional	string	job id
+jobName	optional	string	job name
+isStartWithSavePoint	optional	string	if job is started with save point
+请求体
+{
+    "env": {
+        "job.mode": "batch"
+    },
+    "source": [
+        {
+            "plugin_name": "FakeSource",
+            "result_table_name": "fake",
+            "row.num": 100,
+            "schema": {
+                "fields": {
+                    "name": "string",
+                    "age": "int",
+                    "card": "int"
+                }
+            }
+        }
+    ],
+    "transform": [
+    ],
+    "sink": [
+        {
+            "plugin_name": "Console",
+            "source_table_name": ["fake"]
+        }
+    ]
+}
+
+响应
+{
+    "jobId": 733584788375666689,
+    "jobName": "rest_api_test"
+}

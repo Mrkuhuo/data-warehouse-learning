@@ -1,0 +1,34 @@
+GET /running-jobs (返回所有作业及其当前状态的概览。)
+
+参数
+响应
+[
+  {
+    "jobId": "",
+    "jobName": "",
+    "jobStatus": "",
+    "createTime": "",
+    "jobDag": {
+      "jobId": "",
+      "envOptions": [],
+      "vertexInfoMap": [
+        {
+          "vertexId": 1,
+          "type": "",
+          "vertexName": "",
+          "tablePaths": [
+            ""
+          ]
+        }
+      ],
+      "pipelineEdges": {}
+    },
+    "pluginJarsUrls": [
+    ],
+    "isStartWithSavePoint": false,
+    "metrics": {
+      "sourceReceivedCount": "",
+      "sinkWriteCount": ""
+    }
+  }
+]

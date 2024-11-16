@@ -1,0 +1,82 @@
+POST /submit-jobs (如果作业提交成功，返回jobId和jobName。)
+参数(在请求体中params字段中添加)
+参数名称	是否必传	参数类型	参数描述
+jobId	optional	string	job id
+jobName	optional	string	job name
+isStartWithSavePoint	optional	string	if job is started with save point
+请求体
+[
+  {
+    "params":{
+      "jobId":"123456",
+      "jobName":"SeaTunnel-01"
+    },
+    "env": {
+      "job.mode": "batch"
+    },
+    "source": [
+      {
+        "plugin_name": "FakeSource",
+        "result_table_name": "fake",
+        "row.num": 1000,
+        "schema": {
+          "fields": {
+            "name": "string",
+            "age": "int",
+            "card": "int"
+          }
+        }
+      }
+    ],
+    "transform": [
+    ],
+    "sink": [
+      {
+        "plugin_name": "Console",
+        "source_table_name": ["fake"]
+      }
+    ]
+  },
+  {
+    "params":{
+      "jobId":"1234567",
+      "jobName":"SeaTunnel-02"
+    },
+    "env": {
+      "job.mode": "batch"
+    },
+    "source": [
+      {
+        "plugin_name": "FakeSource",
+        "result_table_name": "fake",
+        "row.num": 1000,
+        "schema": {
+          "fields": {
+            "name": "string",
+            "age": "int",
+            "card": "int"
+          }
+        }
+      }
+    ],
+    "transform": [
+    ],
+    "sink": [
+      {
+        "plugin_name": "Console",
+        "source_table_name": ["fake"]
+      }
+    ]
+  }
+]
+
+响应
+[
+  {
+    "jobId": "123456",
+    "jobName": "SeaTunnel-01"
+  },{
+    "jobId": "1234567",
+    "jobName": "SeaTunnel-02"
+  }
+]

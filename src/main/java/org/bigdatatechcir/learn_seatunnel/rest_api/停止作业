@@ -1,0 +1,11 @@
+POST /stop-job (如果作业成功停止，返回jobId。)
+请求体
+{
+    "jobId": 733584788375666689,
+    "isStopWithSavePoint": false # if job is stopped with save point
+}
+
+响应
+{
+"jobId": 733584788375666689
+}

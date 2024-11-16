@@ -1,0 +1,22 @@
+POST /stop-jobs (如果作业成功停止，返回jobId。)
+请求体
+[
+  {
+    "jobId": 881432421482889220,
+    "isStopWithSavePoint": false
+  },
+  {
+    "jobId": 881432456517910529,
+    "isStopWithSavePoint": false
+  }
+]
+
+响应
+[
+  {
+    "jobId": 881432421482889220
+  },
+  {
+    "jobId": 881432456517910529
+  }
+]
