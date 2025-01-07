@@ -1,0 +1,55 @@
+docker compose exec coordinator-server ./bin/lakehouse.sh -D flink.rest.address=jobmanager -D flink.rest.port=8081 -D flink.execution.checkpointing.interval=30s
+
+
+CREATE TABLE datalake_enriched_orders (
+    `order_key` BIGINT,
+    `cust_key` INT NOT NULL,
+    `total_price` DECIMAL(15, 2),
+    `order_date` DATE,
+    `order_priority` STRING,
+    `clerk` STRING,
+    `cust_name` STRING,
+    `cust_phone` STRING,
+    `cust_acctbal` DECIMAL(15, 2),
+    `cust_mktsegment` STRING,
+    `nation_name` STRING,
+    PRIMARY KEY (`order_key`) NOT ENFORCED
+) WITH ('table.datalake.enabled' = 'true');
+
+
+-- switch to streaming mode
+SET 'execution.runtime-mode' = 'streaming';
+
+-- insert tuples into datalake_enriched_orders
+INSERT INTO datalake_enriched_orders
+SELECT o.order_key,
+       o.cust_key,
+       o.total_price,
+       o.order_date,
+       o.order_priority,
+       o.clerk,
+       c.name,
+       c.phone,
+       c.acctbal,
+       c.mktsegment,
+       n.name
+FROM fluss_order o
+       LEFT JOIN fluss_customer FOR SYSTEM_TIME AS OF `o`.`ptime` AS `c`
+                 ON o.cust_key = c.cust_key
+       LEFT JOIN fluss_nation FOR SYSTEM_TIME AS OF `o`.`ptime` AS `n`
+                 ON c.nation_key = n.nation_key;
+
+-- switch to batch mode
+SET 'execution.runtime-mode' = 'batch';
+
+-- query snapshots in paimon
+SELECT snapshot_id, total_record_count FROM datalake_enriched_orders$lake$snapshots;
+
+
+-- to sum prices of all orders in paimon
+SELECT sum(total_price) as sum_price FROM datalake_enriched_orders$lake;
+
+-- to sum prices of all orders in fluss and paimon
+SELECT sum(total_price) as sum_price FROM datalake_enriched_orders;
+
+docker compose exec taskmanager tree /tmp/paimon/fluss.db

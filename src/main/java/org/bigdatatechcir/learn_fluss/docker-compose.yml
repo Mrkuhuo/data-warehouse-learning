@@ -1,0 +1,70 @@
+services:
+  coordinator-server:
+    image: fluss/fluss:0.5.0
+    command: coordinatorServer
+    depends_on:
+      - zookeeper
+    environment:
+      - |
+        FLUSS_PROPERTIES=
+        zookeeper.address: zookeeper:2181
+        coordinator.host: coordinator-server
+        remote.data.dir: /tmp/fluss/remote-data
+        lakehouse.storage: paimon
+        paimon.catalog.metastore: filesystem
+        paimon.catalog.warehouse: /tmp/paimon
+  tablet-server:
+    image: fluss/fluss:0.5.0
+    command: tabletServer
+    depends_on:
+      - coordinator-server
+    environment:
+      - |
+        FLUSS_PROPERTIES=
+        zookeeper.address: zookeeper:2181
+        tablet-server.host: tablet-server
+        data.dir: /tmp/fluss/data
+        remote.data.dir: /tmp/fluss/remote-data
+        kv.snapshot.interval: 0s
+        lakehouse.storage: paimon
+        paimon.catalog.metastore: filesystem
+        paimon.catalog.warehouse: /tmp/paimon
+  zookeeper:
+    restart: always
+    image: zookeeper:3.8.4
+
+  jobmanager:
+    image: fluss/quickstart-flink:1.20-0.5
+    ports:
+      - "8083:8081"
+    command: jobmanager
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+    volumes:
+      - shared-tmpfs:/tmp/paimon
+  taskmanager:
+    image: fluss/quickstart-flink:1.20-0.5
+    depends_on:
+      - jobmanager
+    command: taskmanager
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+        taskmanager.numberOfTaskSlots: 10
+        taskmanager.memory.process.size: 2048m
+        taskmanager.memory.framework.off-heap.size: 256m
+    volumes:
+      - shared-tmpfs:/tmp/paimon
+
+volumes:
+  shared-tmpfs:
+    driver: local
+    driver_opts:
+      type: "tmpfs"
+      device: "tmpfs"
+
+# 启动容器
+# docker compose up -d
