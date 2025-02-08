@@ -200,10 +200,6 @@
 
 
 
-# 添加作者微信
 
-![知识星球](src/main/java/org/bigdatatechcir/images/weixin.jpg)
 
-# 知识星球获取配套文档视频资料（持续更新中...）
-
-![知识星球](src/main/java/org/bigdatatechcir/images/zhishixingqiu.jpg)
+![知识星球](src/main/java/org/bigdatatechcir/images/weixinzhishixingqiu.png)
