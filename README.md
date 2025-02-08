@@ -197,8 +197,10 @@
 
 ![大屏](src/main/java/org/bigdatatechcir/images/daping2.png)
 
-# 友情链接
+# 添加作者
 
-[【 智能体网络协议：https://github.com/chgaowei/AgentConnect 】](https://github.com/chgaowei/AgentConnect)
+![知识星球](src/main/java/org/bigdatatechcir/images/weixin.jpg)
 
-[【 新一代数据可观测性平台：https://github.com/datavane/datavines 】](https://github.com/datavane/datavines)
+# 知识星球获取配套文档视频资料（持续更新中...）
+
+![知识星球](src/main/java/org/bigdatatechcir/images/zhishixingqiu.jpg)
