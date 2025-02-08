@@ -199,4 +199,4 @@
 
 ### --------------------------------------------------------------------------------------------------
 
-![知识星球](src/main/java/org/bigdatatechcir/images/weixinzhishixingqiu.png)
+![知识星球](src/main/java/org/bigdatatechcir/images/weizhi.png)
