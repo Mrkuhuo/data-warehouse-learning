@@ -1,0 +1,10 @@
+[
+  {"path":["home","good_list","good_detail","cart","trade","payment"],"rate":20 },
+  {"path":["home","search","good_list","good_detail","login","good_detail","cart","trade","payment"],"rate":30 },
+  {"path":["home","search","good_list","good_detail","login","register","good_detail","cart","trade","payment"],"rate":20 },
+  {"path":["home","mine","orders_unpaid","trade","payment"],"rate":10 },
+  {"path":["home","mine","orders_unpaid","good_detail","good_spec","comment","trade","payment"],"rate":5 },
+  {"path":["home","mine","orders_unpaid","good_detail","good_spec","comment","home"],"rate":5 },
+  {"path":["home","good_detail"],"rate":20 },
+  {"path":["home"  ],"rate":10 }
+]
