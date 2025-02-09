@@ -154,7 +154,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>org.bigdatatechcir.warehousev2.flink.udf.SubstringFunction</mainClass>
+                                    <mainClass>org.bigdatatechcir.warehouse.flink.udf.SubstringFunction</mainClass>
                                 </transformer>
                             </transformers>
                             <shadedArtifactAttached>true</shadedArtifactAttached>
