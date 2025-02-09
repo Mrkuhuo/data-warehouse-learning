@@ -134,7 +134,11 @@
             <version>1.18.1</version>
         </dependency>
 
-
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>3.6.1</version>
+        </dependency>
 
     </dependencies>
 
