@@ -28,6 +28,8 @@ public class KafkaProducerSyncDemo {
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        // 拦截器配置
+        props.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG, ProducerInterceptorPrefix.class.getName() + "," + ProducerInterceptorPrefixPlus.class.getName());
         // 同步发送配置
         props.put(ProducerConfig.ACKS_CONFIG, "all");  // 等待所有副本确认
         props.put(ProducerConfig.RETRIES_CONFIG, 3);   // 重试次数

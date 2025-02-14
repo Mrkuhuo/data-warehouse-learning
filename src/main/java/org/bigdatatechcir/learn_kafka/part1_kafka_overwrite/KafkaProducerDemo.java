@@ -28,12 +28,16 @@ public class KafkaProducerDemo {
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 
         // 创建 Kafka 生产者
-        try (Producer<String, String> producer = new KafkaProducer<>(props)) {
-            // 发送消息
+        Producer<String, String> producer = new KafkaProducer<>(props);
+
+        try  {
+
             for (int i = 0; i < 10; i++) {
                 String key = "key-" + i;
                 String value = "value-" + i;
+                // 创建 ProducerRecord
                 ProducerRecord<String, String> record = new ProducerRecord<>(TOPIC_NAME, key, value);
+                // 发送消息
                 producer.send(record, (metadata, exception) -> {
                     if (exception == null) {
                         System.out.printf("Message sent successfully: topic=%s, partition=%d, offset=%d, key=%s, value=%s%n",
@@ -41,8 +45,13 @@ public class KafkaProducerDemo {
                     } else {
                         System.err.println("Failed to send message: " + exception.getMessage());
                     }
-                });
+                }).get();
             }
+        }catch (Exception e) {
+            System.err.println("Producer error: " + e.getMessage());
+        } finally {
+            // 关闭生产者
+            producer.close();
         }
     }
 
