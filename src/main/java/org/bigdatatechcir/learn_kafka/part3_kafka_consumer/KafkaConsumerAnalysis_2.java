@@ -1,27 +1,25 @@
 package org.bigdatatechcir.learn_kafka.part3_kafka_consumer;
 
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.PartitionInfo;
 import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.regex.Pattern;
 
-public class KafkaConsumerAnalysis_1 {
+public class KafkaConsumerAnalysis_2 {
     public static final String brokerList = "192.168.241.128:9092";
     public static final String topic1 = "topic-demo";
     public static final String topic2 = "topic-demo";
 
-    public static final String topic3 = "part2_kafka_producer1";
+    public static final String topic3 = "part2_kafka_producer";
     public static final String groupId = "group.demo";
     public static final AtomicBoolean isRunning = new AtomicBoolean(true);
 
@@ -41,6 +39,7 @@ public class KafkaConsumerAnalysis_1 {
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, brokerList);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         props.put(ConsumerConfig.CLIENT_ID_CONFIG, "consumer.client.id.demo");
+        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
         return props;
     }
 
@@ -57,18 +56,16 @@ public class KafkaConsumerAnalysis_1 {
             }
         }
         consumer.assign(partitionList);
-
         try {
             while (isRunning.get()) {
                 ConsumerRecords<String, String> records =
                         consumer.poll(Duration.ofMillis(100000000));
-                for (ConsumerRecord<String, String> record : records) {
-                    System.out.println("topic = " + record.topic()
-                            + ", partition = " + record.partition()
-                            + ", offset = " + record.offset());
-                    System.out.println("key = " + record.key()
-                            + ", value = " + record.value());
-                    //do something to process record.
+                for(TopicPartition tp : records.partitions()){
+                    for (ConsumerRecord<String, String> record : records.records(tp)){
+                         System.out.println("topic = " + record.topic()
+                                + ", partition = " + record.partition()
+                                + ", offset = " + record.offset());
+                    }
                 }
             }
         } catch (Exception e) {

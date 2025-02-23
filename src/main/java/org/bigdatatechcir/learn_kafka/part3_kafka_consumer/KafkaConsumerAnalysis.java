@@ -9,7 +9,7 @@ import java.util.Properties;
 import java.util.concurrent.atomic.AtomicBoolean;
 public class KafkaConsumerAnalysis {
     public static final String brokerList = "192.168.241.128:9092";
-    public static final String topic = "part2_kafka_producer";
+    public static final String topic = "part2_kafka_producer1";
     public static final String groupId = "group.demo";
     public static final AtomicBoolean isRunning = new AtomicBoolean(true);
 
@@ -21,7 +21,7 @@ public class KafkaConsumerAnalysis {
                 "org.apache.kafka.common.serialization.StringDeserializer");
         props.put("bootstrap.servers", brokerList);
         props.put("group.id", groupId);
-        props.put("client.id", "consumer.client.id.demo");
+        props.put("client.id", "consumer.client.id.demo1");
         return props;
     }
 
