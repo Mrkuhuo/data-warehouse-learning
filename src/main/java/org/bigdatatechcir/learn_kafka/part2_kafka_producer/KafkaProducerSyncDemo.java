@@ -17,7 +17,7 @@ import java.util.concurrent.Future;
 public class KafkaProducerSyncDemo {
 
     private static final String BOOTSTRAP_SERVERS = "192.168.241.128:9092";
-    private static final String TOPIC_NAME = "part2_kafka_producer";
+    private static final String TOPIC_NAME = "part2_kafka_producer1";
 
     public static void main(String[] args) {
         // 创建 topic
