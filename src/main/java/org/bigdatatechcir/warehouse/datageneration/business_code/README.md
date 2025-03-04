@@ -61,11 +61,16 @@ business_code/
 ```
 
 ## 配置说明
-1. 数据库配置（DbUtil.java）：
-```java
-config.setJdbcUrl("jdbc:mysql://hadoop102:3306/gmall?useUnicode=true&characterEncoding=utf-8&useSSL=false");
-config.setUsername("root");
-config.setPassword("000000");
+1. 数据库配置（application.yml）：
+```yaml
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/gmall?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: gmall
+    password: gmall
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
 ```
 
 2. 生成控制（application.yml）：
@@ -117,28 +122,23 @@ mvn clean package
 java -jar target/data-warehouse-learning-1.0-SNAPSHOT.jar
 ```
 
-## 监控和维护
+## 日志说明
 
-### 1. 数据量监控
-```sql
--- 检查各表数据量
-SELECT COUNT(*) FROM order_info;
-SELECT COUNT(*) FROM user_info;
-SELECT COUNT(*) FROM sku_info;
+### 1. 日志格式
+程序使用标准的日志格式：
+```
+%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
 ```
 
-### 2. 数据一致性检查
-```sql
--- 检查订单和订单明细
-SELECT COUNT(*) FROM order_info o 
-LEFT JOIN order_detail d ON o.id = d.order_id 
-WHERE d.id IS NULL;
-```
+### 2. 日志级别
+- INFO：表更新提示（"正在更新 xxx 表..."）
+- ERROR：数据库操作错误和其他异常
 
-### 3. 性能优化
-- 使用批量插入提高性能
-- 使用连接池管理数据库连接
-- 通过批次大小控制数据生成速度
+### 3. 日志输出示例
+```
+2025-03-05 01:41:52.643 [main] INFO  o.b.w.d.b.g.BaseDataGenerator - 正在更新 base_category1 表...
+2025-03-05 01:41:52.747 [main] INFO  o.b.w.d.b.g.BaseDataGenerator - 正在更新 base_category2 表...
+```
 
 ## 注意事项
 1. 数据量控制：
