@@ -1,0 +1,97 @@
+spring:
+  application:
+    name: business-data-generator
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/gmall?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: gmall
+    password: gmall
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 5000
+      idle-timeout: 300000
+      max-lifetime: 1200000
+
+kafka:
+  bootstrap-servers: 192.168.244.129:9092
+  topic: ODS_BASE_LOG
+  
+generator:
+  batch-size: 100  # 每批生成的数据量
+  interval: 5000   # 生成数据的时间间隔（毫秒）
+
+logging:
+  level:
+    root: INFO
+    org.bigdatatechcir.warehouse: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" 
+
+# 数据生成配置
+generation:
+  # 初始数据生成配置
+  initial:
+    batch-size: 100
+    # 用户数据生成配置
+    user:
+      count: 1000
+    # 商品数据生成配置
+    product:
+      count: 100
+      sku-count: 1000
+    # 订单数据生成配置
+    order:
+      count: 1000
+      detail-count: 5000
+    # 活动数据生成配置
+    activity:
+      count: 50
+      sku-count: 200
+    # 优惠券数据生成配置
+    coupon:
+      count: 100
+      user-count: 5000
+    # CMS数据生成配置
+    cms:
+      banner-count: 10
+      subject-count: 20
+      subject-comment-count: 1000
+
+  # 持续数据生成配置
+  continuous:
+    enabled: true
+    interval: 10  # 生成间隔（秒）
+    batch-size: 50
+    # 用户行为数据生成配置
+    user-behavior:
+      enabled: true
+      count: 100
+    # 订单数据生成配置
+    order:
+      enabled: true
+      count: 50
+    # 支付数据生成配置
+    payment:
+      enabled: true
+      count: 50
+    # 退款数据生成配置
+    refund:
+      enabled: true
+      count: 10
+    # 评价数据生成配置
+    comment:
+      enabled: true
+      count: 100
+    # 收藏数据生成配置
+    favorite:
+      enabled: true
+      count: 50
+    # 购物车数据生成配置
+    cart:
+      enabled: true
+      count: 100
+    # 优惠券使用数据生成配置
+    coupon-use:
+      enabled: true
+      count: 50 

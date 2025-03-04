@@ -4,168 +4,260 @@ import org.bigdatatechcir.warehouse.datageneration.business_code.util.DbUtil;
 import org.bigdatatechcir.warehouse.datageneration.business_code.util.RandomUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.time.LocalDateTime;
 
+@Component
 public class BaseDataGenerator {
     private static final Logger logger = LoggerFactory.getLogger(BaseDataGenerator.class);
 
-    public static void generateBaseData(int batchSize) {
-        generateBaseCategory(batchSize);
-        generateBaseTrademark(batchSize);
-        generateBaseAttrInfo(batchSize);
-        generateBaseAttrValue(batchSize);
-        generateBaseSaleAttr(batchSize);
-        generateBaseProvince(batchSize);
-        generateBaseRegion(batchSize);
-        generateBaseDic(batchSize);
-        generateBaseFrontendParam(batchSize);
+    @Autowired
+    private DbUtil dbUtil;
+
+    public void generateBaseData(int batchSize) {
+        generateCategory1(batchSize);
+        generateCategory2(batchSize);
+        generateCategory3(batchSize);
+        generateTrademark(batchSize);
+        generateAttrInfo(batchSize);
+        generateAttrValue(batchSize);
+        generateSaleAttr();
+        generateProvince(batchSize);
+        generateRegion();
+        generateDict();
+        generateFrontendParam();
     }
 
-    private static void generateBaseCategory(int batchSize) {
-        // 生成一级分类
-        String sql1 = "INSERT INTO base_category1 (id, name) VALUES (?, ?)";
-        List<Object[]> params1 = new ArrayList<>();
-        for (int i = 1; i <= batchSize; i++) {
-            params1.add(new Object[]{i, "一级分类" + i});
-        }
-        DbUtil.batchInsert(sql1, params1);
-
-        // 生成二级分类
-        String sql2 = "INSERT INTO base_category2 (id, name, category1_id) VALUES (?, ?, ?)";
-        List<Object[]> params2 = new ArrayList<>();
-        for (int i = 1; i <= batchSize; i++) {
-            int category1Id = RandomUtil.generateNumber(1, batchSize);
-            params2.add(new Object[]{i, "二级分类" + i, category1Id});
-        }
-        DbUtil.batchInsert(sql2, params2);
-
-        // 生成三级分类
-        String sql3 = "INSERT INTO base_category3 (id, name, category2_id) VALUES (?, ?, ?)";
-        List<Object[]> params3 = new ArrayList<>();
-        for (int i = 1; i <= batchSize; i++) {
-            int category2Id = RandomUtil.generateNumber(1, batchSize);
-            params3.add(new Object[]{i, "三级分类" + i, category2Id});
-        }
-        DbUtil.batchInsert(sql3, params3);
-    }
-
-    private static void generateBaseTrademark(int batchSize) {
-        String sql = "INSERT INTO base_trademark (id, tm_name, logo_url) VALUES (?, ?, ?)";
-        List<Object[]> params = new ArrayList<>();
-        for (int i = 1; i <= batchSize; i++) {
-            String brand = RandomUtil.generateBrand();
-            String logoUrl = "http://example.com/logos/" + brand.toLowerCase() + ".png";
-            params.add(new Object[]{i, brand, logoUrl});
-        }
-        DbUtil.batchInsert(sql, params);
-    }
-
-    private static void generateBaseAttrInfo(int batchSize) {
-        String sql = "INSERT INTO base_attr_info (id, attr_name, category_id, category_level) VALUES (?, ?, ?, ?)";
-        List<Object[]> params = new ArrayList<>();
-        String[] attrNames = {"颜色", "尺码", "材质", "风格", "季节", "适用人群"};
+    private void generateCategory1(int batchSize) {
+        logger.info("正在更新 base_category1 表...");
+        String maxIdSql = "SELECT COALESCE(MAX(id), 0) FROM base_category1";
+        int startId = dbUtil.queryForInt(maxIdSql) + 1;
         
-        for (int i = 1; i <= batchSize; i++) {
-            int categoryId = RandomUtil.generateNumber(1, batchSize);
-            int categoryLevel = RandomUtil.generateNumber(1, 3);
-            String attrName = attrNames[i % attrNames.length];
-            params.add(new Object[]{i, attrName, categoryId, categoryLevel});
-        }
-        DbUtil.batchInsert(sql, params);
-    }
-
-    private static void generateBaseAttrValue(int batchSize) {
-        String sql = "INSERT INTO base_attr_value (id, value_name, attr_id) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO base_category1 (id, name) VALUES (?, ?)";
+        
         List<Object[]> params = new ArrayList<>();
-        for (int i = 1; i <= batchSize; i++) {
-            int attrId = RandomUtil.generateNumber(1, batchSize);
-            String valueName = RandomUtil.generateColor(); // 使用颜色作为示例属性值
-            params.add(new Object[]{i, valueName, attrId});
+        for (int i = 0; i < batchSize; i++) {
+            int id = startId + i;
+            params.add(new Object[]{
+                id,
+                "一级分类" + id
+            });
         }
-        DbUtil.batchInsert(sql, params);
+        dbUtil.batchInsert(sql, params);
     }
 
-    private static void generateBaseSaleAttr(int batchSize) {
+    private void generateCategory2(int batchSize) {
+        logger.info("正在更新 base_category2 表...");
+        String maxIdSql = "SELECT COALESCE(MAX(id), 0) FROM base_category2";
+        int startId = dbUtil.queryForInt(maxIdSql) + 1;
+        
+        String sql = "INSERT INTO base_category2 (id, name, category1_id) VALUES (?, ?, ?)";
+        
+        List<Object[]> params = new ArrayList<>();
+        for (int i = 0; i < batchSize; i++) {
+            int id = startId + i;
+            params.add(new Object[]{
+                id,
+                "二级分类" + id,
+                RandomUtil.generateNumber(1, 100)  // 关联已存在的一级分类
+            });
+        }
+        dbUtil.batchInsert(sql, params);
+    }
+
+    private void generateCategory3(int batchSize) {
+        logger.info("正在更新 base_category3 表...");
+        String maxIdSql = "SELECT COALESCE(MAX(id), 0) FROM base_category3";
+        int startId = dbUtil.queryForInt(maxIdSql) + 1;
+        
+        String sql = "INSERT INTO base_category3 (id, name, category2_id) VALUES (?, ?, ?)";
+        
+        List<Object[]> params = new ArrayList<>();
+        for (int i = 0; i < batchSize; i++) {
+            int id = startId + i;
+            params.add(new Object[]{
+                id,
+                "三级分类" + id,
+                RandomUtil.generateNumber(1, 100)  // 关联已存在的二级分类
+            });
+        }
+        dbUtil.batchInsert(sql, params);
+    }
+
+    private void generateTrademark(int batchSize) {
+        logger.info("正在更新 base_trademark 表...");
+        String maxIdSql = "SELECT COALESCE(MAX(id), 0) FROM base_trademark";
+        int startId = dbUtil.queryForInt(maxIdSql) + 1;
+        
+        String sql = "INSERT INTO base_trademark (id, tm_name) VALUES (?, ?)";
+        
+        List<Object[]> params = new ArrayList<>();
+        for (int i = 0; i < batchSize; i++) {
+            int id = startId + i;
+            params.add(new Object[]{
+                id,
+                "品牌" + id
+            });
+        }
+        dbUtil.batchInsert(sql, params);
+    }
+
+    private void generateAttrInfo(int batchSize) {
+        logger.info("正在更新 base_attr_info 表...");
+        String maxIdSql = "SELECT COALESCE(MAX(id), 0) FROM base_attr_info";
+        int startId = dbUtil.queryForInt(maxIdSql) + 1;
+        
+        String sql = "INSERT INTO base_attr_info (id, attr_name, category_id, category_level) VALUES (?, ?, ?, ?)";
+        
+        List<Object[]> params = new ArrayList<>();
+        String[] attrNames = {"尺码", "颜色", "材质", "风格", "季节", "适用人群"};
+        
+        for (int i = 0; i < batchSize; i++) {
+            int id = startId + i;
+            params.add(new Object[]{
+                id,
+                attrNames[i % attrNames.length],
+                RandomUtil.generateNumber(1, 100),  // 关联已存在的分类
+                RandomUtil.generateNumber(1, 3)
+            });
+        }
+        dbUtil.batchInsert(sql, params);
+    }
+
+    private void generateAttrValue(int batchSize) {
+        logger.info("正在更新 base_attr_value 表...");
+        String maxIdSql = "SELECT COALESCE(MAX(id), 0) FROM base_attr_value";
+        int startId = dbUtil.queryForInt(maxIdSql) + 1;
+        
+        String sql = "INSERT INTO base_attr_value (id, value_name, attr_id) VALUES (?, ?, ?)";
+        
+        List<Object[]> params = new ArrayList<>();
+        String[] colors = {"红色", "蓝色", "黑色", "白色", "金色", "银色", "粉色"};
+        
+        for (int i = 0; i < batchSize; i++) {
+            int id = startId + i;
+            params.add(new Object[]{
+                id,
+                colors[i % colors.length],
+                RandomUtil.generateNumber(1, 100)  // 关联已存在的属性
+            });
+        }
+        dbUtil.batchInsert(sql, params);
+    }
+
+    private void generateSaleAttr() {
+        logger.info("正在更新 base_sale_attr 表...");
+        String maxIdSql = "SELECT COALESCE(MAX(id), 0) FROM base_sale_attr";
+        int startId = dbUtil.queryForInt(maxIdSql) + 1;
+        
         String sql = "INSERT INTO base_sale_attr (id, name) VALUES (?, ?)";
+        
         List<Object[]> params = new ArrayList<>();
         String[] saleAttrs = {"颜色", "尺码", "版本", "套装", "类型"};
         
-        for (int i = 1; i <= Math.min(batchSize, saleAttrs.length); i++) {
-            params.add(new Object[]{i, saleAttrs[i-1]});
+        for (int i = 0; i < saleAttrs.length; i++) {
+            int id = startId + i;
+            params.add(new Object[]{
+                id,
+                saleAttrs[i]
+            });
         }
-        DbUtil.batchInsert(sql, params);
+        dbUtil.batchInsert(sql, params);
     }
 
-    private static void generateBaseProvince(int batchSize) {
-        String sql = "INSERT INTO base_province (id, name, region_id, area_code, iso_code) VALUES (?, ?, ?, ?, ?)";
+    private void generateProvince(int batchSize) {
+        logger.info("正在更新 base_province 表...");
+        String maxIdSql = "SELECT COALESCE(MAX(id), 0) FROM base_province";
+        int startId = dbUtil.queryForInt(maxIdSql) + 1;
+        
+        String sql = "INSERT INTO base_province (id, name, region_id, area_code, iso_code, iso_3166_2) " +
+                    "VALUES (?, ?, ?, ?, ?, ?)";
+        
         List<Object[]> params = new ArrayList<>();
-        for (int i = 1; i <= batchSize; i++) {
-            int regionId = RandomUtil.generateNumber(1, 7);
-            String areaCode = String.format("%06d", i);
-            String isoCode = "CN-" + String.format("%03d", i);
-            params.add(new Object[]{i, RandomUtil.PROVINCES[i % RandomUtil.PROVINCES.length], 
-                                  regionId, areaCode, isoCode});
+        for (int i = 0; i < batchSize; i++) {
+            int id = startId + i;
+            params.add(new Object[]{
+                id,
+                RandomUtil.PROVINCES[i % RandomUtil.PROVINCES.length],
+                RandomUtil.generateNumber(1, 7),  // 关联已存在的地区
+                RandomUtil.generateNumber(100000, 999999),
+                "CN-" + String.format("%02d", id),
+                "CN-" + String.format("%02d", id)
+            });
         }
-        DbUtil.batchInsert(sql, params);
+        dbUtil.batchInsert(sql, params);
     }
 
-    private static void generateBaseRegion(int batchSize) {
+    private void generateRegion() {
+        logger.info("正在更新 base_region 表...");
+        String maxIdSql = "SELECT COALESCE(MAX(id), 0) FROM base_region";
+        int startId = dbUtil.queryForInt(maxIdSql) + 1;
+        
         String sql = "INSERT INTO base_region (id, region_name) VALUES (?, ?)";
+        
         List<Object[]> params = new ArrayList<>();
         String[] regions = {"华北", "华东", "华南", "华中", "西南", "西北", "东北"};
         
-        for (int i = 1; i <= Math.min(batchSize, regions.length); i++) {
-            params.add(new Object[]{i, regions[i-1]});
+        for (int i = 0; i < regions.length; i++) {
+            int id = startId + i;
+            params.add(new Object[]{
+                id,
+                regions[i]
+            });
         }
-        DbUtil.batchInsert(sql, params);
+        dbUtil.batchInsert(sql, params);
     }
 
-    private static void generateBaseDic(int batchSize) {
+    private void generateDict() {
+        logger.info("正在更新 base_dic 表...");
         String sql = "INSERT INTO base_dic (dic_code, dic_name, parent_code, create_time, operate_time) " +
                     "VALUES (?, ?, ?, ?, ?)";
         
         List<Object[]> params = new ArrayList<>();
-        String[][] dicData = {
-            {"1001", "年龄段", "0"},
-            {"1001001", "0-15岁", "1001"},
-            {"1001002", "16-25岁", "1001"},
-            {"1001003", "26-35岁", "1001"},
-            {"1002", "性别", "0"},
-            {"1002001", "男", "1002"},
-            {"1002002", "女", "1002"},
-            {"1003", "支付方式", "0"},
-            {"1003001", "支付宝", "1003"},
-            {"1003002", "微信", "1003"},
-            {"1003003", "银联", "1003"}
-        };
-        
         LocalDateTime now = LocalDateTime.now();
-        for (String[] dic : dicData) {
-            params.add(new Object[]{
-                dic[0], dic[1], dic[2], now, now
-            });
-        }
-        DbUtil.batchInsert(sql, params);
+        
+        // 添加父级字典
+        params.add(new Object[]{1001, "年龄段", 0, now, now});
+        params.add(new Object[]{1002, "性别", 0, now, now});
+        params.add(new Object[]{1003, "支付方式", 0, now, now});
+        
+        // 添加年龄段子项
+        params.add(new Object[]{1001001, "0-15岁", 1001, now, now});
+        params.add(new Object[]{1001002, "16-25岁", 1001, now, now});
+        params.add(new Object[]{1001003, "26-35岁", 1001, now, now});
+        
+        // 添加性别子项
+        params.add(new Object[]{1002001, "男", 1002, now, now});
+        params.add(new Object[]{1002002, "女", 1002, now, now});
+        
+        // 添加支付方式子项
+        params.add(new Object[]{1003001, "支付宝", 1003, now, now});
+        params.add(new Object[]{1003002, "微信", 1003, now, now});
+        params.add(new Object[]{1003003, "银联", 1003, now, now});
+        
+        dbUtil.batchInsert(sql, params);
     }
 
-    private static void generateBaseFrontendParam(int batchSize) {
-        String sql = "INSERT INTO base_frontend_param (param_name, param_code) VALUES (?, ?)";
+    private void generateFrontendParam() {
+        logger.info("正在更新 base_frontend_param 表...");
+        String sql = "INSERT INTO base_frontend_param (code) VALUES (?)";
         
         List<Object[]> params = new ArrayList<>();
-        String[][] paramData = {
-            {"颜色", "color"},
-            {"尺码", "size"},
-            {"风格", "style"},
-            {"季节", "season"},
-            {"材质", "material"}
+        String[] frontendParams = {
+            "color",
+            "size",
+            "style",
+            "season",
+            "material"
         };
         
-        for (String[] param : paramData) {
-            params.add(new Object[]{param[0], param[1]});
+        for (String param : frontendParams) {
+            params.add(new Object[]{param});
         }
-        DbUtil.batchInsert(sql, params);
+        dbUtil.batchInsert(sql, params);
     }
 } 

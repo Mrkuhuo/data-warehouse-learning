@@ -4,19 +4,49 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+@Component
 public class DbUtil {
     private static final Logger logger = LoggerFactory.getLogger(DbUtil.class);
-    private static HikariDataSource dataSource;
-    private static boolean isConnected = false;
+    private HikariDataSource dataSource;
+    private boolean isConnected = false;
 
-    static {
+    @Value("${spring.datasource.url}")
+    private String url;
+
+    @Value("${spring.datasource.username}")
+    private String username;
+
+    @Value("${spring.datasource.password}")
+    private String password;
+
+    @Value("${spring.datasource.hikari.maximum-pool-size:10}")
+    private int maximumPoolSize;
+
+    @Value("${spring.datasource.hikari.minimum-idle:5}")
+    private int minimumIdle;
+
+    @Value("${spring.datasource.hikari.connection-timeout:5000}")
+    private long connectionTimeout;
+
+    @Value("${spring.datasource.hikari.idle-timeout:300000}")
+    private long idleTimeout;
+
+    @Value("${spring.datasource.hikari.max-lifetime:1200000}")
+    private long maxLifetime;
+
+    @PostConstruct
+    public void init() {
         try {
             initDataSource();
             testConnection();
@@ -27,18 +57,20 @@ public class DbUtil {
         }
     }
 
-    private static void initDataSource() {
+    private void initDataSource() {
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:mysql://hadoop102:3306/gmall?useUnicode=true&characterEncoding=utf-8&useSSL=false");
-        config.setUsername("root");
-        config.setPassword("000000");
-        config.setMaximumPoolSize(10);
-        config.setMinimumIdle(5);
-        config.setConnectionTimeout(5000); // 设置连接超时为5秒
+        config.setJdbcUrl(url);
+        config.setUsername(username);
+        config.setPassword(password);
+        config.setMaximumPoolSize(maximumPoolSize);
+        config.setMinimumIdle(minimumIdle);
+        config.setConnectionTimeout(connectionTimeout);
+        config.setIdleTimeout(idleTimeout);
+        config.setMaxLifetime(maxLifetime);
         dataSource = new HikariDataSource(config);
     }
 
-    private static void testConnection() {
+    private void testConnection() {
         try (Connection conn = dataSource.getConnection()) {
             logger.info("数据库连接测试成功");
         } catch (SQLException e) {
@@ -46,14 +78,14 @@ public class DbUtil {
         }
     }
 
-    public static Connection getConnection() throws SQLException {
+    public Connection getConnection() throws SQLException {
         if (!isConnected) {
             throw new SQLException("数据库未连接");
         }
         return dataSource.getConnection();
     }
 
-    public static void batchInsert(String sql, List<Object[]> params) {
+    public void batchInsert(String sql, List<Object[]> params) {
         if (!isConnected) {
             printToConsole(sql, params);
             return;
@@ -80,7 +112,7 @@ public class DbUtil {
         }
     }
 
-    private static void printToConsole(String sql, List<Object[]> params) {
+    private void printToConsole(String sql, List<Object[]> params) {
         System.out.println("\n=== 模拟SQL执行（数据库连接失败时的打印输出）===");
         System.out.println("SQL: " + sql);
         System.out.println("数据:");
@@ -103,7 +135,7 @@ public class DbUtil {
         System.out.println("=== 模拟SQL执行结束 ===\n");
     }
 
-    private static void closeResources(Connection conn, PreparedStatement ps) {
+    private void closeResources(Connection conn, PreparedStatement ps) {
         if (ps != null) {
             try {
                 ps.close();
@@ -120,9 +152,28 @@ public class DbUtil {
         }
     }
 
-    public static void close() {
+    public void close() {
         if (dataSource != null && !dataSource.isClosed()) {
             dataSource.close();
+        }
+    }
+
+    public int queryForInt(String sql) {
+        if (!isConnected) {
+            return 0;
+        }
+        
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return 0;
+        } catch (SQLException e) {
+            logger.error("查询整数值失败: {}", e.getMessage());
+            return 0;
         }
     }
 } 

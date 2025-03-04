@@ -4,98 +4,166 @@ import org.bigdatatechcir.warehouse.datageneration.business_code.util.DbUtil;
 import org.bigdatatechcir.warehouse.datageneration.business_code.util.RandomUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class WarehouseDataGenerator {
     private static final Logger logger = LoggerFactory.getLogger(WarehouseDataGenerator.class);
+    private static final int BATCH_SIZE = 500;
 
-    public static void generateWarehouseData(int batchSize) {
-        generateWareInfo(batchSize);
-        generateWareSku(batchSize);
-        generateWareOrderTask(batchSize);
-        generateWareOrderTaskDetail(batchSize);
+    @Autowired
+    private DbUtil dbUtil;
+
+    public void generateWarehouseData(int count) {
+        logger.info("开始生成仓库数据...");
+        
+        logger.info("正在更新 ware_info 表...");
+        generateWareInfo(count);
+        
+        logger.info("正在更新 ware_sku 表...");
+        generateWareSku(count);
+        
+        logger.info("正在更新 ware_order_task 表...");
+        generateWareOrderTask(count);
+        
+        logger.info("正在更新 ware_order_task_detail 表...");
+        generateWareOrderTaskDetail(count);
+        
+        logger.info("仓库数据生成完成");
     }
 
-    private static void generateWareInfo(int batchSize) {
+    private void generateWareInfo(int count) {
         String sql = "INSERT INTO ware_info (id, name, address, areacode) VALUES (?, ?, ?, ?)";
         
-        List<Object[]> params = new ArrayList<>();
-        for (int i = 1; i <= batchSize; i++) {
-            String name = "仓库" + i;
-            String address = RandomUtil.generateAddress();
-            String areacode = String.format("%06d", i);
-
-            params.add(new Object[]{i, name, address, areacode});
+        int remainingCount = count;
+        while (remainingCount > 0) {
+            // 获取最大ID
+            String maxIdSql = "SELECT COALESCE(MAX(id), 0) FROM ware_info";
+            int startId = dbUtil.queryForInt(maxIdSql) + 1;
+            
+            int batchCount = Math.min(remainingCount, BATCH_SIZE);
+            List<Object[]> params = new ArrayList<>();
+            
+            for (int i = 0; i < batchCount; i++) {
+                int id = startId + i;
+                String name = "仓库" + id;
+                String address = RandomUtil.generateAddress();
+                String areacode = String.format("%06d", RandomUtil.generateNumber(100000, 999999));
+                
+                params.add(new Object[]{
+                    id, name, address, areacode
+                });
+            }
+            
+            dbUtil.batchInsert(sql, params);
+            remainingCount -= batchCount;
         }
-        DbUtil.batchInsert(sql, params);
     }
 
-    private static void generateWareSku(int batchSize) {
+    private void generateWareSku(int count) {
         String sql = "INSERT INTO ware_sku (id, sku_id, warehouse_id, stock, stock_name, stock_locked) " +
                     "VALUES (?, ?, ?, ?, ?, ?)";
         
-        List<Object[]> params = new ArrayList<>();
-        for (int i = 1; i <= batchSize; i++) {
-            String skuId = RandomUtil.generateSku();
-            int warehouseId = RandomUtil.generateNumber(1, 100);
-            int stock = RandomUtil.generateNumber(100, 1000);
-            String stockName = "库存" + i;
-            int stockLocked = RandomUtil.generateNumber(0, 50);
-
-            params.add(new Object[]{i, skuId, warehouseId, stock, stockName, stockLocked});
+        int remainingCount = count;
+        while (remainingCount > 0) {
+            // 获取最大ID
+            String maxIdSql = "SELECT COALESCE(MAX(id), 0) FROM ware_sku";
+            int startId = dbUtil.queryForInt(maxIdSql) + 1;
+            
+            int batchCount = Math.min(remainingCount, BATCH_SIZE);
+            List<Object[]> params = new ArrayList<>();
+            
+            for (int i = 0; i < batchCount; i++) {
+                int id = startId + i;
+                int skuId = RandomUtil.generateNumber(1, 35);
+                int warehouseId = RandomUtil.generateNumber(1, 10);
+                int stock = RandomUtil.generateNumber(100, 1000);
+                String stockName = "库存" + id;
+                int stockLocked = RandomUtil.generateNumber(0, 100);
+                
+                params.add(new Object[]{
+                    id, skuId, warehouseId, stock, stockName, stockLocked
+                });
+            }
+            
+            dbUtil.batchInsert(sql, params);
+            remainingCount -= batchCount;
         }
-        DbUtil.batchInsert(sql, params);
     }
 
-    private static void generateWareOrderTask(int batchSize) {
+    private void generateWareOrderTask(int count) {
         String sql = "INSERT INTO ware_order_task (id, order_id, consignee, consignee_tel, delivery_address, " +
                     "order_comment, payment_way, task_status, order_body, tracking_no, create_time, " +
-                    "warehouse_id, task_comment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    "ware_id, task_comment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
-        List<Object[]> params = new ArrayList<>();
-        for (int i = 1; i <= batchSize; i++) {
-            String orderId = RandomUtil.generateOrderNo();
-            String consignee = RandomUtil.generateName();
-            String consigneeTel = RandomUtil.generatePhone();
-            String deliveryAddress = RandomUtil.generateAddress();
-            String orderComment = "订单备注" + i;
-            String paymentWay = "1";
-            String taskStatus = String.valueOf(RandomUtil.generateNumber(1, 4));
-            String orderBody = "商品描述" + i;
-            String trackingNo = RandomUtil.generateUUID().substring(0, 12);
-            LocalDateTime createTime = LocalDateTime.now();
-            int warehouseId = RandomUtil.generateNumber(1, 100);
-            String taskComment = "任务备注" + i;
-
-            params.add(new Object[]{
-                i, orderId, consignee, consigneeTel, deliveryAddress, orderComment,
-                paymentWay, taskStatus, orderBody, trackingNo, createTime,
-                warehouseId, taskComment
-            });
+        int remainingCount = count;
+        while (remainingCount > 0) {
+            // 获取最大ID
+            String maxIdSql = "SELECT COALESCE(MAX(id), 0) FROM ware_order_task";
+            int startId = dbUtil.queryForInt(maxIdSql) + 1;
+            
+            int batchCount = Math.min(remainingCount, BATCH_SIZE);
+            List<Object[]> params = new ArrayList<>();
+            
+            for (int i = 0; i < batchCount; i++) {
+                int id = startId + i;
+                int orderId = RandomUtil.generateNumber(1, 5000);
+                String consignee = RandomUtil.generateName();
+                String consigneeTel = RandomUtil.generatePhone();
+                String deliveryAddress = RandomUtil.generateAddress();
+                String orderComment = "订单备注" + id;
+                int paymentWay = RandomUtil.generateNumber(1, 2);
+                int taskStatus = RandomUtil.generateNumber(1001, 1006);
+                String orderBody = "订单内容" + id;
+                String trackingNo = "TN" + String.format("%010d", id);
+                LocalDateTime now = LocalDateTime.now();
+                int wareId = RandomUtil.generateNumber(1, 10);
+                String taskComment = "任务备注" + id;
+                
+                params.add(new Object[]{
+                    id, orderId, consignee, consigneeTel, deliveryAddress, orderComment,
+                    paymentWay, taskStatus, orderBody, trackingNo, now, wareId, taskComment
+                });
+            }
+            
+            dbUtil.batchInsert(sql, params);
+            remainingCount -= batchCount;
         }
-        DbUtil.batchInsert(sql, params);
     }
 
-    private static void generateWareOrderTaskDetail(int batchSize) {
-        String sql = "INSERT INTO ware_order_task_detail (id, sku_id, sku_name, sku_num, task_id, " +
-                    "warehouse_id, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private void generateWareOrderTaskDetail(int count) {
+        String sql = "INSERT INTO ware_order_task_detail (id, sku_id, sku_name, sku_num, task_id, refund_status) " +
+                    "VALUES (?, ?, ?, ?, ?, ?)";
         
-        List<Object[]> params = new ArrayList<>();
-        for (int i = 1; i <= batchSize; i++) {
-            String skuId = RandomUtil.generateSku();
-            String skuName = "商品" + i;
-            int skuNum = RandomUtil.generateNumber(1, 5);
-            int taskId = RandomUtil.generateNumber(1, batchSize);
-            int warehouseId = RandomUtil.generateNumber(1, 100);
-            String status = String.valueOf(RandomUtil.generateNumber(1, 4));
-
-            params.add(new Object[]{
-                i, skuId, skuName, skuNum, taskId, warehouseId, status
-            });
+        int remainingCount = count;
+        while (remainingCount > 0) {
+            // 获取最大ID
+            String maxIdSql = "SELECT COALESCE(MAX(id), 0) FROM ware_order_task_detail";
+            int startId = dbUtil.queryForInt(maxIdSql) + 1;
+            
+            int batchCount = Math.min(remainingCount, BATCH_SIZE);
+            List<Object[]> params = new ArrayList<>();
+            
+            for (int i = 0; i < batchCount; i++) {
+                int id = startId + i;
+                int skuId = RandomUtil.generateNumber(1, 35);
+                String skuName = "商品" + skuId;
+                int skuNum = RandomUtil.generateNumber(1, 10);
+                int taskId = RandomUtil.generateNumber(-10, 0); // 使用负数作为任务ID
+                String refundStatus = String.valueOf(RandomUtil.generateNumber(701, 706)); // 退款状态
+                
+                params.add(new Object[]{
+                    id, skuId, skuName, skuNum, taskId, refundStatus
+                });
+            }
+            
+            dbUtil.batchInsert(sql, params);
+            remainingCount -= batchCount;
         }
-        DbUtil.batchInsert(sql, params);
     }
 } 

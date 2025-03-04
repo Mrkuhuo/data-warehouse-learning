@@ -4,6 +4,7 @@ import org.bigdatatechcir.warehouse.datageneration.business_code.generator.*;
 import org.bigdatatechcir.warehouse.datageneration.business_code.util.DbUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,6 +20,36 @@ public class BusinessApplication implements CommandLineRunner {
     @Value("${generator.interval:5000}")
     private long interval;
     
+    @Autowired
+    private DbUtil dbUtil;
+    
+    @Autowired
+    private BaseDataGenerator baseDataGenerator;
+    
+    @Autowired
+    private ProductDataGenerator productDataGenerator;
+    
+    @Autowired
+    private ActivityDataGenerator activityDataGenerator;
+    
+    @Autowired
+    private CouponDataGenerator couponDataGenerator;
+    
+    @Autowired
+    private OrderDataGenerator orderDataGenerator;
+    
+    @Autowired
+    private UserBehaviorGenerator userBehaviorGenerator;
+    
+    @Autowired
+    private WarehouseDataGenerator warehouseDataGenerator;
+    
+    @Autowired
+    private CMSDataGenerator cmsDataGenerator;
+    
+    @Autowired
+    private UserDataGenerator userDataGenerator;
+    
     public static void main(String[] args) {
         SpringApplication.run(BusinessApplication.class, args);
     }
@@ -26,41 +57,23 @@ public class BusinessApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         try {
-            // 初始化基础数据（只执行一次）
-            logger.info("Generating base data...");
-            BaseDataGenerator.generateBaseData(batchSize);
+            baseDataGenerator.generateBaseData(batchSize);
             
-            // 持续生成业务数据
-            logger.info("Start generating business data...");
             while (true) {
-                // 生成商品相关数据
-                ProductDataGenerator.generateProductData(batchSize / 10);
-                
-                // 生成活动相关数据
-                ActivityDataGenerator.generateActivityData(batchSize / 10);
-                
-                // 生成优惠券相关数据
-                CouponDataGenerator.generateCouponData(batchSize / 10);
-                
-                // 生成订单相关数据
-                OrderDataGenerator.generateOrderData(batchSize);
-                
-                // 生成用户行为数据
-                UserBehaviorGenerator.generateUserBehavior(batchSize);
-                
-                // 生成仓库相关数据
-                WarehouseDataGenerator.generateWarehouseData(batchSize / 5);
-                
-                // 生成CMS相关数据
-                CMSDataGenerator.generateCMSData(batchSize / 20);
-                
-                logger.info("Generated one batch of data");
+                userDataGenerator.generateUserData(batchSize / 10);
+                productDataGenerator.generateProductData(batchSize / 10, batchSize / 20);
+                activityDataGenerator.generateActivityData(batchSize / 10, batchSize / 20);
+                couponDataGenerator.generateCouponData(batchSize / 10, batchSize / 20);
+                orderDataGenerator.generateOrderData(batchSize);
+                userBehaviorGenerator.generateUserBehaviorData(batchSize);
+                warehouseDataGenerator.generateWarehouseData(batchSize / 5);
+                cmsDataGenerator.generateCMSData(batchSize / 20, batchSize / 40, batchSize / 100);
                 Thread.sleep(interval);
             }
         } catch (Exception e) {
             logger.error("Error generating data", e);
         } finally {
-            DbUtil.close();
+            dbUtil.close();
         }
     }
 } 
