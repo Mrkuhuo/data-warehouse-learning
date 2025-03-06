@@ -194,7 +194,3 @@
 #### 6) **Doris Catalog** 连接 **Paimon** + **DataRT** 进行数据展示
 
 ![大屏](src/main/java/org/bigdatatechcir/images/daping2.png)
-
---------------------------------------------------------------------------------------------------
-
-![知识星球](src/main/java/org/bigdatatechcir/images/weizhi.png)
