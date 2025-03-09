@@ -18,6 +18,9 @@ public class BaseDataGenerator {
     @Autowired
     private DbUtil dbUtil;
 
+    @Autowired
+    private RandomUtil randomUtil;
+
     public void generateBaseData(int batchSize) {
         generateCategory1(batchSize);
         generateCategory2(batchSize);
@@ -63,7 +66,7 @@ public class BaseDataGenerator {
             params.add(new Object[]{
                 id,
                 "二级分类" + id,
-                RandomUtil.generateNumber(1, 100)  // 关联已存在的一级分类
+                randomUtil.generateNumber(1, 100)  // 关联已存在的一级分类
             });
         }
         dbUtil.batchInsert(sql, params);
@@ -82,7 +85,7 @@ public class BaseDataGenerator {
             params.add(new Object[]{
                 id,
                 "三级分类" + id,
-                RandomUtil.generateNumber(1, 100)  // 关联已存在的二级分类
+                randomUtil.generateNumber(1, 100)  // 关联已存在的二级分类
             });
         }
         dbUtil.batchInsert(sql, params);
@@ -121,8 +124,8 @@ public class BaseDataGenerator {
             params.add(new Object[]{
                 id,
                 attrNames[i % attrNames.length],
-                RandomUtil.generateNumber(1, 100),  // 关联已存在的分类
-                RandomUtil.generateNumber(1, 3)
+                randomUtil.generateNumber(1, 100),  // 关联已存在的分类
+                randomUtil.generateNumber(1, 3)
             });
         }
         dbUtil.batchInsert(sql, params);
@@ -143,7 +146,7 @@ public class BaseDataGenerator {
             params.add(new Object[]{
                 id,
                 colors[i % colors.length],
-                RandomUtil.generateNumber(1, 100)  // 关联已存在的属性
+                randomUtil.generateNumber(1, 100)  // 关联已存在的属性
             });
         }
         dbUtil.batchInsert(sql, params);
@@ -182,9 +185,9 @@ public class BaseDataGenerator {
             int id = startId + i;
             params.add(new Object[]{
                 id,
-                RandomUtil.PROVINCES[i % RandomUtil.PROVINCES.length],
-                RandomUtil.generateNumber(1, 7),  // 关联已存在的地区
-                RandomUtil.generateNumber(100000, 999999),
+                randomUtil.PROVINCES[i % randomUtil.PROVINCES.length],
+                randomUtil.generateNumber(1, 7),  // 关联已存在的地区
+                randomUtil.generateNumber(100000, 999999),
                 "CN-" + String.format("%02d", id),
                 "CN-" + String.format("%02d", id)
             });

@@ -1,5 +1,6 @@
 package org.bigdatatechcir.warehouse.datageneration.business_code.util;
 
+import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
@@ -8,6 +9,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Random;
 import java.util.UUID;
 
+@Component
 public class RandomUtil {
     private static final Random random = new Random();
     private static final String[] FIRST_NAMES = {"张", "王", "李", "赵", "刘", "陈", "杨", "黄", "周", "吴"};
