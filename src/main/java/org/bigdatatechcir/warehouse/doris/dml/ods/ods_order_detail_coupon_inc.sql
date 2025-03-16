@@ -1,5 +1,5 @@
--- DROP TABLE IF EXISTS ods.ods_order_detail_coupon_inc;
-CREATE TABLE ods.ods_order_detail_coupon_inc
+-- DROP TABLE IF EXISTS ods.ods_order_detail_coupon_full;
+CREATE TABLE ods.ods_order_detail_coupon_full
 (
     `id`              VARCHAR(255) COMMENT '编号',
     `k1`              DATE NOT NULL COMMENT '分区字段',

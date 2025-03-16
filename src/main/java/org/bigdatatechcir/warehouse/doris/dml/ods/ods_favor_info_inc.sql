@@ -1,5 +1,5 @@
--- DROP TABLE IF EXISTS ods.ods_favor_info_inc;
-CREATE TABLE ods.ods_favor_info_inc
+-- DROP TABLE IF EXISTS ods.ods_favor_info_full;
+CREATE TABLE ods.ods_favor_info_full
 (
     `id`          VARCHAR(255) COMMENT '编号',
     `k1`          DATE NOT NULL COMMENT '分区字段',

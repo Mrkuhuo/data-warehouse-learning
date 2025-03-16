@@ -1,24 +1,18 @@
--- DROP TABLE IF EXISTS ods.ods_order_detail_inc;
-CREATE TABLE ods.ods_order_detail_inc
+-- DROP TABLE IF EXISTS ods.ods_order_detail_activity_full;
+CREATE TABLE ods.ods_order_detail_activity_full
 (
-    `id`                    VARCHAR(255) COMMENT '编号',
-    `k1`                    DATE NOT NULL COMMENT '分区字段',
-    `order_id`              STRING COMMENT '订单编号',
-    `sku_id`                STRING COMMENT '商品id',
-    `sku_name`              STRING COMMENT '商品名称',
-    `img_url`               STRING COMMENT '图片名称',
-    `order_price`           DECIMAL(16, 2) COMMENT '商品价格',
-    `sku_num`               BIGINT COMMENT '商品数量',
-    `create_time`           STRING COMMENT '创建时间',
-    `source_type`           STRING COMMENT '来源类型',
-    `source_id`             STRING COMMENT '来源编号',
-    `split_total_amount`    DECIMAL(16, 2) COMMENT '分摊总金额',
-    `split_activity_amount` DECIMAL(16, 2) COMMENT '分摊活动减免金额',
-    `split_coupon_amount`   DECIMAL(16, 2) COMMENT '分摊优惠券减免金额'
+    `id`               VARCHAR(255) COMMENT '编号',
+    `k1`               DATE NOT NULL COMMENT '分区字段',
+    `order_id`         STRING COMMENT '订单号',
+    `order_detail_id`  STRING COMMENT '订单明细id',
+    `activity_id`      STRING COMMENT '活动ID',
+    `activity_rule_id` STRING COMMENT '活动规则ID',
+    `sku_id`           STRING COMMENT 'sku_id',
+    `create_time`      STRING COMMENT '创建时间'
 )
     ENGINE=OLAP  -- 使用Doris的OLAP引擎，适用于高并发分析场景
     UNIQUE KEY(`id`,`k1`)  -- 唯一键约束，保证(id, k1)组合的唯一性（Doris聚合模型特性）
-COMMENT '订单明细增量表'
+COMMENT '订单明细活动关联表'
 PARTITION BY RANGE(`k1`) ()  -- 按日期范围分区（具体分区规则由动态分区配置决定）
 DISTRIBUTED BY HASH(`id`)  -- 按id哈希分桶，保证相同id的数据分布在同一节点
 PROPERTIES
@@ -38,7 +32,7 @@ PROPERTIES
     "dynamic_partition.buckets" = "32",            -- 每个分区的分桶数（影响并行度）
     "dynamic_partition.create_history_partition" = "true", -- 自动创建缺失的历史分区
 
-    "bloom_filter_columns" = "id,order_id,sku_id",  -- 为高频过滤字段创建布隆过滤器，加速WHERE查询
+    "bloom_filter_columns" = "id,order_id,order_detail_id,activity_id,sku_id",  -- 为高频过滤字段创建布隆过滤器，加速WHERE查询
     "compaction_policy" = "time_series",          -- 按时间序合并策略优化时序数据
     "enable_unique_key_merge_on_write" = "true",  -- 唯一键写时合并（实时更新场景减少读放大）
     "in_memory" = "false"                        -- 关闭全内存存储（仅小表可开启）

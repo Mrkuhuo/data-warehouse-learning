@@ -1,5 +1,5 @@
--- DROP TABLE IF EXISTS ods.ods_coupon_use_inc;
-CREATE TABLE ods.ods_coupon_use_inc
+-- DROP TABLE IF EXISTS ods.ods_coupon_use_full;
+CREATE TABLE ods.ods_coupon_use_full
 (
     `id`            VARCHAR(255) COMMENT '编号',
     `k1`            DATE NOT NULL COMMENT '分区字段',
@@ -7,6 +7,7 @@ CREATE TABLE ods.ods_coupon_use_inc
     `user_id`       STRING COMMENT '用户ID',
     `order_id`      STRING COMMENT '订单ID',
     `coupon_status` STRING COMMENT '优惠券状态',
+    `create_time`   STRING COMMENT '创建时间',
     `get_time`      STRING COMMENT '领取时间',
     `using_time`    STRING COMMENT '使用时间(下单)',
     `used_time`     STRING COMMENT '使用时间(支付)',
