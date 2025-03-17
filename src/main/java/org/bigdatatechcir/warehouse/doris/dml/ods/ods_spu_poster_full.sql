@@ -7,6 +7,7 @@ CREATE TABLE ods.ods_spu_poster_full
     `img_name`     STRING COMMENT '文件名称',
     `img_url`      STRING COMMENT '文件路径',
     `create_time`  STRING COMMENT '创建时间',
+    `update_time`  STRING COMMENT '更新时间',
     `is_default`   STRING COMMENT '是否默认'
 )
     ENGINE=OLAP  -- 使用Doris的OLAP引擎，适用于高并发分析场景
