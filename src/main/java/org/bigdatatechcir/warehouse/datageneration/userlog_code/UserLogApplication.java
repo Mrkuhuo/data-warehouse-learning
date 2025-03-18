@@ -1,6 +1,9 @@
 package org.bigdatatechcir.warehouse.datageneration.userlog_code;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.errors.TimeoutException;
@@ -31,6 +34,9 @@ public class UserLogApplication implements CommandLineRunner {
     private long interval;
     
     public static void main(String[] args) {
+        // 配置ObjectMapper，避免转义字符
+        objectMapper.configure(JsonGenerator.Feature.ESCAPE_NON_ASCII, false);
+        
         SpringApplication.run(UserLogApplication.class, args);
     }
     
@@ -60,7 +66,7 @@ public class UserLogApplication implements CommandLineRunner {
         try {
             while (true) {
                 UserLog log = UserLogGenerator.generateLog();
-                String jsonLog = objectMapper.writeValueAsString(log);
+                String jsonLog = processNestedJson(log);
                 
                 if (useKafka && producer != null) {
                     try {
@@ -91,5 +97,36 @@ public class UserLogApplication implements CommandLineRunner {
                 producer.close();
             }
         }
+    }
+    
+    /**
+     * 处理嵌套的JSON字符串，避免转义
+     */
+    private String processNestedJson(UserLog log) throws Exception {
+        // 先将对象转换为JSON节点
+        JsonNode rootNode = objectMapper.valueToTree(log);
+        
+        // 处理actions字段
+        if (rootNode.has("actions") && !rootNode.get("actions").isNull()) {
+            String actionsStr = rootNode.get("actions").asText();
+            if (actionsStr != null && !actionsStr.isEmpty() && !actionsStr.equals("[]")) {
+                // 解析actions字符串为JSON数组
+                JsonNode actionsNode = objectMapper.readTree(actionsStr);
+                ((ObjectNode) rootNode).set("actions", actionsNode);
+            }
+        }
+        
+        // 处理displays字段
+        if (rootNode.has("displays") && !rootNode.get("displays").isNull()) {
+            String displaysStr = rootNode.get("displays").asText();
+            if (displaysStr != null && !displaysStr.isEmpty() && !displaysStr.equals("[]")) {
+                // 解析displays字符串为JSON数组
+                JsonNode displaysNode = objectMapper.readTree(displaysStr);
+                ((ObjectNode) rootNode).set("displays", displaysNode);
+            }
+        }
+        
+        // 将处理后的JSON节点转换回字符串
+        return objectMapper.writeValueAsString(rootNode);
     }
 } 
