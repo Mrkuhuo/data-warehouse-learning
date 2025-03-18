@@ -3,7 +3,7 @@ CREATE TABLE ods.ods_coupon_info_full
 (
     `id`               VARCHAR(255) COMMENT '购物券编号',
     `k1`               DATE NOT NULL COMMENT '分区字段',
-    `coupon_name`      STRING COMMENT '购物券名称',
+    `coupon_name`      text COMMENT '购物券名称',
     `coupon_type`      STRING COMMENT '购物券类型 1 现金券 2 折扣券 3 满减券 4 满件打折券',
     `condition_amount` DECIMAL(16, 2) COMMENT '满额数',
     `condition_num`    BIGINT COMMENT '满件数',
