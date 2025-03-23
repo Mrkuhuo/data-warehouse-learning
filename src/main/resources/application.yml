@@ -15,7 +15,7 @@ spring:
 
 kafka:
   bootstrap-servers: 192.168.241.128:9092
-  topic: ODS_BASE_LOG
+  topic: ods_log_full
   
 generator:
   batch-size: 100  # 每批生成的数据量
