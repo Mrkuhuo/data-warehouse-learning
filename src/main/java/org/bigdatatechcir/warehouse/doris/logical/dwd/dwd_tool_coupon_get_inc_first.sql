@@ -7,4 +7,4 @@ select
     user_id,
     date_format(get_time,'yyyy-MM-dd') date_id,
     get_time
-from ods.ods_coupon_use_inc
+from ods.ods_coupon_use_full

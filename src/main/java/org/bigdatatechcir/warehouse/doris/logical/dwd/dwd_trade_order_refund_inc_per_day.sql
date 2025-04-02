@@ -30,7 +30,7 @@ from
             refund_reason_type,
             refund_reason_txt,
             create_time
-        from ods.ods_order_refund_info_inc
+        from ods.ods_order_refund_info_full
         where k1=date('${pdate}')
     )ri
         left join
@@ -38,27 +38,27 @@ from
         select
             id,
             province_id
-        from ods.ods_order_info_inc
+        from ods.ods_order_info_full
         where k1=date('${pdate}')
     )oi
-on ri.order_id=oi.id
-    left join
+    on ri.order_id=oi.id
+        left join
     (
-    select
-    dic_code,
-    dic_name
-    from ods.ods_base_dic_full
-    where parent_code = '15'
-    and k1=date('${pdate}')
+        select
+            dic_code,
+            dic_name
+        from ods.ods_base_dic_full
+        where parent_code = '15'
+          and k1=date('${pdate}')
     )type_dic
     on ri.refund_type=type_dic.dic_code
-    left join
+        left join
     (
-    select
-    dic_code,
-    dic_name
-    from ods.ods_base_dic_full
-    where  parent_code = '13'
-    and k1=date('${pdate}')
+        select
+            dic_code,
+            dic_name
+        from ods.ods_base_dic_full
+        where  parent_code = '13'
+          and k1=date('${pdate}')
     )reason_dic
     on ri.refund_reason_type=reason_dic.dic_code;

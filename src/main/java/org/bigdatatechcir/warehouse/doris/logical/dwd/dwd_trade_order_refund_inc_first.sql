@@ -30,14 +30,14 @@ from
             refund_reason_type,
             refund_reason_txt,
             create_time
-        from ods.ods_order_refund_info_inc
+        from ods.ods_order_refund_info_full
     )ri
         left join
     (
         select
             id,
             province_id
-        from ods.ods_order_info_inc
+        from ods.ods_order_info_full
     )oi
     on ri.order_id=oi.id
         left join

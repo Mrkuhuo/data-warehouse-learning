@@ -8,5 +8,5 @@ select
     order_id,
     date_format(using_time,'yyyy-MM-dd') date_id,
     using_time
-from ods.ods_coupon_use_inc
+from ods.ods_coupon_use_full
 where using_time is not null;

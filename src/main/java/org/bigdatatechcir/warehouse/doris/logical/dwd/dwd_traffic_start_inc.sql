@@ -39,7 +39,7 @@ from
             start_open_ad_ms,
             start_open_ad_skip_ms,
             ts
-        from ods.ods_log_inc
+        from ods.ods_log_full
         where start_entry is not null
     )log
         left join

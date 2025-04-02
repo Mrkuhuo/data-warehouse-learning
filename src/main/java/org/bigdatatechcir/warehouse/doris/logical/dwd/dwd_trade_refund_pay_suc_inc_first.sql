@@ -23,7 +23,7 @@ from
             payment_type,
             callback_time,
             total_amount
-        from ods.ods_refund_payment_inc
+        from ods.ods_refund_payment_full
         where refund_status='1602'
     )rp
         left join
@@ -32,7 +32,7 @@ from
             id,
             user_id,
             province_id
-        from ods.ods_order_info_inc
+        from ods.ods_order_info_full
     )oi
     on rp.order_id=oi.id
         left join
@@ -41,7 +41,7 @@ from
             order_id,
             sku_id,
             refund_num
-        from ods.ods_order_refund_info_inc
+        from ods.ods_order_refund_info_full
     )ri
     on rp.order_id=ri.order_id
         and rp.sku_id=ri.sku_id

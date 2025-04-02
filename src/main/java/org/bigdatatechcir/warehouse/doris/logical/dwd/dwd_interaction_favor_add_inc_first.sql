@@ -7,4 +7,4 @@ select
     sku_id,
     date_format(create_time,'yyyy-MM-dd') date_id,
     create_time
-from ods.ods_favor_info_inc
+from ods.ods_favor_info_full

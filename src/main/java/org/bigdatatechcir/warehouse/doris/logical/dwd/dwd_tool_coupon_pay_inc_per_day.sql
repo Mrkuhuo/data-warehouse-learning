@@ -8,6 +8,6 @@ select
     order_id,
     date_format(used_time,'yyyy-MM-dd') date_id,
     used_time
-from ods_coupon_use_inc
+from ods_coupon_use_full
 where used_time is not null
 and k1=date('${pdate}');

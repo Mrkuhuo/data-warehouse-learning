@@ -51,7 +51,7 @@ from
             json_extract(e1,'$.order') `order`,
             json_extract(e1,'$.pos_id') pos_id,
             ts
-        from  ods.ods_log_inc  lateral view explode_json_array_json(displays) tmp1 as e1
+        from  ods.ods_log_full  lateral view explode_json_array_json(displays) tmp1 as e1
         where json_extract(e1,'$.display_type')  is not null
     )log
         left join

@@ -20,7 +20,7 @@ from
             order_id,
             create_time,
             appraise
-        from ods.ods_comment_info_inc
+        from ods.ods_comment_info_full
     )ci
         left join
     (

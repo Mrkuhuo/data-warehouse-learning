@@ -47,7 +47,7 @@ from
             json_extract(e1,'$.item') action_item,
             json_extract(e1,'$.item_type') action_item_type,
             json_extract(e1,'$.ts') ts
-        from  ods.ods_log_inc  lateral view explode_json_array_json(actions) tmp1 as e1
+        from  ods.ods_log_full  lateral view explode_json_array_json(actions) tmp1 as e1
         where json_extract(e1,'$.action_id') is not null
     )log
         left join

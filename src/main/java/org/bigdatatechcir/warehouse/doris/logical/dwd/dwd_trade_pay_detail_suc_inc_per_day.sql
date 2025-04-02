@@ -1,5 +1,5 @@
 -- 交易域支付成功事务事实表
-INSERT INTO dwd.dwd_trade_pay_detail_suc_inc(id, k1, order_id, user_id, sku_id, province_id, activity_id, activity_rule_id, coupon_id, payment_type_code, payment_type_name, date_id, callback_time, source_id, source_type_code, source_type_name, sku_num, split_original_amount, split_activity_amount, split_coupon_amount,split_payment_amount)
+INSERT INTO dwd.dwd_trade_pay_detail_suc_inc(id, k1, order_id, user_id, sku_id, province_id, activity_id, activity_rule_id, coupon_id, payment_type_code, payment_type_name, date_id, callback_time, source_id, source_type, source_type_name, sku_num, split_original_amount, split_activity_amount, split_coupon_amount,split_payment_amount)
 select
     od.id,
     k1,
@@ -36,7 +36,7 @@ from
             split_total_amount,
             split_activity_amount,
             split_coupon_amount
-        from ods.ods_order_detail_inc
+        from ods.ods_order_detail_full
         where k1=date('${pdate}')
     ) od
         join
@@ -46,56 +46,56 @@ from
             order_id,
             payment_type,
             callback_time
-        from ods.ods_payment_info_inc
+        from ods.ods_payment_info_full
         where payment_status='1602'
-        and k1=date('${pdate}')
+          and k1=date('${pdate}')
     ) pi
-on od.order_id=pi.order_id
-    left join
+    on od.order_id=pi.order_id
+        left join
     (
-    select
-    id,
-    province_id
-    from ods.ods_order_info_inc
-    where k1=date('${pdate}')
+        select
+            id,
+            province_id
+        from ods.ods_order_info_full
+        where k1=date('${pdate}')
     ) oi
     on od.order_id = oi.id
-    left join
+        left join
     (
-    select
-    order_detail_id,
-    activity_id,
-    activity_rule_id
-    from ods.ods_order_detail_activity_inc
-    where k1=date('${pdate}')
+        select
+            order_detail_id,
+            activity_id,
+            activity_rule_id
+        from ods.ods_order_detail_activity_full
+        where k1=date('${pdate}')
     ) act
     on od.id = act.order_detail_id
-    left join
+        left join
     (
-    select
-    order_detail_id,
-    coupon_id
-    from ods.ods_order_detail_coupon_inc
-    where k1=date('${pdate}')
+        select
+            order_detail_id,
+            coupon_id
+        from ods.ods_order_detail_coupon_full
+        where k1=date('${pdate}')
     ) cou
     on od.id = cou.order_detail_id
-    left join
+        left join
     (
-    select
-    dic_code,
-    dic_name
-    from ods.ods_base_dic_full
-    where k1=date('${pdate}')
-    and parent_code='11'
+        select
+            dic_code,
+            dic_name
+        from ods.ods_base_dic_full
+        where k1=date('${pdate}')
+          and parent_code='11'
     ) pay_dic
     on pi.payment_type=pay_dic.dic_code
-    left join
+        left join
     (
-    select
-    dic_code,
-    dic_name
-    from ods.ods_base_dic_full
-    where parent_code='24'
-    and k1=date('${pdate}')
+        select
+            dic_code,
+            dic_name
+        from ods.ods_base_dic_full
+        where parent_code='24'
+          and k1=date('${pdate}')
     )src_dic
     on od.source_type=src_dic.dic_code;

@@ -67,7 +67,7 @@ from
                                     common_os operate_system,
                                     ts,
                                     if(page_last_page_id is null,ts,null) session_start_point
-                                from ods.ods_log_inc
+                                from ods.ods_log_full
                                 where  page_last_page_id is not null
                             )t1
                     )t2

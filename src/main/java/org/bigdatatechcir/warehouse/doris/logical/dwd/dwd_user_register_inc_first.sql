@@ -18,7 +18,7 @@ from
             id user_id,
             k1,
             create_time
-        from ods.ods_user_info_inc
+        from ods.ods_user_info_full
     )ui
         left join
     (
@@ -31,7 +31,7 @@ from
             common_os operate_system,
             common_uid user_id,
             common_vc version_code
-        from ods.ods_log_inc
+        from ods.ods_log_full
         where page_page_id='register'
           and common_uid is not null
     )log

@@ -23,7 +23,7 @@ from
             payment_type,
             callback_time,
             total_amount
-        from ods.ods_refund_payment_inc
+        from ods.ods_refund_payment_full
         where refund_status='1602'
           and k1=date('${pdate}')
     )rp
@@ -33,28 +33,28 @@ from
             id,
             user_id,
             province_id
-        from ods.ods_order_info_inc
+        from ods.ods_order_info_full
         where k1=date('${pdate}')
     )oi
-on rp.order_id=oi.id
-    left join
+    on rp.order_id=oi.id
+        left join
     (
-    select
-    order_id,
-    sku_id,
-    refund_num
-    from ods.ods_order_refund_info_inc
-    where k1=date('${pdate}')
+        select
+            order_id,
+            sku_id,
+            refund_num
+        from ods.ods_order_refund_info_full
+        where k1=date('${pdate}')
     )ri
     on rp.order_id=ri.order_id
-    and rp.sku_id=ri.sku_id
-    left join
+        and rp.sku_id=ri.sku_id
+        left join
     (
-    select
-    dic_code,
-    dic_name
-    from ods.ods_base_dic_full
-    where parent_code='11'
-    and k1=date('${pdate}')
+        select
+            dic_code,
+            dic_name
+        from ods.ods_base_dic_full
+        where parent_code='11'
+          and k1=date('${pdate}')
     )dic
     on rp.payment_type=dic.dic_code;
