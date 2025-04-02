@@ -43,7 +43,7 @@ PROPERTIES
     "dynamic_partition.buckets" = "32",            -- 每个分区的分桶数（影响并行度）
     "dynamic_partition.create_history_partition" = "true", -- 自动创建缺失的历史分区
 
-    "bloom_filter_columns" = "id,task_id,order_id,sku_id,warehouse_id,user_id",  -- 为高频过滤字段创建布隆过滤器，加速WHERE查询
+    -- "bloom_filter_columns" = "id,task_id,order_id,sku_id,warehouse_id,user_id",  -- 为高频过滤字段创建布隆过滤器，加速WHERE查询
     "compaction_policy" = "time_series",          -- 按时间序合并策略优化时序数据
     "enable_unique_key_merge_on_write" = "true",  -- 唯一键写时合并（实时更新场景减少读放大）
     "in_memory" = "false"                        -- 关闭全内存存储（仅小表可开启）
