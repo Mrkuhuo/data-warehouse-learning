@@ -3,7 +3,6 @@
 CREATE TABLE ods.ods_activity_rule_full
 (
     `id`            BIGINT COMMENT '编号',
-    `k1`            STRING COMMENT '分区字段',
     `activity_id`   BIGINT COMMENT '活动ID',
     `activity_type` STRING COMMENT '活动类型',
     `condition_amount` DECIMAL(16,2) COMMENT '满减金额',
