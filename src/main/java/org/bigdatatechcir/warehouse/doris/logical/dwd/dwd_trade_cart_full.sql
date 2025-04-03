@@ -1,12 +1,54 @@
+/*
+ * 文件名: dwd_trade_cart_full.sql
+ * 功能描述: 交易域购物车周期快照事实表 - 记录用户未下单的购物车商品
+ * 数据粒度: 购物车商品项
+ * 刷新策略: 全量刷新
+ * 调度周期: 每日
+ * 依赖表: 
+ *   - ods.ods_cart_info_full: 购物车原始数据
+ * 目标表: dwd.dwd_trade_cart_full
+ * 主要功能: 
+ *   1. 筛选并保留用户未下单的购物车商品数据
+ *   2. 为购物车分析和转化率计算提供数据支持
+ *   3. 为用户行为分析和商品推荐提供基础数据
+ */
+
 -- 交易域购物车周期快照事实表
-INSERT INTO dwd.dwd_trade_cart_full(id, k1, user_id, sku_id, sku_name, sku_num)
+INSERT INTO dwd.dwd_trade_cart_full(
+    id,       -- 购物车记录唯一标识
+    k1,       -- 数据日期，用于分区
+    user_id,  -- 用户ID
+    sku_id,   -- 商品SKU ID
+    sku_name, -- 商品SKU名称
+    sku_num   -- 商品数量
+)
 select
-    id,
-    k1,
-    user_id,
-    sku_id,
-    sku_name,
-    sku_num
+    id,       -- 购物车记录ID
+    k1,       -- 分区日期
+    user_id,  -- 用户ID，关联用户维度
+    sku_id,   -- 商品SKU ID，关联商品维度
+    sku_name, -- 商品名称
+    sku_num   -- 购物车中的商品数量
 from ods.ods_cart_info_full
-where is_ordered='0'
-  and k1=date('${pdate}');
+where is_ordered='0'             -- 只保留未下单的购物车商品
+  and k1=date('${pdate}');       -- 按分区日期过滤，保留当天数据
+
+/*
+ * 设计说明:
+ * 1. 购物车业务特点:
+ *    - 购物车是用户购买意向的重要指标
+ *    - 只保留未下单(is_ordered='0')的商品，已下单的商品应在订单相关表中分析
+ *    
+ * 2. 数据应用场景:
+ *    - 购物车商品转化率分析：了解哪些商品容易被加入购物车但不被购买
+ *    - 购物车流失分析：分析用户加入购物车后不购买的原因
+ *    - 个性化推荐：基于用户购物车商品进行相关推荐
+ *
+ * 3. 全量快照特点:
+ *    - 每天保存用户购物车当前状态的快照
+ *    - 可以通过比较不同日期的快照分析购物车变化趋势
+ *
+ * 4. 数据限制:
+ *    - 此表不包含商品价格信息，如需价格数据需关联商品表
+ *    - 不保存已下单的购物车记录，避免与订单数据重复
+ */
