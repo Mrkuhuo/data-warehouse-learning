@@ -1,18 +1,37 @@
--- 用户维度表
+-- ===============================================================================
+-- 用户维度拉链表初始化ETL逻辑(dim_user_zip_first)
+-- 功能描述：初始化用户维度拉链表，创建用户维度的第一个历史版本
+-- 数据来源：ods.ods_user_info_inc
+-- 调度策略：一次性执行，仅用于拉链表初始化
+-- 依赖关系：依赖ODS层用户增量表的初始数据准备完成
+-- 特殊说明：该脚本仅在首次构建用户拉链表时执行一次，设置所有用户的初始历史版本
+--          后续增量变更通过dim_user_zip.sql维护
+-- ===============================================================================
+
+-- 用户维度拉链表初始化插入（设置历史起点）
 insert into dim.dim_user_zip(id, k1, login_name, nick_name, name, phone_num, email, user_level, birthday, gender, create_time, operate_time, start_date, end_date)
 select
-    id,
-    k1,
-    login_name,
-    nick_name,
-    md5(name),
-    md5(phone_num),
-    md5(email),
-    user_level,
-    birthday,
-    gender,
-    create_time,
-    operate_time,
-    '2020-06-14' start_date,
-    '9999-12-31' end_date
-from ods.ods_user_info_inc
+    id,                       -- 用户ID，唯一标识
+    k1,                       -- 分区日期
+    login_name,               -- 用户登录名
+    nick_name,                -- 用户昵称
+    md5(name),                -- 用户真实姓名（MD5加密处理，保护用户隐私）
+    md5(phone_num),           -- 手机号码（MD5加密处理，保护用户隐私）
+    md5(email),               -- 电子邮箱（MD5加密处理，保护用户隐私）
+    user_level,               -- 用户等级
+    birthday,                 -- 用户生日
+    gender,                   -- 用户性别（M-男性，F-女性，U-未知）
+    create_time,              -- 创建时间（注册时间）
+    operate_time,             -- 最后操作时间
+    '2020-06-14' start_date,  -- 拉链起始日期（设置为固定的业务起始日期）
+    '9999-12-31' end_date     -- 拉链结束日期（9999-12-31表示当前有效版本）
+from ods.ods_user_info_full    -- 从用户信息增量表获取数据
+-- where 条件可按需添加，例如筛选特定日期的数据
+-- where k1 = date('${pdate}')
+;
+
+-- 注意事项：
+-- 1. 敏感字段（姓名、手机、邮箱）使用MD5加密，确保用户隐私安全
+-- 2. 拉链表的起始日期统一设置为'2020-06-14'，作为所有用户维度数据的历史起点
+-- 3. 结束日期设置为'9999-12-31'，表示这是初始的当前有效版本
+-- 4. 执行此脚本后，后续的用户信息变更将通过dim_user_zip.sql中的拉链处理逻辑更新
