@@ -1,25 +1,93 @@
+/*
+ * 脚本名称: dws_user_user_login_td_first.sql
+ * 目标表: dws.dws_user_user_login_td
+ * 数据粒度: 用户
+ * 刷新策略: 全量加载历史数据
+ * 调度周期: 一次性执行
+ * 依赖表:
+ *   - dim.dim_user_zip: 用户维度表
+ *   - dwd.dwd_user_login_inc: 用户域用户登录事实表
+ */
+
 -- 用户域用户粒度登录历史至今汇总表
-INSERT INTO dws.dws_user_user_login_td(user_id, k1, login_date_last, login_count_td)
-select
-    u.id,
-    u.k1,
-    nvl(login_date_last,date_format(create_time,'yyyy-MM-dd')),
-    nvl(login_count_td,1)
-from
+-- 计算逻辑: 
+-- 1. 获取用户基础信息
+-- 2. 关联用户登录历史数据
+-- 3. 计算最后登录日期和累计登录次数
+INSERT INTO dws.dws_user_user_login_td(
+    /* 用户维度 */
+    user_id,                           /* 用户ID: 用户唯一标识 */
+    k1,                                /* 数据日期: 分区日期 */
+    
+    /* 度量值字段 */
+    login_date_last,                   /* 最后登录日期: 用户最近一次登录的日期 */
+    login_count_td                     /* 累计登录次数: 用户历史累计登录次数 */
+)
+SELECT
+    /* 用户基础信息 */
+    u.id,                              /* 用户ID: 来自用户维度表 */
+    u.k1,                              /* 数据日期: 来自用户维度表 */
+    
+    /* 登录指标: 使用NVL处理空值情况 */
+    NVL(login_date_last,               /* 最后登录日期: 如果没有登录记录，使用注册日期 */
+        DATE_FORMAT(create_time, 'yyyy-MM-dd')),
+    NVL(login_count_td, 1)             /* 累计登录次数: 如果没有登录记录，默认为1次(注册时) */
+FROM
     (
-        select
-            id,
-            k1,
-            create_time
-        from dim.dim_user_zip
-    )u
-        left join
+        /* 用户维度子查询: 获取用户基础信息 */
+        SELECT
+            id,                         /* 用户ID */
+            k1,                         /* 数据日期 */
+            create_time                 /* 用户创建时间: 用作首次登录时间 */
+        FROM 
+            dim.dim_user_zip           /* 用户维度表 */
+    ) u
+    LEFT JOIN
     (
-        select
-            user_id,
-            max(k1) login_date_last,
-            count(*) login_count_td
-        from dwd.dwd_user_login_inc
-        group by user_id
-    )l
-    on u.id=l.user_id;
+        /* 登录历史子查询: 统计用户登录情况 */
+        SELECT
+            user_id,                    /* 用户ID */
+            MAX(k1) login_date_last,    /* 最后登录日期: 取最大日期 */
+            COUNT(*) login_count_td     /* 累计登录次数: 统计登录记录数 */
+        FROM 
+            dwd.dwd_user_login_inc     /* 用户登录事实表 */
+        GROUP BY 
+            user_id                     /* 按用户分组统计 */
+    ) l
+    ON u.id = l.user_id;               /* 关联条件: 用户ID匹配 */
+
+/*
+ * 数据处理说明:
+ *
+ * 1. 执行场景:
+ *    - 首次构建数据仓库时执行
+ *    - 数据修复或重建时执行
+ *    - 全量加载所有用户的登录历史数据
+ *
+ * 2. 数据来源与处理:
+ *    - 用户维度: 从用户维度表获取用户基础信息
+ *    - 登录历史: 从登录事实表获取历史登录记录
+ *    - 数据关联: 通过LEFT JOIN保留所有用户记录
+ *    - 空值处理: 使用NVL函数处理未登录用户的指标
+ *
+ * 3. 统计指标说明:
+ *    - 最后登录日期: 
+ *      > 有登录记录: 使用最近一次登录日期
+ *      > 无登录记录: 使用用户注册日期
+ *    - 累计登录次数:
+ *      > 有登录记录: 统计实际登录次数
+ *      > 无登录记录: 默认为1次(将注册视为首次登录)
+ *
+ * 4. 执行建议:
+ *    - 首次加载数据量可能较大，建议在非业务高峰期执行
+ *    - 根据数据量大小，可能需要调整执行资源配置
+ *    - 执行完成后，建议验证数据完整性和准确性
+ *    - 日常维护应使用每日增量加载脚本
+ *
+ * 5. 应用场景:
+ *    - 用户活跃度: 分析用户登录频率和最近活跃情况
+ *    - 用户生命周期: 研究用户从注册到最后活跃的时间跨度
+ *    - 用户分层: 基于登录行为对用户进行分层
+ *    - 流失预警: 识别长期未登录的用户
+ *    - 运营策略: 为不同登录频率的用户制定差异化运营策略
+ */

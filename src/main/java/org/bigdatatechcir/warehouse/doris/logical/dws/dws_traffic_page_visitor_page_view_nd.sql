@@ -1,17 +1,99 @@
+/*
+ * 脚本名称: dws_traffic_page_visitor_page_view_nd.sql
+ * 目标表: dws.dws_traffic_page_visitor_page_view_nd
+ * 数据粒度: 访客 + 页面 + 日期
+ * 刷新策略: 增量刷新，每日新增数据
+ * 调度周期: 每日调度一次
+ * 运行参数:
+ *   - pdate: 数据日期，默认为当天
+ * 依赖表:
+ *   - dws.dws_traffic_page_visitor_page_view_1d: 流量域访客页面粒度页面浏览最近1日汇总表
+ */
+
 -- 流量域访客页面粒度页面浏览最近n日汇总表
-INSERT INTO dws.dws_traffic_page_visitor_page_view_nd(mid_id, k1, brand, model, operate_system, page_id, during_time_7d, view_count_7d, during_time_30d, view_count_30d)
-select
-    mid_id,
-    k1,
-    brand,
-    model,
-    operate_system,
-    page_id,
-    sum(if(k1>=date_add(date('${pdate}'),-6),during_time_1d,0)),
-    sum(if(k1>=date_add(date('${pdate}'),-6),view_count_1d,0)),
-    sum(during_time_1d),
-    sum(view_count_1d)
-from dws.dws_traffic_page_visitor_page_view_1d
-where k1>=date_add(date('${pdate}'),-29)
-  and k1<=date('${pdate}')
-group by mid_id,k1,brand,model,operate_system,page_id;
+-- 计算逻辑: 
+-- 1. 从1日汇总表获取最近30天的数据
+-- 2. 按访客、页面和日期分组聚合浏览数据
+-- 3. 计算7日和30日的累计指标
+INSERT INTO dws.dws_traffic_page_visitor_page_view_nd(
+    /* 维度字段 */
+    mid_id,                            /* 设备ID: 访客唯一标识 */
+    k1,                                /* 数据日期: 访问日期 */
+    
+    /* 设备信息维度 */
+    brand,                             /* 设备品牌: 用户使用的设备品牌 */
+    model,                             /* 设备型号: 用户使用的具体机型 */
+    operate_system,                    /* 操作系统: 用户使用的系统类型 */
+    
+    /* 页面维度 */
+    page_id,                           /* 页面ID: 被访问的页面标识 */
+    
+    /* 度量值字段 - 7日累计 */
+    during_time_7d,                    /* 7日访问时长: 最近7天在页面停留的总时长(秒) */
+    view_count_7d,                     /* 7日访问次数: 最近7天访问该页面的总次数 */
+    
+    /* 度量值字段 - 30日累计 */
+    during_time_30d,                   /* 30日访问时长: 最近30天在页面停留的总时长(秒) */
+    view_count_30d                     /* 30日访问次数: 最近30天访问该页面的总次数 */
+)
+SELECT
+    /* 维度字段: 保持与1日汇总表一致 */
+    mid_id,                            /* 设备ID: 用于识别独立访客 */
+    k1,                                /* 数据日期: 用于时间维度分析 */
+    
+    /* 设备信息维度: 用于分析不同设备的访问特征 */
+    brand,                             /* 设备品牌: 分析不同品牌设备的使用情况 */
+    model,                             /* 设备型号: 分析不同型号设备的使用情况 */
+    operate_system,                    /* 操作系统: 分析不同系统的用户分布 */
+    
+    /* 页面维度: 用于分析页面访问情况 */
+    page_id,                           /* 页面ID: 标识具体访问的页面 */
+    
+    /* 7日累计指标: 只统计最近7天的数据 */
+    SUM(IF(k1 >= DATE_ADD(DATE('${pdate}'), -6), during_time_1d, 0)) AS during_time_7d,  /* 7日访问时长: 最近7天的停留时长总和 */
+    SUM(IF(k1 >= DATE_ADD(DATE('${pdate}'), -6), view_count_1d, 0)) AS view_count_7d,    /* 7日访问次数: 最近7天的访问次数总和 */
+    
+    /* 30日累计指标: 统计最近30天的数据 */
+    SUM(during_time_1d) AS during_time_30d,  /* 30日访问时长: 最近30天的停留时长总和 */
+    SUM(view_count_1d) AS view_count_30d     /* 30日访问次数: 最近30天的访问次数总和 */
+FROM 
+    dws.dws_traffic_page_visitor_page_view_1d   /* 从1日汇总表获取数据 */
+WHERE 
+    k1 >= DATE_ADD(DATE('${pdate}'), -29)    /* 时间筛选: 只处理最近30天的数据 */
+    AND k1 <= DATE('${pdate}')               /* 时间筛选: 确保不超过处理日期 */
+GROUP BY 
+    mid_id, k1,                        /* 按访客和日期分组 */
+    brand, model, operate_system,      /* 按设备信息分组 */
+    page_id;                           /* 按页面分组 */
+
+/*
+ * 数据处理说明:
+ *
+ * 1. 累计指标计算:
+ *    - 7日累计: 使用IF条件筛选最近7天的数据并求和
+ *    - 30日累计: 直接对30天内的所有数据求和
+ *    - 时间窗口: 使用DATE_ADD函数计算日期范围
+ *
+ * 2. 数据来源与处理:
+ *    - 数据来源: 从1日汇总表获取最近30天的数据
+ *    - 时间筛选: 通过WHERE条件限定只处理最近30天的数据
+ *    - 数据聚合: 按访客、页面和日期分组聚合访问指标
+ *    - 维度保持: 保持与1日汇总表相同的维度字段
+ *
+ * 3. 统计指标说明:
+ *    - 访问时长: 反映用户对页面的关注度和内容吸引力
+ *    - 访问次数: 反映页面的整体访问热度和用户黏性
+ *    - 多维度分组: 支持从设备、时间、页面等维度分析访问行为
+ *
+ * 4. 性能优化:
+ *    - 时间筛选: 通过WHERE条件限定只处理最近30天的数据，减少数据处理量
+ *    - 分组优化: 按访客、页面和日期分组，保证统计粒度一致
+ *    - 条件计算: 使用IF条件在聚合时筛选7日数据，避免多次扫描
+ *
+ * 5. 应用场景:
+ *    - 趋势分析: 分析页面访问的中长期趋势
+ *    - 用户粘性: 评估页面的用户留存和活跃度
+ *    - 内容评估: 通过访问时长评估内容质量
+ *    - 设备分析: 分析不同设备用户的使用习惯
+ *    - 运营决策: 为产品迭代和运营策略提供数据支持
+ */

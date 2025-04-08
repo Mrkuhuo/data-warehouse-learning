@@ -1,14 +1,89 @@
+/*
+ * 脚本名称: dws_traffic_page_visitor_page_view_1d_per_day.sql
+ * 目标表: dws.dws_traffic_page_visitor_page_view_1d
+ * 数据粒度: 访客 + 页面 + 日期
+ * 刷新策略: 增量刷新，每日新增数据
+ * 调度周期: 每日调度一次
+ * 运行参数:
+ *   - pdate: 数据日期，默认为当天
+ * 依赖表:
+ *   - dwd.dwd_traffic_page_view_inc: 流量域页面浏览事实表
+ */
+
 -- 流量域访客页面粒度页面浏览最近1日汇总表
-INSERT INTO dws.dws_traffic_page_visitor_page_view_1d(mid_id, k1, brand, model, operate_system, page_id, during_time_1d, view_count_1d)
-select
-    mid_id,
-    k1,
-    brand,
-    model,
-    operate_system,
-    page_id,
-    sum(during_time),
-    count(*)
-from dwd.dwd_traffic_page_view_inc
-where k1=date('${pdate}')
-group by mid_id,k1,brand,model,operate_system,page_id;
+-- 计算逻辑: 
+-- 1. 筛选出当日的页面浏览数据
+-- 2. 按访客、页面和日期分组聚合浏览数据
+-- 3. 计算访问时长和访问次数
+INSERT INTO dws.dws_traffic_page_visitor_page_view_1d(
+    /* 维度字段 */
+    mid_id,                            /* 设备ID: 访客唯一标识 */
+    k1,                                /* 数据日期: 访问日期 */
+    
+    /* 设备信息维度 */
+    brand,                             /* 设备品牌: 用户使用的设备品牌 */
+    model,                             /* 设备型号: 用户使用的具体机型 */
+    operate_system,                    /* 操作系统: 用户使用的系统类型 */
+    
+    /* 页面维度 */
+    page_id,                           /* 页面ID: 被访问的页面标识 */
+    
+    /* 度量值字段 */
+    during_time_1d,                    /* 访问时长: 当日在页面停留的总时长(秒) */
+    view_count_1d                      /* 访问次数: 当日访问该页面的总次数 */
+)
+SELECT
+    /* 维度字段 */
+    mid_id,                            /* 设备ID: 用于识别独立访客 */
+    k1,                                /* 数据日期: 用于时间维度分析 */
+    
+    /* 设备信息维度: 用于分析不同设备的访问特征 */
+    brand,                             /* 设备品牌: 分析不同品牌设备的使用情况 */
+    model,                             /* 设备型号: 分析不同型号设备的使用情况 */
+    operate_system,                    /* 操作系统: 分析不同系统的用户分布 */
+    
+    /* 页面维度: 用于分析页面访问情况 */
+    page_id,                           /* 页面ID: 标识具体访问的页面 */
+    
+    /* 统计指标 */
+    SUM(during_time) AS during_time_1d,  /* 访问时长: 汇总用户在页面的停留时长 */
+    COUNT(*) AS view_count_1d            /* 访问次数: 统计页面的被访问次数 */
+FROM 
+    dwd.dwd_traffic_page_view_inc     /* 数据来源: 页面浏览明细事实表 */
+WHERE 
+    k1 = DATE('${pdate}')             /* 时间筛选: 只处理当天数据 */
+GROUP BY 
+    mid_id, k1,                        /* 按访客和日期分组 */
+    brand, model, operate_system,      /* 按设备信息分组 */
+    page_id;                           /* 按页面分组 */
+
+/*
+ * 数据处理说明:
+ *
+ * 1. 增量处理模式:
+ *    - 只处理当天数据: 筛选特定日期的页面访问数据，减少处理量
+ *    - 每日更新: 确保每日数据及时入库，支持实时分析
+ *    - 数据隔离: 不同日期的数据互不影响，便于数据回滚和修复
+ *
+ * 2. 数据来源与处理:
+ *    - 数据来源: 从页面浏览事实表获取当日访问数据
+ *    - 数据聚合: 按访客、页面和日期分组聚合访问指标
+ *    - 指标计算: 计算每个分组的访问时长和访问次数
+ *
+ * 3. 统计指标说明:
+ *    - 访问时长: 反映用户对页面的关注度和内容吸引力
+ *    - 访问次数: 反映页面的整体访问热度和用户黏性
+ *    - 多维度分组: 支持从设备、时间、页面等维度分析访问行为
+ *
+ * 4. 性能优化:
+ *    - 时间筛选: 通过WHERE条件限定只处理当天数据，减少数据处理量
+ *    - 分组优化: 按访客、页面和日期分组，保证统计粒度一致
+ *    - 指标计算: 使用高效的聚合函数计算统计指标
+ *
+ * 5. 应用场景:
+ *    - 实时监控: 监控当日页面访问情况和用户行为
+ *    - 趋势分析: 结合历史数据分析页面访问趋势
+ *    - 用户画像: 分析不同设备用户的访问习惯
+ *    - 内容优化: 根据页面访问数据优化内容布局
+ *    - 性能评估: 通过访问时长评估页面加载性能
+ */

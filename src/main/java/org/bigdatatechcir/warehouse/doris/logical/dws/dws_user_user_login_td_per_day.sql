@@ -1,27 +1,106 @@
+/*
+ * 脚本名称: dws_user_user_login_td_per_day.sql
+ * 目标表: dws.dws_user_user_login_td
+ * 数据粒度: 用户
+ * 刷新策略: 增量刷新，每日新增数据
+ * 调度周期: 每日调度一次
+ * 运行参数:
+ *   - pdate: 数据日期，默认为当天
+ * 依赖表:
+ *   - dws.dws_user_user_login_td: 用户域用户粒度登录历史至今汇总表
+ *   - dwd.dwd_user_login_inc: 用户域用户登录事实表
+ */
+
 -- 用户域用户粒度登录历史至今汇总表
-INSERT INTO dws.dws_user_user_login_td(user_id, k1, login_date_last, login_count_td)
-select
-    nvl(old.user_id,new.user_id),
-    k1,
-    if(new.user_id is null,old.login_date_last,'2020-06-15'),
-    nvl(old.login_count_td,0)+nvl(new.login_count_1d,0)
-from
+-- 计算逻辑: 
+-- 1. 获取昨日的累计登录数据
+-- 2. 获取当日的新增登录数据
+-- 3. 合并历史数据和当日数据，更新累计指标
+INSERT INTO dws.dws_user_user_login_td(
+    /* 用户维度 */
+    user_id,                           /* 用户ID: 用户唯一标识 */
+    k1,                                /* 数据日期: 分区日期 */
+    
+    /* 度量值字段 */
+    login_date_last,                   /* 最后登录日期: 用户最近一次登录的日期 */
+    login_count_td                     /* 累计登录次数: 用户历史累计登录次数 */
+)
+SELECT
+    /* 用户ID: 优先使用历史数据的用户ID，如果不存在则使用当日数据的用户ID */
+    NVL(old.user_id, new.user_id),     /* 用户ID: 合并新旧数据 */
+    k1,                                /* 数据日期: 当前处理日期 */
+    
+    /* 最后登录日期: 如果当日有登录记录，则更新为当日日期，否则保持原值 */
+    IF(new.user_id IS NULL,            /* 条件: 今日是否有登录 */
+       old.login_date_last,            /* 无登录: 保持原有最后登录日期 */
+       '${pdate}'),                    /* 有登录: 更新为当前处理日期 */
+    
+    /* 累计登录次数: 历史累计次数加上当日新增次数 */
+    NVL(old.login_count_td, 0) + NVL(new.login_count_1d, 0)  /* 累计登录次数: 历史累计+当日新增 */
+FROM
     (
-        select
-            user_id,
-            k1,
-            login_date_last,
-            login_count_td
-        from dws.dws_user_user_login_td
-        where k1=date('${pdate}')
-    )old
-        full outer join
+        /* 历史数据子查询: 获取昨日的累计数据 */
+        SELECT
+            user_id,                    /* 用户ID */
+            k1,                         /* 数据日期 */
+            login_date_last,            /* 上次最后登录日期 */
+            login_count_td              /* 历史累计登录次数 */
+        FROM 
+            dws.dws_user_user_login_td  /* 用户登录汇总表 */
+        WHERE 
+            k1 = DATE_SUB(DATE('${pdate}'), 1)  /* 获取前一天的数据 */
+    ) old
+    FULL OUTER JOIN                    /* 全外连接: 确保历史用户和新用户都被包含 */
     (
-        select
-            user_id,
-            count(*) login_count_1d
-        from dwd.dwd_user_login_inc
-        where k1=date('${pdate}')
-        group by user_id
-    )new
-on old.user_id=new.user_id;
+        /* 当日数据子查询: 统计当日登录情况 */
+        SELECT
+            user_id,                    /* 用户ID */
+            COUNT(*) login_count_1d     /* 当日登录次数: 可能多次登录 */
+        FROM 
+            dwd.dwd_user_login_inc     /* 用户登录事实表 */
+        WHERE 
+            k1 = DATE('${pdate}')      /* 只处理当天数据 */
+        GROUP BY 
+            user_id                     /* 按用户分组统计 */
+    ) new
+    ON old.user_id = new.user_id;       /* 关联条件: 用户ID匹配 */
+
+/*
+ * 数据处理说明:
+ *
+ * 1. 增量处理模式:
+ *    - 读取历史数据: 获取前一天的累计统计结果
+ *    - 处理当日数据: 统计当天的新增登录记录
+ *    - 合并更新: 通过FULL OUTER JOIN确保所有用户都被处理
+ *
+ * 2. 数据来源与处理:
+ *    - 历史数据: 从用户登录汇总表获取昨日状态
+ *    - 当日数据: 从登录事实表获取当日登录记录
+ *    - 数据合并: 通过FULL OUTER JOIN同时处理老用户和新用户
+ *    - 指标更新: 累加登录次数，更新最后登录日期
+ *
+ * 3. 统计指标说明:
+ *    - 最后登录日期: 
+ *      > 今日有登录: 更新为当前处理日期
+ *      > 今日无登录: 保持历史最后登录日期不变
+ *    - 累计登录次数:
+ *      > 历史用户: 历史累计次数 + 当日登录次数
+ *      > 新用户: 当日登录次数(首次登录)
+ *
+ * 4. 全外连接说明:
+ *    - 老用户未登录: 保留历史数据，当日登录次数为0
+ *    - 老用户有登录: 更新最后登录日期，累加登录次数
+ *    - 新用户首次登录: 创建新记录，设置初始累计值
+ *
+ * 5. 性能优化:
+ *    - 时间筛选: 只处理前一天的历史数据和当天的新增数据
+ *    - 分组聚合: 提前聚合当日登录记录，减少JOIN数据量
+ *    - 增量更新: 每日只处理变化的数据，提高处理效率
+ *
+ * 6. 应用场景:
+ *    - 用户活跃度: 实时监控用户登录活跃度变化
+ *    - 用户生命周期: 追踪用户活跃状态变化
+ *    - 流失预警: 识别长期未登录的用户
+ *    - 留存分析: 分析用户登录留存率
+ *    - 用户画像: 为用户活跃度画像提供数据支持
+ */

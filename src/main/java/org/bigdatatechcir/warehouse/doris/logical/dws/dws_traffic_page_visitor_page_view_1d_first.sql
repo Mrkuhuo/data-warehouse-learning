@@ -1,13 +1,86 @@
+/*
+ * 脚本名称: dws_traffic_page_visitor_page_view_1d_first.sql
+ * 目标表: dws.dws_traffic_page_visitor_page_view_1d
+ * 数据粒度: 访客 + 页面 + 日期
+ * 刷新策略: 全量加载历史数据
+ * 调度周期: 一次性执行
+ * 依赖表:
+ *   - dwd.dwd_traffic_page_view_inc: 流量域页面浏览事实表
+ */
+
 -- 流量域访客页面粒度页面浏览最近1日汇总表
-INSERT INTO dws.dws_traffic_page_visitor_page_view_1d(mid_id, k1, brand, model, operate_system, page_id, during_time_1d, view_count_1d)
-select
-    mid_id,
-    k1,
-    brand,
-    model,
-    operate_system,
-    page_id,
-    sum(during_time),
-    count(*)
-from dwd.dwd_traffic_page_view_inc
-group by mid_id,k1,brand,model,operate_system,page_id;
+-- 计算逻辑: 
+-- 1. 一次性加载所有历史页面浏览数据
+-- 2. 按访客、页面和日期分组聚合浏览数据
+-- 3. 计算访问时长和访问次数
+INSERT INTO dws.dws_traffic_page_visitor_page_view_1d(
+    /* 维度字段 */
+    mid_id,                            /* 设备ID: 访客唯一标识 */
+    k1,                                /* 数据日期: 访问日期 */
+    
+    /* 设备信息维度 */
+    brand,                             /* 设备品牌: 用户使用的设备品牌 */
+    model,                             /* 设备型号: 用户使用的具体机型 */
+    operate_system,                    /* 操作系统: 用户使用的系统类型 */
+    
+    /* 页面维度 */
+    page_id,                           /* 页面ID: 被访问的页面标识 */
+    
+    /* 度量值字段 */
+    during_time_1d,                    /* 访问时长: 当日在页面停留的总时长(秒) */
+    view_count_1d                      /* 访问次数: 当日访问该页面的总次数 */
+)
+SELECT
+    /* 维度字段 */
+    mid_id,                            /* 设备ID: 用于识别独立访客 */
+    k1,                                /* 数据日期: 用于时间维度分析 */
+    
+    /* 设备信息维度: 用于分析不同设备的访问特征 */
+    brand,                             /* 设备品牌: 分析不同品牌设备的使用情况 */
+    model,                             /* 设备型号: 分析不同型号设备的使用情况 */
+    operate_system,                    /* 操作系统: 分析不同系统的用户分布 */
+    
+    /* 页面维度: 用于分析页面访问情况 */
+    page_id,                           /* 页面ID: 标识具体访问的页面 */
+    
+    /* 统计指标 */
+    SUM(during_time) AS during_time_1d,  /* 访问时长: 汇总用户在页面的停留时长 */
+    COUNT(*) AS view_count_1d            /* 访问次数: 统计页面的被访问次数 */
+FROM 
+    dwd.dwd_traffic_page_view_inc     /* 数据来源: 页面浏览明细事实表 */
+GROUP BY 
+    mid_id, k1,                        /* 按访客和日期分组 */
+    brand, model, operate_system,      /* 按设备信息分组 */
+    page_id;                           /* 按页面分组 */
+
+/*
+ * 数据处理说明:
+ *
+ * 1. 执行场景:
+ *    - 首次构建数据仓库时执行
+ *    - 数据修复或重建时执行
+ *    - 全量加载所有历史页面浏览数据
+ *
+ * 2. 数据来源与处理:
+ *    - 数据来源: 从页面浏览事实表获取所有历史访问数据
+ *    - 数据聚合: 按访客、页面和日期分组聚合访问指标
+ *    - 指标计算: 计算每个分组的访问时长和访问次数
+ *
+ * 3. 统计指标说明:
+ *    - 访问时长: 反映用户对页面的关注度和内容吸引力
+ *    - 访问次数: 反映页面的整体访问热度和用户黏性
+ *    - 多维度分组: 支持从设备、时间、页面等维度分析访问行为
+ *
+ * 4. 执行建议:
+ *    - 首次加载数据量可能较大，建议在非业务高峰期执行
+ *    - 根据数据量大小，可能需要调整执行资源配置
+ *    - 执行完成后，建议验证数据完整性和准确性
+ *    - 日常维护应使用每日增量加载脚本
+ *
+ * 5. 应用场景:
+ *    - 页面分析: 分析各页面的访问热度和用户停留时间
+ *    - 设备分析: 分析不同设备用户的访问习惯
+ *    - 用户行为: 分析用户的浏览路径和偏好
+ *    - 性能优化: 通过访问时长评估页面性能
+ *    - 运营决策: 为产品迭代和运营策略提供数据支持
+ */

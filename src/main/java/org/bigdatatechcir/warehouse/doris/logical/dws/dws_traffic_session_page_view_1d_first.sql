@@ -1,15 +1,98 @@
+/*
+ * 脚本名称: dws_traffic_session_page_view_1d_first.sql
+ * 目标表: dws.dws_traffic_session_page_view_1d
+ * 数据粒度: 会话 + 日期
+ * 刷新策略: 全量加载历史数据
+ * 调度周期: 一次性执行
+ * 依赖表:
+ *   - dwd.dwd_traffic_page_view_inc: 流量域页面浏览事实表
+ */
+
 -- 流量域会话粒度页面浏览最近1日汇总表
-INSERT INTO dws.dws_traffic_session_page_view_1d(session_id, mid_id, k1, brand, model, operate_system, version_code, channel, during_time_1d, page_count_1d)
-select
-    session_id,
-    mid_id,
-    k1,
-    brand,
-    model,
-    operate_system,
-    version_code,
-    channel,
-    sum(during_time),
-    count(*)
-from dwd.dwd_traffic_page_view_inc
-group by session_id,mid_id,k1,brand,model,operate_system,version_code,channel;
+-- 计算逻辑: 
+-- 1. 一次性加载所有历史页面浏览数据
+-- 2. 使用设备ID和会话时间生成会话ID
+-- 3. 按会话和日期分组聚合浏览数据
+-- 4. 计算会话访问时长和页面浏览次数
+INSERT INTO dws.dws_traffic_session_page_view_1d(
+    /* 会话维度 */
+    session_id,                        /* 会话ID: 标识用户一次访问会话 */
+    mid_id,                            /* 设备ID: 访客唯一标识 */
+    k1,                                /* 数据日期: 访问日期 */
+    
+    /* 设备信息维度 */
+    brand,                             /* 设备品牌: 用户使用的设备品牌 */
+    model,                             /* 设备型号: 用户使用的具体机型 */
+    operate_system,                    /* 操作系统: 用户使用的系统类型 */
+    
+    /* 应用信息维度 */
+    version_code,                      /* 应用版本: 用户使用的APP版本号 */
+    channel,                           /* 下载渠道: APP的下载来源渠道 */
+    
+    /* 度量值字段 */
+    during_time_1d,                    /* 访问时长: 会话在所有页面停留的总时长(秒) */
+    page_count_1d                      /* 页面浏览数: 会话浏览的页面总数 */
+)
+SELECT
+    /* 会话维度: 用于分析用户访问行为 */
+    CONCAT(mid_id, '_', DATE_FORMAT(k1, '%Y%m%d'), '_', last_page_id) AS session_id,  /* 会话ID: 使用设备ID、日期和最后页面ID生成 */
+    mid_id,                            /* 设备ID: 用于识别独立访客 */
+    k1,                                /* 数据日期: 用于时间维度分析 */
+    
+    /* 设备信息维度: 用于分析不同设备的访问特征 */
+    brand,                             /* 设备品牌: 分析不同品牌设备的使用情况 */
+    model,                             /* 设备型号: 分析不同型号设备的使用情况 */
+    operate_system,                    /* 操作系统: 分析不同系统的用户分布 */
+    
+    /* 应用信息维度: 用于分析不同版本和渠道的访问特征 */
+    version_code,                      /* 应用版本: 分析不同版本的用户体验 */
+    channel,                           /* 下载渠道: 评估不同渠道的用户质量 */
+    
+    /* 统计指标 */
+    SUM(during_time) AS during_time_1d,  /* 访问时长: 汇总会话在所有页面的停留时长 */
+    COUNT(*) AS page_count_1d            /* 页面浏览数: 统计会话浏览的页面数量 */
+FROM 
+    dwd.dwd_traffic_page_view_inc     /* 数据来源: 页面浏览明细事实表 */
+GROUP BY 
+    CONCAT(mid_id, '_', DATE_FORMAT(k1, '%Y%m%d'), '_', last_page_id),  /* 按生成的会话ID分组 */
+    mid_id, k1,                        /* 按访客和日期分组 */
+    brand, model, operate_system,      /* 按设备信息分组 */
+    version_code, channel;             /* 按应用信息分组 */
+
+/*
+ * 数据处理说明:
+ *
+ * 1. 执行场景:
+ *    - 首次构建数据仓库时执行
+ *    - 数据修复或重建时执行
+ *    - 全量加载所有历史页面浏览数据
+ *
+ * 2. 数据来源与处理:
+ *    - 数据来源: 从页面浏览事实表获取所有历史访问数据
+ *    - 会话标识: 使用设备ID、日期和最后页面ID生成唯一会话标识
+ *    - 数据聚合: 按会话和日期分组聚合访问指标
+ *    - 指标计算: 计算每个会话的访问时长和页面浏览数
+ *
+ * 3. 统计指标说明:
+ *    - 访问时长: 反映用户单次访问的深度和参与度
+ *    - 页面浏览数: 反映用户单次访问的广度和活跃度
+ *    - 多维度分组: 支持从设备、应用等维度分析访问行为
+ *
+ * 4. 执行建议:
+ *    - 首次加载数据量可能较大，建议在非业务高峰期执行
+ *    - 根据数据量大小，可能需要调整执行资源配置
+ *    - 执行完成后，建议验证数据完整性和准确性
+ *    - 日常维护应使用每日增量加载脚本
+ *
+ * 5. 应用场景:
+ *    - 会话分析: 分析用户单次访问的行为特征
+ *    - 渠道评估: 评估不同渠道用户的访问质量
+ *    - 版本分析: 分析不同版本的用户体验差异
+ *    - 设备分析: 分析不同设备的使用场景
+ *    - 用户行为: 研究用户的访问路径和偏好
+ *
+ * 6. 会话ID生成说明:
+ *    - 组成: 设备ID + 日期 + 最后页面ID
+ *    - 目的: 确保同一设备在同一天的不同访问能被区分
+ *    - 格式: mid_id_YYYYMMDD_last_page_id
+ */
