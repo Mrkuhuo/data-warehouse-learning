@@ -1,0 +1,13 @@
+{
+    "add_bos_token": false,
+    "add_eos_token": false,
+    "add_prefix_space": true,
+    "bos_token": "<|im_start|>",
+    "eos_token": "<|im_end|>",
+    "pad_token": "<|im_end|>",
+    "unk_token": "<unk>",
+    "model_max_length": 1000000000000000019884624838656,
+    "clean_up_tokenization_spaces": false,
+    "tokenizer_class": "PreTrainedTokenizerFast",
+    "chat_template": "{% for message in messages %}{% if message['role'] == 'system' %}<|im_start|>system\n{{ message['content'] }}<|im_end|>\n{% elif message['role'] == 'user' %}<|im_start|>user\n{{ message['content'] }}<|im_end|>\n{% elif message['role'] == 'assistant' %}<|im_start|>assistant\n{{ message['content'] }}<|im_end|>\n{% endif %}{% endfor %}{% if add_generation_prompt %}{{ '<|im_start|>assistant\n' }}{% endif %}"
+}
