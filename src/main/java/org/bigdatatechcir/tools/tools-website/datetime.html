@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日期时间戳转换 - 开发者工具集合</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>开发者工具集合</h1>
+        </header>
+        
+        <nav>
+            <ul>
+                <li><a href="index.html">代码格式化及压缩</a></li>
+                <li><a href="datetime.html" class="active">日期时间戳转换</a></li>
+                <li><a href="diff.html">代码对比工具</a></li>
+                <li><a href="url.html">URL编解码</a></li>
+                <li><a href="converter.html">代码转换工具</a></li>
+            </ul>
+        </nav>
+        
+        <main>
+            <div class="tool-container">
+                <div class="tool-header">
+                    <h2>日期时间戳转换工具</h2>
+                </div>
+                
+                <div class="datetime-container">
+                    <div class="datetime-section">
+                        <h3>当前时间</h3>
+                        <button id="current-time-btn" class="primary-btn">获取当前时间</button>
+                        <div class="result-box">
+                            <div class="result-item">
+                                <span class="label">日期时间：</span>
+                                <span id="current-datetime" class="value"></span>
+                            </div>
+                            <div class="result-item">
+                                <span class="label">时间戳(毫秒)：</span>
+                                <span id="current-timestamp" class="value"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="datetime-section">
+                        <h3>日期转时间戳</h3>
+                        <div class="input-group full-width">
+                            <input type="text" id="date-input" placeholder="YYYY-MM-DD HH:mm:ss">
+                        </div>
+                        <button id="date-to-timestamp-btn" class="primary-btn">转换为时间戳</button>
+                        <div class="result-box">
+                            <div class="result-item">
+                                <span class="label">时间戳(毫秒)：</span>
+                                <span id="date-to-timestamp-result" class="value"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="datetime-section">
+                        <h3>时间戳转日期</h3>
+                        <div class="input-group full-width">
+                            <input type="text" id="timestamp-input" placeholder="请输入毫秒级时间戳">
+                        </div>
+                        <button id="timestamp-to-date-btn" class="primary-btn">转换为日期</button>
+                        <div class="result-box">
+                            <div class="result-item">
+                                <span class="label">日期时间：</span>
+                                <span id="timestamp-to-date-result" class="value"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>© 2025 开发者工具集合 | 本地工具，安全高效</p>
+        </footer>
+    </div>
+    
+    <script src="js/common.js"></script>
+    <script src="js/datetime.js"></script>
+</body>
+</html> 

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>代码转换工具 - 开发者工具集合</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>开发者工具集合</h1>
+        </header>
+        
+        <nav>
+            <ul>
+                <li><a href="index.html">代码格式化及压缩</a></li>
+                <li><a href="datetime.html">日期时间戳转换</a></li>
+                <li><a href="diff.html">代码对比工具</a></li>
+                <li><a href="url.html">URL编解码</a></li>
+                <li><a href="converter.html" class="active">代码转换工具</a></li>
+            </ul>
+        </nav>
+        
+        <main>
+            <div class="tool-container">
+                <div class="tool-header">
+                    <h2>代码转换工具</h2>
+                    <div class="format-options">
+                        <label><input type="radio" name="convert-type" value="json-to-java" checked> JSON转Java</label>
+                        <label><input type="radio" name="convert-type" value="sql-to-java"> SQL转Java</label>
+                    </div>
+                </div>
+                
+                <div class="converter-container">
+                    <div class="editor-wrapper">
+                        <h3>输入代码</h3>
+                        <textarea id="convert-input" placeholder="请输入需要转换的代码..."></textarea>
+                        <div class="button-group">
+                            <button id="convert-btn" class="primary-btn">转换</button>
+                            <button id="clear-convert-btn" class="secondary-btn">清空</button>
+                        </div>
+                    </div>
+                    
+                    <div class="editor-wrapper">
+                        <h3>转换结果</h3>
+                        <pre id="convert-output" class="code-display"></pre>
+                        <div class="button-group">
+                            <button id="copy-convert-btn" class="primary-btn">复制结果</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>© 2025 开发者工具集合 | 本地工具，安全高效</p>
+        </footer>
+    </div>
+    
+    <script src="js/common.js"></script>
+    <script src="js/converter.js"></script>
+</body>
+</html> 
