@@ -146,17 +146,93 @@
 
 [【 如何系统调研一个大数据组件 】](https://t.zsxq.com/olpRH)
 
-# 那些年，我们一起追过的阿里面试题 🚀
+[【 Flink精确一次提交原理深度解析：从机制到源码实现 】](https://t.zsxq.com/r24gG)
 
-嘿，各位奋斗的小伙伴们！
+[【 Flink 逐条处理模式详解：毫秒级延迟的实现原理与源码剖析 】](https://t.zsxq.com/Zro2i)
 
-还记得那些挑灯夜读的日子吗？为了心仪的阿里面试，我们像考古学家一样，一遍又一遍地翻阅着数据仓库、Hadoop、Hive的各种面试题。那会儿，背八股文都快背出花来了，MySQL索引都能倒着背，数据仓库的分层架构更是如数家珍。
+[【 Flink 流水线执行（Pipelined Execution）原理详解 】](https://t.zsxq.com/FgIlS)
 
-说实话，现在回想起来还挺有意思的。那种既紧张又期待的心情，就像第一次见暗恋对象一样，手心冒汗，但又充满希望。面试官问起"说说你对数据仓库的理解"的时候，那可真是重头戏啊，恨不得把书本上的每一个字都倒背如流！
+[【 Flink异步Checkpoint机制详解：原理、流程与源码剖析 】](https://t.zsxq.com/wop5x)
 
-在这个仓库里，我想和大家分享一下这段学习历程。不过，可不只是简单地列举面试题哦，而是要把这些知识点串成一个个有趣的故事。毕竟，人生不就是在不断学习中寻找乐趣吗？
+[【 Flink三种状态后端（State Backend）实现原理详解 】](https://t.zsxq.com/UPvkn)
 
-来吧，让我们一起回顾那些奋斗的日子，顺便也帮助正在准备面试的朋友们，少走点弯路~ 😉
+[【 Flink 三种时间语义（Time Semantics）详解：原理、源码与实践 】](https://t.zsxq.com/mhKiv)
+
+[【 Flink Watermark 机制深度解析：原理、源码与实践 】](https://t.zsxq.com/ogHw7)
+
+[【 Flink窗口机制（Windowing）详解：从原理到源码深度解析 】](https://t.zsxq.com/LVjsa)
+
+[【 Flink分布式快照（Checkpoint）机制深度解析 】](https://t.zsxq.com/djU3s)
+
+[【 Flink动态资源调整机制详解：原理、源码与实践 】](https://t.zsxq.com/zwoGd)
+
+[【 Flink 内存模型详解：原理、源码与实践 】](https://t.zsxq.com/pSHT8)
+
+[【 Spark RDD (Resilient Distributed Dataset) 机制详解 】](https://t.zsxq.com/6MKcb)
+
+[【 Spark 调度模型深度解析：Stage 划分、任务调度与本地性优化 】](https://t.zsxq.com/Jisvo)
+
+[【 Spark Tungsten执行引擎深度解析：突破JVM性能瓶颈的内存与计算优化 】](https://t.zsxq.com/USZgr)
+
+[【 Spark内存管理模型详解：统一内存管理与堆外内存机制 】](https://t.zsxq.com/TpBgH)
+
+[【 Spark 缓存机制详解：Storage Level 与序列化存储原理及源码分析 】](https://t.zsxq.com/dv6zP)
+
+[【 Spark Shuffle 核心技术深度解析：从原理到源码 】](https://t.zsxq.com/oyWDt)
+
+[【 Spark Catalyst 优化器详解：从逻辑计划到物理执行的深度优化 】](https://t.zsxq.com/Txob2)
+
+[【 Spark DataFrame/Dataset API详解：从RDD到向量化查询执行 】](https://t.zsxq.com/aeBPQ)
+
+[【 Spark数据源API (DataSource V2)详解：统一读写接口与优化技术 】](https://t.zsxq.com/EfaOT)
+
+[【 Spark微批处理模型（Micro-Batch）深度解析：原理、容错与源码实现 】](https://t.zsxq.com/Ww8BS)
+
+[【 Spark状态管理详解：State Store与Watermark机制 】](https://t.zsxq.com/gYntB)
+
+[【 Spark Pipeline API：基于Transformer和Estimator构建机器学习流水线 】](https://t.zsxq.com/zZoXX)
+
+[【 Spark分布式机器学习算法实现与模型持久化详解 】](https://t.zsxq.com/bVqVq)
+
+[【 Spark Pregel模型详解：基于BSP的迭代图计算框架 】](https://t.zsxq.com/RxXU4)
+
+[【 Spark图分区策略详解：Edge Partition与Vertex Partition优化及源码剖析 】](https://t.zsxq.com/HYPy9)
+
+[【 Spark数据倾斜优化详解：Salting技术与自定义分区器 】](https://t.zsxq.com/JX7gA)
+
+[【 Spark Join 优化策略深度解析：Broadcast Join 与 Bucket Pruning 】](https://t.zsxq.com/mnGaD)
+
+[【 Spark AQE (Adaptive Query Execution) 深度解析：动态优化查询执行 】](https://t.zsxq.com/C0AXT)
+
+[【 Iceberg 基于文件的元数据管理：三层架构与源码深度解析 】](https://t.zsxq.com/dABYe)
+
+[【 Iceberg 原子性操作与事务隔离深度解析 】](https://t.zsxq.com/9l0YM)
+
+[【 Iceberg 时间旅行（Time Travel）深度解析：原理、实现与应用 】](https://t.zsxq.com/pijTh)
+
+[【 Iceberg统计信息驱动优化：从列级统计到文件级过滤的深度解析 】](https://t.zsxq.com/EtJ6z)
+
+[【 Iceberg数据布局优化深度解析：排序与Z-Order的多维性能提升 】](https://t.zsxq.com/KTSjC)
+
+[【 Iceberg 分区演进（Partition Evolution）详解：无需重写数据的动态分区策略调整 】](https://t.zsxq.com/pFyST)
+
+[【 Iceberg 快照过期与清理机制详解 】](https://t.zsxq.com/jiaxg)
+
+[【 Iceberg 孤儿文件清理（Orphan File Cleanup）深度解析 】](https://t.zsxq.com/7fDkf)
+
+[【 Iceberg数据校验与修复：深度解析rewrite_data_files与rewrite_manifests 】](https://t.zsxq.com/Vql3N)
+
+[【 Iceberg 存储无关性深度解析：架构、实现与跨存储系统适配 】](https://t.zsxq.com/mWa47)
+
+[【 Iceberg多引擎兼容性详解：统一数据访问的新范式 】](https://t.zsxq.com/Ya70i)
+
+[【 Iceberg 流批一体支持详解：流式写入与增量读取的原理与实践 】](https://t.zsxq.com/803JX)
+
+[【 Iceberg 物化视图详解：自动刷新机制与实现 】](https://t.zsxq.com/e976O)
+
+[【 Iceberg 分支与标签详解：实现数据版本管理的强大功能 】](https://t.zsxq.com/MG79f)
+
+[【 Iceberg行级删除与更新（Row-Level Deletes & Updates）深度解析 】](https://t.zsxq.com/UJdn9)
 
 ---
 
