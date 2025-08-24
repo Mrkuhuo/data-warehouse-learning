@@ -6,6 +6,146 @@
 
 [【 推荐开发平台：https://github.com/642933588/jiron-cloud 】](https://github.com/642933588/jiron-cloud)
 
+[【 Flink面试题答案 】](https://t.zsxq.com/DKAQ3)
+
+[【 FlinkSQL面试精讲 】](https://t.zsxq.com/GyF7n)
+
+[【 Flink源码分析 】](https://t.zsxq.com/4e96L)
+
+[【 Flink数据倾斜优化 】](https://t.zsxq.com/uMt82)
+
+[【 Paimon面试题 】](https://t.zsxq.com/tfjLv)
+
+[【 Doris面试精华 】](https://t.zsxq.com/PkNd1)
+
+[【 StarRocks面试题 】](https://t.zsxq.com/iQK21)
+
+[【 Hive面试题 】](https://t.zsxq.com/tdt8e)
+
+[【 Spark面试题 】](https://t.zsxq.com/WwB9a)
+
+[【 Paimon Join专项面试题 】](https://t.zsxq.com/femkb)
+
+[【 Iceberg面试题 】](https://t.zsxq.com/r9mCw)
+
+[【 Hudi面试题 】](https://t.zsxq.com/FIbGf)
+
+[【 数据仓库面试题 】](https://t.zsxq.com/DLg8y)
+
+[【 Clickhouse 面试题 】](https://t.zsxq.com/LegAQ)
+
+[【 ElasticSearch面试题 】](https://t.zsxq.com/FmCvD)
+
+[【 kafka面试题 】](https://t.zsxq.com/6KhyV)
+
+[【 Hbase 面试题 】](https://t.zsxq.com/KCHy1)
+
+[【 Zookeeper 面试题 】](https://t.zsxq.com/aXyFm)
+
+[【 数仓最新文档 】](https://t.zsxq.com/7zQQH)
+
+[【 Flink学习文档v1.0 】](https://t.zsxq.com/NWSIR)
+
+[【 Doris学习手册 】](https://t.zsxq.com/FDDIz)
+
+[【 Dinky最新指南 】](https://t.zsxq.com/04NdO)
+
+[【 Flink 学习文档V2.0 】](https://t.zsxq.com/d4cDB)
+
+[【 Paimon 学习文档V2.0 】](https://t.zsxq.com/5N2Pc)
+
+[【 Fluss 学习文档V1.0 】](https://t.zsxq.com/wH86T)
+
+[【 Flink2.0 ForSt状态后端 学习文档V1.0 】](https://t.zsxq.com/BIObu)
+
+[【 数据治理指南 V1.0 】](https://t.zsxq.com/JOGjG)
+
+[【 Iceberg学习文档 V1.0 】](https://t.zsxq.com/oq0Ad)
+
+[【 Flink并行度优化指南 V1.0 】](https://t.zsxq.com/pgNNS)
+
+[【 Iceberg学习文档 V2.0 】](https://t.zsxq.com/qC8iJ)
+
+[【 Flink反压问题解决方案 V1.0 】](https://t.zsxq.com/vXQ8Q)
+
+[【 Hudi学习文档 V1.0 】](https://t.zsxq.com/gb2Pl)
+
+[【 数据湖选型 V1.0 】](https://t.zsxq.com/BB3LH)
+
+[【 数仓建设方案 V1.0 】](https://t.zsxq.com/CzZiw)
+
+[【 Spark Shuffle阶段详解 V1.0 】](https://t.zsxq.com/ZoB3a)
+
+[【 大数据计算引擎发展历史】](https://t.zsxq.com/HlliS)
+
+[【 Flink可以优化的方方面面 V1.0 】](https://t.zsxq.com/yaCFq)
+
+[【 Paimon可以优化的方方面面 V1.0 】](https://t.zsxq.com/Vp9yu)
+
+[【 Flink内存管理 V1.0 】](https://t.zsxq.com/sRhyo)
+
+[【 Doris可以优化的方方面面 V1.0 】](https://t.zsxq.com/BcKVy)
+
+[【 StarRocks可以优化的方方面面 V1.0 】](https://t.zsxq.com/YXMXf)
+
+[【 Flink反压排查思路 V1.0 】](https://t.zsxq.com/APrl6)
+
+[【 Paimon QPS太低调优思路 V1.0 】](https://t.zsxq.com/IeKVr)
+
+[【 Flink100G级状态如何调优思路 V1.0 】](https://t.zsxq.com/tTE1X)
+
+[【 Iceberg可以优化的方方面面 V1.0 】](https://t.zsxq.com/36gjm)
+
+[【 Spark Checkpoint 和 Flink Checkpoint有什么区别  V1.0 】](https://t.zsxq.com/IbKvN)
+
+[【 Spark可以优化的方方面面 V1.0 】](https://t.zsxq.com/rxIsz)
+
+[【 Spark RDD优化方案 V1.0 】](https://t.zsxq.com/MgSfu)
+
+[【 Kafka可以优化的方方面面 V1.0 】](https://t.zsxq.com/g2ndS)
+
+[【 Paimon自动分区和快照清理原理 V1.0 】](https://t.zsxq.com/LAYJs)
+
+[【 Paimon学习文档十一章 V1.0 】](https://t.zsxq.com/os0Ee)
+
+[【 Iceberg学习文档十一章 V1.0 】](https://t.zsxq.com/0j01g)
+
+[【 Spark学习文档十一章  V1.0 】](https://t.zsxq.com/PpsmT)
+
+[【 Flink2.0学习文档十二章 V1.0 】](https://t.zsxq.com/3Wl1Z)
+
+[【 基于Flink + Paimon的全流程数仓建设实践指南 V1.0 】](https://t.zsxq.com/RCYLl)
+
+[【 Flink1.19 + Paimon1.2构建实时数仓教程文档 V1.0 】](https://t.zsxq.com/nJazP)
+
+[【 K8s学习文档 V1.0 】](https://t.zsxq.com/MgFbT)
+
+[【 Doris 学习文档 V1.0 】](https://t.zsxq.com/kuEDJ)
+
+[【 Apache Doris全方位优化指南 】](https://t.zsxq.com/NfAhA)
+
+[【 Doris+Paimon构建湖仓一体方案 】](https://t.zsxq.com/scQuV)
+
+[【 Flink SQL 四种 Join 方式详解：原理、场景与实战 】](https://t.zsxq.com/6ECBG)
+
+[【 Flink SQL + Paimon 数据湖建设全流程详解 】](https://t.zsxq.com/RCYLl)
+
+[【 使用Kubernetes提交Flink任务详解 】](https://t.zsxq.com/sScKG)
+
+[【 使用YARN提交Flink任务详解 】](https://t.zsxq.com/EEcUP)
+
+[【 结合Flink + GitLab + K8s实现代码变更追踪与自动化部署 】](https://t.zsxq.com/Lzqfp)
+
+[【 Kubernetes详细学习路线图 】](https://t.zsxq.com/H18YP)
+
+[【 基于Kubernetes的湖仓一体高可用架构部署指南 】](https://t.zsxq.com/7JPFp)
+
+[【 Flink 运维全指南：监控、问题排查、优化与实战 】](https://t.zsxq.com/naKp1)
+
+[【 数仓建设规范 】](https://t.zsxq.com/1lZec)
+
+[【 如何系统调研一个大数据组件 】](https://t.zsxq.com/olpRH)
+
 # 那些年，我们一起追过的阿里面试题 🚀
 
 嘿，各位奋斗的小伙伴们！
