@@ -234,6 +234,168 @@
 
 [【 Iceberg行级删除与更新（Row-Level Deletes & Updates）深度解析 】](https://t.zsxq.com/UJdn9)
 
+[【 Paimon LSM-Tree存储结构详解：高效写入与更新的核心引擎 】](https://t.zsxq.com/NCNZV)
+
+[【 Paimon列式存储格式深度解析：基于Parquet/ORC的优化、压缩与谓词下推 】](https://t.zsxq.com/HoUG9)
+
+[【 Spark 缓存机制详解：Storage Level 与序列化存储原理及源码分析 】](https://t.zsxq.com/dKHNq)
+
+[【 Paimon流批一体架构深度解析：统一实时与批处理的数据湖技术 】](https://t.zsxq.com/QKXBT)
+
+[【 Paimon实时数据更新技术深度解析：从主键行级更新到CDC场景实践 】](https://t.zsxq.com/c4VNo)
+
+[【 Paimon 轻量级元数据（Lightweight Metadata）详解 】](https://t.zsxq.com/tWB0f)
+
+[【 Paimon 分区与桶（Partitioning & Bucketing）详解：原理、源码与实践 】](https://t.zsxq.com/WMsyK)
+
+[【 Paimon 小文件自动合并（Auto Compaction）技术详解 】](https://t.zsxq.com/A5pCS)
+
+[【 Paimon事务支持详解：基于快照隔离的读写事务与数据一致性 】](https://t.zsxq.com/Y6Pb7)
+
+[【 Doris 列式存储深度解析：原理、实现与性能优化 】](https://t.zsxq.com/TFX2z)
+
+[【 Doris 前缀索引（Prefix Index）深度解析：原理、实现与性能优化 】](https://t.zsxq.com/mFe86)
+
+[【 Doris 数据分桶与分片 (Bucketing & Sharding) 深度解析 】](https://t.zsxq.com/cvAvC)
+
+[【 Doris数据模型与更新机制深度解析 】](https://t.zsxq.com/sR549)
+
+[【 Doris 冷热数据分层（Tiered Storage）技术详解 】](https://t.zsxq.com/XCTH0)
+
+[【 Doris MPP架构详解：从查询拆分到分布式执行与线性扩展 】](https://t.zsxq.com/9hg44)
+
+[【 Doris向量化执行引擎（Vectorized Execution）深度解析 】](https://t.zsxq.com/5AtdI)
+
+[【 Doris查询优化器深度解析 】](https://t.zsxq.com/VZXrJ)
+
+[【 Doris 物化视图 (Materialized View) 技术详解 】](https://t.zsxq.com/Nevtm)
+
+[【 Doris FE-BE架构深度解析 】](https://t.zsxq.com/Ksq0J)
+
+[【 Doris 元数据管理深度解析：基于 BDBJE 的强一致存储与高可用实现 】](https://t.zsxq.com/OzA49)
+
+[【 Doris副本与容错机制深度解析 】](https://t.zsxq.com/Vmafk)
+
+[【 Doris 自动负载均衡机制深度解析：原理、实践与源码剖析 】](https://t.zsxq.com/7l0G9)
+
+[【 Doris高并发查询支持：MPP架构、内存计算与队列管理的深度解析 】](https://t.zsxq.com/Tn3Ez)
+
+[【 Doris延迟物化（Late Materialization）技术详解：原理、实现与源码分析 】](https://t.zsxq.com/oVZzu)
+
+[【 Doris 智能缓存深度解析：BE节点Block Cache的设计与实现 】](https://t.zsxq.com/BKpGb)
+
+[【 Doris查询限流与资源隔离详解：原理、源码与实践 】](https://t.zsxq.com/F5BHI)
+
+[【 Kafka分布式集群架构详解：从Broker到KRaft的演进 】](https://t.zsxq.com/DqAES)
+
+[【 Kafka主题（Topic）与分区（Partition）深度解析：架构、原理与源码实现 】](https://t.zsxq.com/AvPxv)
+
+[【 Kafka 生产者与消费者模型深度解析 】](https://t.zsxq.com/eJWjp)
+
+[【 Kafka顺序写入与日志分段机制深度解析 】](https://t.zsxq.com/68m92)
+
+[【 Kafka索引设计详解：稀疏索引与时间索引的深度剖析 】](https://t.zsxq.com/0jble)
+
+[【 Kafka零拷贝（Zero-Copy）详解：原理、实现与源码分析 】](https://t.zsxq.com/9D5vh)
+
+[【 Kafka数据压缩详解：原理、算法与源码深度剖析 】](https://t.zsxq.com/VFyGs)
+
+[【 Kafka副本同步机制（ISR）深度解析 】](https://t.zsxq.com/ybn3a)
+
+[【 Kafka Leader 选举机制深度解析：从原理到源码剖析 】](https://t.zsxq.com/eT04T)
+
+[【 Kafka数据持久化与保留策略深度解析 】](https://t.zsxq.com/4GXzj)
+
+[【 Kafka生产者深度解析：分区策略、幂等性与事务支持 】](https://t.zsxq.com/75CoK)
+
+[【 Kafka消费者特性详解 】](https://t.zsxq.com/NN5C9)
+
+[【 Kafka二进制协议深度解析：高效紧凑的TCP通信基石 】](https://t.zsxq.com/Mdl6W)
+
+[【 Kafka批处理（Batching）详解：从原理到源码分析 】](https://t.zsxq.com/1AiIS)
+
+[【 Kafka线程模型深度解析：从Broker到客户端的全链路并发机制 】](https://t.zsxq.com/P7Lrn)
+
+[【 Kafka Exactly-Once 语义详解：从原理到源码实现 】](https://t.zsxq.com/QGNgi)
+
+[【 Elasticsearch底层存储与索引引擎详解（基于Apache Lucene） 】](https://t.zsxq.com/ksZur)
+
+[【 Elasticsearch集群与节点深度解析：架构、角色与源码实现 】](https://t.zsxq.com/4IchN)
+
+[【 Elasticsearch分片(Shard)深度解析：架构、原理与源码实现 】](https://t.zsxq.com/ntkPg)
+
+[【 Elasticsearch集群发现（Discovery）机制深度解析：从Zen Discovery到现代实现 】](https://t.zsxq.com/Uyh4B)
+
+[【 Elasticsearch相关性评分 (Relevance Scoring) 详解：基于TF-IDF与BM25算法 】](https://t.zsxq.com/DeZco)
+
+[【 Elasticsearch搜索上下文（Search Context）深度解析：Query与Filter的原理、源码与实践 】](https://t.zsxq.com/oOHha)
+
+[【 Elasticsearch跨索引搜索（Cross-Index Search）详解：原理、实践与优化 】](https://t.zsxq.com/nMNaj)
+
+[【 Elasticsearch副本机制（Replication）深度解析：从原理到源码 】](https://t.zsxq.com/f3u5V)
+
+[【 Elasticsearch 快照与恢复 (Snapshot & Restore) 详解：原理、配置与源码分析 】](https://t.zsxq.com/C6oHx)
+
+[【 Elasticsearch跨集群复制（CCR）深度解析：异步复制与灾备实践 】](https://t.zsxq.com/APA2P)
+
+[【 Elasticsearch索引生命周期管理（ILM）详解：从原理到实践 】](https://t.zsxq.com/gr8iI)
+
+[【 Elasticsearch缓存机制深度解析：从原理到源码 】](https://t.zsxq.com/YA6MV)
+
+[【 Elasticsearch索引优化深度解析：索引模板、动态映射与索引压缩 】](https://t.zsxq.com/N9tcA)
+
+[【 Elasticsearch查询优化深度解析：查询重写与提前终止机制 】](https://t.zsxq.com/KwRCU)
+
+[【 Hive架构组件详解 】](https://t.zsxq.com/5KFMf)
+
+[【 Hive Metastore详解：元数据存储的核心组件 】](https://t.zsxq.com/izaQ8)
+
+[【 Hive与HiveQL：大数据仓库的SQL之门 】](https://t.zsxq.com/6leka)
+
+[【 Hive执行引擎详解：从MapReduce到Tez再到Spark 】](https://t.zsxq.com/AkNjG)
+
+[【 Hive数据存储详解：基于HDFS的高效存储与优化 】](https://t.zsxq.com/etDAK)
+
+[【 Hive分区与分桶详解：优化大数据查询与处理的利器 】](https://t.zsxq.com/1zKN9)
+
+[【 Hive SerDe详解：数据序列化与反序列化的核心组件 】](https://t.zsxq.com/obCZO)
+
+[【 Hive用户定义函数(UDF)全面详解 】](https://t.zsxq.com/FJSTc)
+
+[【 Hive索引详解：加速查询的利器 】](https://t.zsxq.com/GvMAk)
+
+[【 Hive视图与物化视图详解 】](https://t.zsxq.com/aSRUh)
+
+[【 Hive性能优化详解 】](https://t.zsxq.com/49XQH)
+
+[【 Hive事务支持详解：ACID、Delta文件与源码分析 】](https://t.zsxq.com/0Pv9S)
+
+[【 Hive动态分区裁剪详解：原理、实现与性能优化 】](https://t.zsxq.com/gO0qK)
+
+[【 HBase分布式架构深度解析：从设计理念到源码实现 】](https://t.zsxq.com/HCcF1)
+
+[【 HBase数据模型详解：从概念到源码的深度剖析 】](https://t.zsxq.com/Ktdy5)
+
+[【 HBase存储引擎详解：基于LSM-Tree的高性能写入架构 】](https://t.zsxq.com/oC9tD)
+
+[【 HBase Region管理机制深度解析：从核心概念到源码实现 】](https://t.zsxq.com/UNtOH)
+
+[【 HBase读写流程详解：原理、源码与实践 】](https://t.zsxq.com/Gjr6T)
+
+[【 HBase Compaction（合并）机制深度解析：从原理到源码 】](https://t.zsxq.com/BowQr)
+
+[【 HBase缓存机制深度解析：BlockCache、MemStore与BucketCache的协同艺术 】](https://t.zsxq.com/pyiqS)
+
+[【 HBase过滤器详解：服务端数据过滤机制与实战 】](https://t.zsxq.com/3c6Dg)
+
+[【 HBase协处理器（Coprocessor）详解：原理、实践与性能优化 】](https://t.zsxq.com/Zn9HB)
+
+[【 HBase备份与恢复详解：保障数据可靠性的核心机制 】](https://t.zsxq.com/cP7We)
+
+[【 HBase性能优化详解：从架构原理到实战调优 】](https://t.zsxq.com/1zuDJ)
+
+[【 HBase监控与运维详解：基于内置工具的集群状态管理 】](https://t.zsxq.com/FXglZ)
+
 ---
 
 ## 1 介绍
